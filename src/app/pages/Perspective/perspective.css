@@ -1,11 +1,3 @@
-html,
-body,
-#root {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background-color: hsl(0, 0%, 22%);
+.view {
+  background-color: #424242;
 }
