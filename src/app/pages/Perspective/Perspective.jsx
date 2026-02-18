@@ -1,6 +1,8 @@
 import { Canvas } from "@react-three/fiber";
 import "./perspective.css";
 import React from "react";
+import { OrbitControls } from "@react-three/drei";
+import { Scene } from "three";
 
 const Perspective = () => {
   return (
@@ -9,6 +11,7 @@ const Perspective = () => {
         <boxGeometry />
         <meshBasicMaterial color="yellow" />
       </mesh>
+      <OrbitControls />
     </>
   );
 };
