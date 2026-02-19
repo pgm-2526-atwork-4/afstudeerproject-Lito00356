@@ -1,14 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import AuthContext from "./AuthContext";
 
 const AuthProvider = ({ children }) => {
-  const [session, setSettion] = useState(undefined);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  return <AuthContext.Provider value={{ session }}>{children}</AuthContext.Provider>;
-};
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
 
-export const UserAuth = () => {
-  return useContext(AuthContext);
+  return (
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: false,
+        login: handleLogin,
+      }}
+    >
+      {children};
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;
