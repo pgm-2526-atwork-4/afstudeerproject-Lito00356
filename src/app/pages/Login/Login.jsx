@@ -1,6 +1,6 @@
-import "./Home.css";
+import React from "react";
 
-const Home = () => {
+const Login = () => {
   return (
     <div className="home-container">
       <form className="login-card">
@@ -20,7 +20,7 @@ const Home = () => {
         </button>
 
         <p className="signup-text">
-          No account yet? <a href="/signup">Sign up here!</a>
+          No account yet? <a href="/register">Sign up here!</a>
         </p>
         <div className="guest">Continue as guest</div>
       </form>
@@ -28,4 +28,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;

@@ -5,10 +5,11 @@ import "./style/index.css";
 import App from "./App.jsx";
 import AuthProvider from "./app/components/functional/auth/AuthProvider";
 import { BrowserRouter, Route, Routes } from "react-router";
-import Home from "./app/pages/Home/Home.jsx";
+import LandingPage from "./app/pages/LandingPage/LandingPage.jsx";
+import Login from "./app/pages/Login/Login.jsx";
+import Register from "./app/pages/Register/register.jsx";
 import Profile from "./app/pages/Profile/Profile.jsx";
 import Collection from "./app/pages/Collection/Collection.jsx";
-import { Canvas } from "@react-three/fiber";
 import Perspective from "./app/pages/Perspective/Perspective.jsx";
 
 createRoot(document.getElementById("root")).render(
@@ -17,7 +18,9 @@ createRoot(document.getElementById("root")).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route index element={<Home />} />
+            <Route index element={<LandingPage />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
             <Route path="profile" element={<Profile />} />
             <Route path="collection" element={<Collection />} />
             <Route path="perspective" element={<Perspective />} />
