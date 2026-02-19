@@ -1,40 +1,29 @@
-import { useState } from "react";
 import "./Login.css";
+import useAuth from "@functional/auth/useAuth";
+import { Router, useNavigate } from "react-router";
 
 const Login = () => {
-  const [data, setData] = useState({
-    email: "",
-    password: "",
-  });
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const onSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
+
+    login().then(() => navigate("/collection"));
   };
 
   return (
     <div className="home-container">
-      <form className="login-card" onSubmit={onSubmit}>
+      <form className="login-card" onSubmit={handleLogin}>
         <h2>Login</h2>
         <label>
           Email
-          <input
-            type="email"
-            name="email"
-            value={data.email}
-            onChange={(e) => setData({ ...data, email: e.target.value })}
-            required
-          />
+          <input type="email" name="email" required />
         </label>
 
         <label>
           Password
-          <input
-            type="password"
-            name="password"
-            value={data.password}
-            onChange={(e) => setData({ ...data, password: e.target.value })}
-            required
-          />
+          <input type="password" name="password" required />
         </label>
 
         <button type="submit" className="login-button">

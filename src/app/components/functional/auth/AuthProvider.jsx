@@ -4,14 +4,14 @@ import AuthContext from "./AuthContext";
 const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
+  const handleLogin = async () => {
+    return Promise.resolve().then(() => setIsLoggedIn(true));
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: false,
+        isLoggedIn: isLoggedIn,
         login: handleLogin,
       }}
     >
