@@ -6,10 +6,11 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    login().then(() => navigate("/collection"));
+  const handleLogin = () => {
+    login({
+      email: "pizza@gmail.com",
+      password: "test1234",
+    }).then(() => navigate("/collection"));
   };
 
   return (
@@ -35,6 +36,7 @@ const Login = () => {
         </p>
         <div className="guest">Continue as guest</div>
       </form>
+      <button onClick={handleLogin}>Login again</button>
     </div>
   );
 };
