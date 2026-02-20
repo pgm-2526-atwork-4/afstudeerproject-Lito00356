@@ -1,12 +1,21 @@
 import "./Login.css";
 import useAuth from "@functional/auth/useAuth";
-import { useNavigate } from "react-router";
 import { Controller, useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+});
 
 const Login = () => {
   const { login } = useAuth();
-  const navigate = useNavigate();
-  const isPending = false;
+
+  const { mutate, error, isPending } = useMutation({
+    mutationFn: login,
+  });
 
   const {
     control,
@@ -17,19 +26,18 @@ const Login = () => {
       email: "",
       password: "",
     },
+    resolver: yupResolver(schema),
   });
 
-  const handleLogin = () => {
-    login({
-      email: "pizza@gmail.com",
-      password: "test1234",
-    }).then(() => navigate("/collection"));
+  const handleLogin = (data) => {
+    mutate(data);
   };
 
   return (
     <div className="home-container">
-      <form className="login-card" onSubmit={handleLogin}>
+      <form className="login-card">
         <h2>Login</h2>
+        {!!error && <ErrorMessage error={error} />}
         <Controller
           control={control}
           name="email"
@@ -84,7 +92,6 @@ const Login = () => {
         </p>
         <div className="guest">Continue as guest</div>
       </form>
-      <button onClick={handleLogin}>Login again</button>
     </div>
   );
 };
