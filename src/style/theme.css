@@ -45,3 +45,9 @@
     --main-bg: var(--background);
     --main-dark: var(--dark);
 }
+
+.container-70{
+    width: 100%;
+    max-width: 75%;
+    margin: 0 auto;
+}
