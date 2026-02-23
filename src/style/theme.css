@@ -3,6 +3,7 @@
   --text-black: rgba(17, 18, 18, 1);
   --text-white: rgb(245, 245, 245);
   --text-hover-accent-light: rgb(198, 212, 210);
+  --text-hover-accent-contrast: rgb(238, 238, 238);
   --text-hover-accent-dark: rgba(216, 230, 227, 0.171);
 
   /* text sizes: */
@@ -37,6 +38,9 @@
   --radius-lg: 1.25rem;
   --radius-xl: 1.5rem;
   --radius-2xl: 1.75rem;
+
+  /* layout: */
+  --page-gutter: clamp(1.5rem, 7.5vw, 8rem);
 
   /* colors: */
   --accent: rgba(183, 195, 193, 1);

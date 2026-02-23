@@ -7,19 +7,23 @@ const LandingPage = () => {
     <>
       <section className="container-double">
         <div className="container-green">
-          <span>Design your dream space</span>
-          <h1>
-            Create. <br />
-            Visualize. <br />
-            Transform. <br />
-          </h1>
-          <p>
-            The ultimate 3D room configurator that brings your interior design vision to life. Draw your room, add furniture,
-            and see it all in stunning 3D.
-          </p>
-          <Link to="/register">
-            <button>Start creating </button>
-          </Link>
+          <div className="container-content">
+            <span className="overline">Design your dream space</span>
+            <h1 className="title">
+              Create. <br />
+              Visualize. <br />
+              Transform. <br />
+            </h1>
+            <p>
+              The ultimate 3D room configurator that brings your interior design vision to life. Draw your room, add
+              furniture, and see it all in stunning 3D.
+            </p>
+            <Link to="/register">
+              <button className="btn">
+                <strong>Start creating now</strong>
+              </button>
+            </Link>
+          </div>
         </div>
         <div className="container-white">
           <div>
