@@ -59,17 +59,9 @@
 .list__item-link--bg {
   color: var(--text-white);
   background-color: var(--dark);
+  transition: background-color 0.2s ease;
 
-  &::after {
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  &:hover::after {
-    background-color: var(--text-hover-accent-dark);
+  &:hover {
+    background-color: rgba(17, 18, 18, 0.75);
   }
 }
