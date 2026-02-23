@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router";
 import "./Navbar.css";
+import { Box } from "lucide-react";
 
 const Navbar = () => {
   return (
     <nav className="navbar">
       <span className="">
-        <img className="" src="https://placehold.co/25x25" alt="" />
+        <Box />
         <h2 className="">RoomCraft</h2>
       </span>
       <ul className="">
