@@ -70,12 +70,25 @@
   }
 }
 
+.cta__link {
+  position: relative;
+}
+
 .btn--primary {
   background-color: var(--main-color);
   color: var(--text-black);
 
-  &:hover {
-    background-color: var(--accent);
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:hover::after {
+    background-color: var(--text-hover-accent-muted);
   }
 }
 
@@ -346,6 +359,7 @@
 }
 
 .cta__actions {
+  position: relative;
   display: flex;
   gap: var(--spacing-base);
 }

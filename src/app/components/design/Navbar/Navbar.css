@@ -3,6 +3,8 @@
   top: 0;
   left: 0;
   width: 100%;
+  height: 5rem;
+  display: flex;
   background-color: rgba(240, 240, 240, 0.75);
   padding: var(--spacing-xs) 0;
   z-index: 99;
@@ -46,7 +48,7 @@
   text-decoration: none;
   color: var(--dark);
   font-weight: 400;
-  font-size: var(--text-size-sm);
+  font-size: var(--text-size-base);
   padding: var(--spacing-xs) var(--spacing-base);
 
   &.light:hover {

@@ -164,7 +164,7 @@ const LandingPage = () => {
           card required.
         </p>
         <div className="cta__actions">
-          <Link to="/register">
+          <Link to="/register" className="cta__link">
             <button className="btn btn--primary">
               <strong>Create free account</strong>
             </button>

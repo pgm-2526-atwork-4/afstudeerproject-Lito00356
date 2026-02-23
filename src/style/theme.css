@@ -5,6 +5,7 @@
   --text-white: rgb(245, 245, 245);
   --text-hover-accent-light: rgb(198, 212, 210);
   --text-hover-accent-contrast: rgb(238, 238, 238);
+  --text-hover-accent-muted: rgba(146, 167, 147, 0.24);
   --text-hover-accent-dark: rgba(216, 230, 227, 0.171);
 
   /* text sizes: */
