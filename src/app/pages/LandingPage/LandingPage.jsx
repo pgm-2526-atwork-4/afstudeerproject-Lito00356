@@ -5,9 +5,13 @@ import { Link } from "react-router";
 const LandingPage = () => {
   return (
     <>
-      <section className="container-double">
-        <div className="container-green">
-          <div className="container-content">
+      <section className="hero">
+        <div className="hero-bg">
+          <span className="hero-bg__green"></span>
+          <span className="hero-bg__white"></span>
+        </div>
+        <div className="hero-content">
+          <div className="hero-text">
             <span className="overline">Design your dream space</span>
             <h1 className="title">
               Create. <br />
@@ -18,19 +22,19 @@ const LandingPage = () => {
               The ultimate 3D room configurator that brings your interior design vision to life. Draw your room, add
               furniture, and see it all in stunning 3D.
             </p>
-            <Link to="/register">
+            <Link to="/register" className="link">
               <button className="btn">
                 <strong>Start creating now</strong>
               </button>
             </Link>
           </div>
-        </div>
-        <div className="container-white">
-          <div>
-            <img
-              src="https://images.unsplash.com/photo-1705321963943-de94bb3f0dd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBpbnRlcmlvciUyMGRlc2lnbiUyMGxpdmluZyUyMHJvb218ZW58MXx8fHwxNzcxNjgwNDkyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-              alt="Modern interior design"
-            />
+          <div className="hero-image">
+            <div className="hero-image__frame">
+              <img
+                src="https://images.unsplash.com/photo-1705321963943-de94bb3f0dd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBpbnRlcmlvciUyMGRlc2lnbiUyMGxpdmluZyUyMHJvb218ZW58MXx8fHwxNzcxNjgwNDkyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                alt="Modern interior design"
+              />
+            </div>
           </div>
         </div>
       </section>
