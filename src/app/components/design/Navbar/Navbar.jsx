@@ -7,10 +7,10 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <div className="navbar-container__logo">
+        <Link to="/" className="navbar-container__logo">
           <Box className="navbar-container__icon" />
           <h2 className="navbar-container__title">RoomCraft</h2>
-        </div>
+        </Link>
         <ul className="navbar__list">
           <li className="navbar__list-item ">
             <Link className="list__item-link light" to="/login">
