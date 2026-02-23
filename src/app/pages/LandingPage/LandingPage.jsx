@@ -39,10 +39,10 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-      <section className="container-full container-full--white">
-        <div className="container-full__title">
+      <section className="container-white">
+        <div className="container-white__title">
           <h2 className="section-title">How it works</h2>
-          <small className="section-subtitle">Three simple steps to your dream room</small>
+          <small className="section-subtitle">In just three simple steps, you can design it your own room</small>
         </div>
         <div className="container-cards">
           <article className="image-card">
@@ -98,58 +98,77 @@ const LandingPage = () => {
           </article>
         </div>
       </section>
-      <section className="container-full container-full__green">
-        <h2>The Complete Design Experience</h2>
-        <small>Professional tools, endless possibilities, and a community of designers at your fingertips</small>
-        <div>
-          <div>
-            <strong>500+</strong>
-            <small>Furniture items</small>
-            <small>Curated collection for every style</small>
+      <section className="features">
+        <div className="features__header">
+          <h2 className="section-title">The Complete Design Experience</h2>
+          <small className="section-subtitle">
+            Professional tools, endless possibilities, and a community of designers at your fingertips
+          </small>
+        </div>
+        <div className="features__stats">
+          <div className="stat-card">
+            <strong className="stat-card__value">500+</strong>
+            <small className="stat-card__label">Furniture items</small>
+            <small className="stat-card__description">Curated collection for every style</small>
           </div>
-          <div>
-            <strong>10k+</strong>
-            <small>Happy users</small>
-            <small>Designers trust our platform</small>
+          <div className="stat-card">
+            <strong className="stat-card__value">10k+</strong>
+            <small className="stat-card__label">Happy users</small>
+            <small className="stat-card__description">Designers trust our platform</small>
           </div>
-          <div>
-            <strong>4.9*</strong>
-            <small>User rating</small>
-            <small>Consistently top-rated experience</small>
+          <div className="stat-card">
+            <strong className="stat-card__value">4.9 *</strong>
+            <small className="stat-card__label">User rating</small>
+            <small className="stat-card__description">Consistently top-rated experience</small>
           </div>
-          <div>
-            <strong>Free</strong>
-            <small>To start</small>
-            <small>No credit card required</small>
+          <div className="stat-card">
+            <strong className="stat-card__value">Free</strong>
+            <small className="stat-card__label">To start</small>
+            <small className="stat-card__description">No credit card required</small>
           </div>
         </div>
-        <div>
-          <img src="" alt="" />
-          <div>
-            <strong>Precision drawing</strong>
-            <small>Create accurate floor plans with our advanced measurement tools</small>
+        <div className="features__showcase">
+          <div className="features__showcase-image-wrapper">
+            <img
+              className="features__showcase-image"
+              src="https://images.unsplash.com/photo-1535049752-3baf525dd015?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwc2NhbmRpbmF2aWFuJTIwaW50ZXJpb3J8ZW58MXx8fHwxNzcxNjQ1OTMxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+              alt="Scandinavian interior"
+            />
+          </div>
+          <div className="features__showcase-text">
+            <strong className="features__showcase-title">Precision drawing</strong>
+            <small className="features__showcase-description">
+              Create accurate floor plans with our advanced measurement tools
+            </small>
           </div>
         </div>
-        <div>
-          <img src="" alt="" />
-          <div>
-            <strong>Live 3D view</strong>
-            <small>Walk through your design in real-time 3D rendering</small>
+        <div className="features__showcase features__showcase--reverse">
+          <div className="features__showcase-image-wrapper">
+            <img
+              className="features__showcase-image"
+              src="https://images.unsplash.com/photo-1630025504699-0df6d41b56a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmFsJTIwc3BhY2UlMjBkZXNpZ258ZW58MXx8fHwxNzcxNzE0NTYyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+              alt="Architectural space"
+            />
+          </div>
+          <div className="features__showcase-text">
+            <strong className="features__showcase-title">Live 3D view</strong>
+            <small className="features__showcase-description">Walk through your design in real-time 3D rendering</small>
           </div>
         </div>
       </section>
-      <section>
-        <h2>Ready to design your space?</h2>
-        <p>
+
+      <section className="cta">
+        <h2 className="cta__title">Ready to design your space?</h2>
+        <p className="cta__description">
           Join thousands of users who have transformed their homes with RoomCraft. Start your free trial today, no credit
           card required.
         </p>
-        <div>
-          <Link to="./register">
-            <button>Create free account</button>
+        <div className="cta__actions">
+          <Link to="/register">
+            <button className="btn btn--primary">Create free account</button>
           </Link>
-          <Link to="./login">
-            <button>Sign in</button>
+          <Link to="/login">
+            <button className="btn btn--secondary">Sign in</button>
           </Link>
         </div>
       </section>
