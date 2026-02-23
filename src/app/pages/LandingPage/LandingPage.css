@@ -318,7 +318,6 @@
   color: var(--text-muted);
 }
 
-/* === CTA === */
 .cta {
   width: 100%;
   min-height: 50dvh;
@@ -341,7 +340,7 @@
 .cta__description {
   font-size: var(--text-size-lg);
   max-width: 40rem;
-  opacity: 0.7;
+  color: var(--text-muted);
   font-weight: 400;
 }
 

@@ -1,0 +1,33 @@
+.footer {
+  width: 100%;
+  background-color: var(--main-dark);
+  color: var(--text-white);
+  padding-block: var(--spacing-3xl);
+  padding-inline: var(--page-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.footer__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: var(--text-white);
+}
+
+.footer__name {
+  font-size: var(--text-size-lg);
+  font-weight: 400;
+}
+
+.footer__copy {
+  font-size: var(--text-size-sm);
+  opacity: 0.5;
+  font-weight: 400;
+}

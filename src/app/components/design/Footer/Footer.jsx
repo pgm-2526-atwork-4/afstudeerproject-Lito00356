@@ -1,14 +1,15 @@
 import { Box } from "lucide-react";
 import React from "react";
+import "./Footer.css";
 
 const Footer = () => {
   return (
-    <footer>
-      <div>
-        <Box />
-        <span>RoomCraft</span>
+    <footer className="footer">
+      <div className="footer__brand">
+        <Box className="footer__icon" />
+        <span className="footer__name">RoomCraft</span>
       </div>
-      <span>© 2026 RoomCraft. Tomasz Liksza. All rights reserved.</span>
+      <span className="footer__copy">© 2026 RoomCraft. Tomasz Liksza. All rights reserved.</span>
     </footer>
   );
 };
