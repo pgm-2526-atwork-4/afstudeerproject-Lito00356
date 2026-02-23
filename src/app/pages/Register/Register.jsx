@@ -1,9 +1,14 @@
+import "@style/theme.css";
+import "./Register.css";
 import { registerUser } from "@core/modules/auth/api.auth";
 import { API } from "@core/network/supabase/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
+import { Link } from "react-router";
+import { Box } from "lucide-react";
+import ErrorMessage from "@design/Alert/ErrorMessage";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -51,56 +56,95 @@ const Register = () => {
   };
 
   return (
-    <>
-      <h1>Register</h1>
-      {!!createUserError && <ErrorMessage error={createUserError} />}
-      <form>
-        <Controller
-          control={control}
-          name="email"
-          render={({ field: { onChange, value, onBlur } }) => (
-            <label>
-              Email
-              <input
-                type="email"
-                name="email"
-                onChange={onChange}
-                value={value}
-                onBlur={onBlur}
-                disabled={isPending}
-                placeholder="john@doe.com"
-                error={errors.email?.message}
-                required
-              />
-            </label>
-          )}
-        />
+    <div className="register">
+      {/* Left panel — form */}
+      <div className="register__panel register__panel--left">
+        <div className="register__form-wrapper">
+          <Link to="/" className="register__brand">
+            <Box className="register__brand-icon" />
+            <span className="register__brand-name">RoomCraft</span>
+          </Link>
 
-        <Controller
-          control={control}
-          name="password"
-          render={({ field: { onChange, value, onBlur } }) => (
-            <label>
-              Password
-              <input
-                type="password"
-                name="password"
-                onChange={onChange}
-                value={value}
-                onBlur={onBlur}
-                placeholder="password"
-                disabled={isPending}
-                error={errors.password?.message}
-                required
-              />
-            </label>
-          )}
-        />
-      </form>
-      <button type="button" onClick={handleSubmit(handleRegister)} disabled={!isValid || isPending}>
-        Register
-      </button>
-    </>
+          <div className="register__header">
+            <h2 className="register__title">Create Account</h2>
+            <p className="register__subtitle">Start designing your dream space today</p>
+          </div>
+
+          {!!createUserError && <ErrorMessage error={createUserError} />}
+
+          <form className="register__form" onSubmit={handleSubmit(handleRegister)}>
+            <Controller
+              control={control}
+              name="email"
+              render={({ field: { onChange, value, onBlur } }) => (
+                <div className="form-field">
+                  <label className="form-field__label" htmlFor="email">
+                    Email
+                  </label>
+                  <input
+                    className={`form-field__input${errors.email ? " form-field__input--error" : ""}`}
+                    id="email"
+                    type="email"
+                    onChange={onChange}
+                    value={value}
+                    onBlur={onBlur}
+                    disabled={isPending}
+                    placeholder="you@example.com"
+                    required
+                  />
+                  {errors.email && <span className="form-field__error">{errors.email.message}</span>}
+                </div>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, value, onBlur } }) => (
+                <div className="form-field">
+                  <label className="form-field__label" htmlFor="password">
+                    Password
+                  </label>
+                  <input
+                    className={`form-field__input${errors.password ? " form-field__input--error" : ""}`}
+                    id="password"
+                    type="password"
+                    onChange={onChange}
+                    value={value}
+                    onBlur={onBlur}
+                    placeholder="••••••••"
+                    disabled={isPending}
+                    required
+                  />
+                  {errors.password && <span className="form-field__error">{errors.password.message}</span>}
+                </div>
+              )}
+            />
+
+            <button className="register__submit" type="submit" disabled={!isValid || isPending}>
+              {isPending ? "Creating account..." : "Create Account"}
+            </button>
+          </form>
+
+          <p className="register__footer">
+            Already have an account?{" "}
+            <Link to="/login" className="register__footer-link">
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </div>
+
+      {/* Right panel — decorative */}
+      <div className="register__panel register__panel--right">
+        <div className="register__panel-content">
+          <h1 className="register__panel-title">Start Creating</h1>
+          <p className="register__panel-subtitle">
+            Design beautiful rooms with our intuitive 3D configurator. No experience needed.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 
