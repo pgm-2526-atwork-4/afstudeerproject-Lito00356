@@ -2,6 +2,8 @@
   /* text color: */
   --text-black: rgba(17, 18, 18, 1);
   --text-white: rgb(245, 245, 245);
+  --text-hover-accent-light: rgb(198, 212, 210);
+  --text-hover-accent-dark: rgba(216, 230, 227, 0.171);
 
   /* text sizes: */
   --text-size-xs: 0.6875rem;

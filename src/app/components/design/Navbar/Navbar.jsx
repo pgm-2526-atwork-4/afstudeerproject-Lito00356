@@ -12,13 +12,13 @@ const Navbar = () => {
           <h2 className="navbar-container__title">RoomCraft</h2>
         </div>
         <ul className="navbar__list">
-          <li className="navbar__list-item">
-            <Link className="list__item-link" to="/login">
+          <li className="navbar__list-item ">
+            <Link className="list__item-link light" to="/login">
               Login
             </Link>
           </li>
           <li className="navbar__list-item">
-            <Link className="list__item-link list__item-link--bg " to="/register">
+            <Link className="list__item-link list__item-link--bg dark" to="/register">
               Get started
             </Link>
           </li>
