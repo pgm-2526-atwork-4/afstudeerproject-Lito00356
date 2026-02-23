@@ -1,0 +1,17 @@
+.main-container {
+  display: flex;
+  height: 100dvh;
+  width: 100%;
+}
+.container-green {
+  width: 65%;
+  background-color: var(--main-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--spacing-6xl);
+}
+
+.container-white {
+  width: 35%;
+}
