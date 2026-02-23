@@ -54,7 +54,7 @@ const LandingPage = () => {
                 alt="Draw your room"
               />
               <div className="image-card__description">
-                <Pencil className="" />
+                <Pencil className="image-card__icon" />
                 <div className="description__text">
                   <strong className="description__title">Draw your room</strong>
                   <small>Use our intuitive drawing tools to sketch your room layout with precise measurements</small>
@@ -71,7 +71,7 @@ const LandingPage = () => {
                 alt="Add furniture"
               />
               <div className=" image-card__description">
-                <Sofa className="" />
+                <Sofa className="image-card__icon" />
                 <div className="description__text">
                   <strong className="description__title">Add furniture</strong>
                   <small>Browse our extensive catalog and drag-and-drop furniture pieces into your design</small>
@@ -88,7 +88,7 @@ const LandingPage = () => {
                 alt="Visualize in 3D"
               />
               <div className=" image-card__description">
-                <Box className="" />
+                <Box className="image-card__icon" />
                 <div className="description__text">
                   <strong className="description__title">Visualize in 3D</strong>
                   <small>Experience your design in immersive 3D and make real-time adjustments</small>
