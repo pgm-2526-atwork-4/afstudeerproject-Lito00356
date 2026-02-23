@@ -1,6 +1,7 @@
 :root {
   /* text color: */
   --text-black: rgba(17, 18, 18, 1);
+  --text-muted: rgb(101, 105, 105);
   --text-white: rgb(245, 245, 245);
   --text-hover-accent-light: rgb(198, 212, 210);
   --text-hover-accent-contrast: rgb(238, 238, 238);
