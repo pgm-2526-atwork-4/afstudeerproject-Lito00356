@@ -1,7 +1,7 @@
 :root {
   /* text color: */
   --text-black: rgba(17, 18, 18, 1);
-  --text-white: rgba(255, 255, 255, 1);
+  --text-white: rgb(245, 245, 245);
 
   /* text sizes: */
   --text-size-xs: 0.6875rem;
@@ -38,7 +38,7 @@
 
   /* colors: */
   --accent: rgba(183, 195, 193, 1);
-  --background: rgba(255, 255, 255, 1);
+  --background: rgba(245, 245, 245, 1);
   --dark: rgba(17, 18, 18, 1);
 
   --main-color: var(--accent);
