@@ -165,10 +165,14 @@ const LandingPage = () => {
         </p>
         <div className="cta__actions">
           <Link to="/register">
-            <button className="btn btn--primary">Create free account</button>
+            <button className="btn btn--primary">
+              <strong>Create free account</strong>
+            </button>
           </Link>
           <Link to="/login">
-            <button className="btn btn--secondary">Sign in</button>
+            <button className="btn btn--secondary">
+              <strong>Sign in</strong>
+            </button>
           </Link>
         </div>
       </section>
