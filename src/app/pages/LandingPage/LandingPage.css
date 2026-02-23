@@ -14,4 +14,49 @@
 
 .container-white {
   width: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.container-full {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: var(--spacing-3xl);
+  gap: var(--spacing-3xl);
+}
+
+.container-full__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-image {
+  position: relative;
+  display: flex;
+  margin: 0 auto;
+  gap: var(--spacing-base);
+}
+
+.flow-step {
+  position: absolute;
+}
+
+.test {
+  width: 15rem;
+  height: 20rem;
+}
+
+.image-card--offset {
+  transform: translateY(var(--spacing-2xl));
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
