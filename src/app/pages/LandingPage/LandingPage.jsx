@@ -1,6 +1,7 @@
 import "@style/theme.css";
 import "./LandingPage.css";
 import { Link } from "react-router";
+import { Box, Pencil, Sofa } from "lucide-react";
 
 const LandingPage = () => {
   return (
@@ -40,12 +41,12 @@ const LandingPage = () => {
       </section>
       <section className="container-full container-full--white">
         <div className="container-full__title">
-          <h2>How it works</h2>
-          <small>Three simple steps to your dream room</small>
+          <h2 className="section-title">How it works</h2>
+          <small className="section-subtitle">Three simple steps to your dream room</small>
         </div>
-        <div className="container-image">
+        <div className="container-cards">
           <article className="image-card">
-            <div className="test">
+            <div className="container-content">
               <span className="flow-step">1</span>
               <img
                 className="image"
@@ -53,16 +54,16 @@ const LandingPage = () => {
                 alt="Draw your room"
               />
               <div className="image-card__description">
-                <img src="https://placehold.co/25x25" alt="" />
-                <div>
-                  <strong>Draw your room</strong>
+                <Pencil className="" />
+                <div className="description__text">
+                  <strong className="description__title">Draw your room</strong>
                   <small>Use our intuitive drawing tools to sketch your room layout with precise measurements</small>
                 </div>
               </div>
             </div>
           </article>
           <article className="image-card image-card--offset">
-            <div className="test">
+            <div className="container-content">
               <span className="flow-step">2</span>
               <img
                 className="image"
@@ -70,16 +71,16 @@ const LandingPage = () => {
                 alt="Add furniture"
               />
               <div className=" image-card__description">
-                <img src="https://placehold.co/25x25" alt="" />
-                <div>
-                  <strong>Add furniture</strong>
+                <Sofa className="" />
+                <div className="description__text">
+                  <strong className="description__title">Add furniture</strong>
                   <small>Browse our extensive catalog and drag-and-drop furniture pieces into your design</small>
                 </div>
               </div>
             </div>
           </article>
           <article className="image-card">
-            <div className="test">
+            <div className="container-content">
               <span className="flow-step">3</span>
               <img
                 className="image"
@@ -87,9 +88,9 @@ const LandingPage = () => {
                 alt="Visualize in 3D"
               />
               <div className=" image-card__description">
-                <img src="https://placehold.co/25x25" alt="" />
-                <div>
-                  <strong>Visualize in 3D</strong>
+                <Box className="" />
+                <div className="description__text">
+                  <strong className="description__title">Visualize in 3D</strong>
                   <small>Experience your design in immersive 3D and make real-time adjustments</small>
                 </div>
               </div>
