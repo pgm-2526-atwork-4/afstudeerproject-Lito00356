@@ -1,3 +1,7 @@
-.view {
+.canvas {
   background-color: #424242;
+  width: 100dvh;
+  height: 100dvh;
+  top: 0;
+  left: 0;
 }

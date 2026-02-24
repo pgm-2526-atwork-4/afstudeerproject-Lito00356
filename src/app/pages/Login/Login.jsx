@@ -35,6 +35,7 @@ const Login = () => {
 
   const handleLogin = (data) => {
     mutate(data);
+    // Hier moet ik nog een redirect doen naar eventeel de start pagina of de profile pagina waar er een knop is om start designing te drukken???
   };
 
   return (
