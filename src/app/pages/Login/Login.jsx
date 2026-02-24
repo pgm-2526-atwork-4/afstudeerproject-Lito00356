@@ -39,7 +39,6 @@ const Login = () => {
 
   return (
     <div className="login">
-      {/* Left panel */}
       <div className="login__panel login__panel--left">
         <div className="login__panel-content">
           <h1 className="login__panel-title">Welcome Back</h1>
@@ -49,7 +48,6 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Right panel */}
       <div className="login__panel login__panel--right">
         <div className="login__form-wrapper">
           <Link to="/" className="login__brand">

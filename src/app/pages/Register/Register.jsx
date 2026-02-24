@@ -57,7 +57,6 @@ const Register = () => {
 
   return (
     <div className="register">
-      {/* Left panel — form */}
       <div className="register__panel register__panel--left">
         <div className="register__form-wrapper">
           <Link to="/" className="register__brand">
@@ -135,7 +134,6 @@ const Register = () => {
         </div>
       </div>
 
-      {/* Right panel — decorative */}
       <div className="register__panel register__panel--right">
         <div className="register__panel-content">
           <h1 className="register__panel-title">Start Creating</h1>
