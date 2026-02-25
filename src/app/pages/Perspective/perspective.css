@@ -1,7 +1,22 @@
-.canvas {
-  background-color: #424242;
-  width: 100dvh;
-  height: 100dvh;
+.canvas-page {
+  overflow: hidden;
+}
+
+.canvas-page .canvas {
+  position: fixed;
   top: 0;
   left: 0;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: #424242;
+  z-index: 10;
+}
+
+.ui-overlay {
+  position: fixed;
+  display: flex;
+  top: 20px;
+  left: 20px;
+  z-index: 20;
+  gap: 1rem;
 }
