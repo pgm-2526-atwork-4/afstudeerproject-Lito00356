@@ -3,6 +3,7 @@ import "@style/theme.css";
 import "./perspective.css";
 import React, { useEffect, useState } from "react";
 import { OrbitControls, Wireframe } from "@react-three/drei";
+import MenuProfile from "@design/MenuProfile/MenuProfile";
 
 function Scene() {
   const { setSize, size } = useThree();
@@ -20,9 +21,9 @@ function Scene() {
 
   return (
     <>
-      <mesh scale={[5, 5, 0]} rotation-x={Math.PI * 0.5} position={[0, -2, 0]}>
+      <mesh scale={[10, 10, 0]} rotation-x={Math.PI * 1.5} position={[0, -2, 0]}>
         <planeGeometry />
-        <meshBasicMaterial color={"red"} />
+        <meshBasicMaterial color={"white"} />
       </mesh>
     </>
   );
@@ -76,6 +77,7 @@ const Perspective = () => {
         <OrbitControls />
       </Canvas>
       <div className="ui-overlay">
+        <MenuProfile />
         <button className="add-block-btn" onClick={() => addCube()}>
           + Voeg blokje toe
         </button>
