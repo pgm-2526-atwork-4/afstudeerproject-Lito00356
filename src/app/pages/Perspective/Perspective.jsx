@@ -57,11 +57,16 @@ const Perspective = () => {
     setBoxes((prev) => [...prev, newCube]);
   }
 
-  function handleSave() {
+  async function handleSave() {
     const body = {
       user_id: user.id,
-      scene: { boxes },
+      scene_name: "boxTest",
+      objects: { boxes },
     };
+
+    console.log("BODY:", JSON.stringify(body, null, 2));
+    console.log("user.id type:", typeof user.id);
+    console.log("user.id:", user.id);
 
     saveRoom.mutate(body);
   }

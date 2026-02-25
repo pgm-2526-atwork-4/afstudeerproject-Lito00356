@@ -26,6 +26,7 @@ export const getCurrenAuth = async () => {
 
   return {
     user: {
+      id: user.id,
       email: user.email ?? "",
     },
     session,
