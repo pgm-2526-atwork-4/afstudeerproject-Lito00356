@@ -30,23 +30,18 @@ function Scene() {
 }
 
 const Perspective = () => {
-  const [room, setRoom] = useState({
-    objects: [],
-  });
+  const [boxes, setBoxes] = useState([]);
 
   function addCube() {
-    setRoom((prev) => ({
-      ...prev,
-      objects: [
-        ...prev.objects,
-        {
-          id: crypto.randomUUID(),
-          type: "box",
-          position: [0, 0, 0],
-          color: "red",
-        },
-      ],
-    }));
+    const newCube = {
+      id: crypto.randomUUID(),
+      position: [0, 0, 0],
+      rotation: [0, 0, 0],
+      scale: [5, 4, 3],
+      color: "red",
+    };
+
+    setBoxes((prev) => [...prev, newCube]);
   }
 
   function saveCube() {
@@ -56,24 +51,18 @@ const Perspective = () => {
   return (
     <div className="canvas-page">
       <Canvas className="canvas">
+        <ambientLight intensity={1} />
         <Scene />
         <mesh scale={[5, 0, 5]}>
           <plane />
         </mesh>
-        {room.objects.map((obj) => {
-          switch (obj.type) {
-            case "box":
-              return (
-                <mesh scale={[2, 4, 4]} key={obj.id}>
-                  <boxGeometry />
-                  <meshBasicMaterial color={obj.color} />
-                  <Wireframe fillMix={0} stroke={"black"} thickness={0.02} />
-                </mesh>
-              );
-            case "sphere":
-              return <Sphere key={obj.id} {...obj} />;
-          }
-        })}
+        {boxes.map((box) => (
+          <mesh key={box.id} position={box.position} rotation={box.rotation} scale={box.scale}>
+            <boxGeometry />
+            <meshStandardMaterial color={box.color} />
+            <Wireframe fillMix={0} stroke={"black"} thickness={0.02} />
+          </mesh>
+        ))}
         <OrbitControls />
       </Canvas>
       <div className="ui-overlay">
