@@ -4,6 +4,9 @@ import "./perspective.css";
 import React, { useEffect, useState } from "react";
 import { OrbitControls, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
+import { uploadRoom } from "@core/modules/rooms/api.rooms";
+import useAuth from "@functional/auth/useAuth";
 
 function Scene() {
   const { setSize } = useThree();
@@ -31,6 +34,16 @@ function Scene() {
 
 const Perspective = () => {
   const [boxes, setBoxes] = useState([]);
+  const queryClient = useQueryClient();
+  const { auth } = useAuth();
+  const user = auth.user;
+
+  const saveRoom = useMutation({
+    mutationFn: uploadRoom,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-room"] });
+    },
+  });
 
   function addCube() {
     const newCube = {
@@ -44,8 +57,13 @@ const Perspective = () => {
     setBoxes((prev) => [...prev, newCube]);
   }
 
-  function saveCube() {
-    console.log("hello");
+  function handleSave() {
+    const body = {
+      user_id: user.id,
+      scene: { boxes },
+    };
+
+    saveRoom.mutate(body);
   }
 
   return (
@@ -70,7 +88,7 @@ const Perspective = () => {
         <button className="add-block-btn" onClick={() => addCube()}>
           + Voeg blokje toe
         </button>
-        <button className="save-btn" onClick={() => saveCube()}>
+        <button className="save-btn" onClick={() => handleSave()}>
           Sla blokje op
         </button>
       </div>

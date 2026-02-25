@@ -1,6 +1,6 @@
 import { API } from "@core/network/supabase/api";
 
-export const saveRoom = async (body) => {
+export const uploadRoom = async (body) => {
   const { data, error } = await API.from("rooms")
     .upsert(body, {
       onconflict: "user_id",
