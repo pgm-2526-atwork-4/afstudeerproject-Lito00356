@@ -6,7 +6,7 @@ import { OrbitControls, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 
 function Scene() {
-  const { setSize, size } = useThree();
+  const { setSize } = useThree();
 
   useEffect(() => {
     const handleResize = () => {

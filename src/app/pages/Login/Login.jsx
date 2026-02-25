@@ -37,6 +37,7 @@ const Login = () => {
   const handleLogin = (data) => {
     mutate(data);
     navigate("/perspective");
+
     // De redirect is nog wat weird hier
   };
 

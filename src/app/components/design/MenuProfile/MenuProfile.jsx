@@ -39,14 +39,14 @@ const MenuProfile = () => {
       </div>
       <div className="menu-profile__dropdown">
         <Link className="menu-profile__dropdown-item" to="/profile" onClick={() => setOpen(false)}>
-          Profiel
+          Profile
         </Link>
         <Link className="menu-profile__dropdown-item" to="/collection" onClick={() => setOpen(false)}>
-          Collectie
+          Collection
         </Link>
         <button className="menu-profile__dropdown-item">Render</button>
         <button className="menu-profile__dropdown-item logout" onClick={handleLogout}>
-          Uitloggen
+          Logout
         </button>
       </div>
     </div>
