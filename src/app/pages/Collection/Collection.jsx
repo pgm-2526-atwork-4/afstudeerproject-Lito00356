@@ -4,6 +4,7 @@ import "@style/theme.css";
 import React, { useState } from "react";
 import { Upload, Eye, Box } from "lucide-react";
 import ImageWithFallback from "@functional/Image/ImageWithFallback";
+import MenuProfile from "@design/MenuProfile/MenuProfile";
 
 const mockProjects = [
   {
@@ -103,6 +104,7 @@ const Collection = () => {
           </div>
         )}
       </div>
+      <MenuProfile />
     </main>
   );
 };
