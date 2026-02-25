@@ -47,7 +47,7 @@
 
   /* colors: */
   --accent: rgba(183, 195, 193, 1);
-  --accent-muted: rgba(183, 195, 193, 0.1);
+  --accent-muted: rgba(183, 195, 193, 0.3);
   --background: rgba(245, 245, 245, 1);
   --dark: rgba(17, 18, 18, 1);
   --shadow: rgba(183, 195, 193, 0.15);

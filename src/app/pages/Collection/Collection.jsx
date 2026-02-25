@@ -46,7 +46,7 @@ const Collection = () => {
 
         {mockProjects.length > 0 ? (
           <div className="collection__table">
-            <div className="collection__table-header">
+            <div className="collection__grid collection__labels">
               <span className="collection__col collection__col--preview">Preview</span>
               <span className="collection__col collection__col--name">Project Name</span>
               <span className="collection__col collection__col--roomdata">Room Data</span>
@@ -54,7 +54,7 @@ const Collection = () => {
             </div>
 
             {mockProjects.map((project) => (
-              <div key={project.id} className="collection__row">
+              <div key={project.id} className="collection__grid">
                 <div className="collection__col collection__col--preview">
                   <div className="collection-project__thumb">
                     <ImageWithFallback
