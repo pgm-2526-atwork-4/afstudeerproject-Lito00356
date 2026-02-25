@@ -40,6 +40,7 @@
   --radius-lg: 1.25rem;
   --radius-xl: 1.5rem;
   --radius-2xl: 1.75rem;
+  --radius-3xl: 2rem;
 
   /* layout: */
   --page-gutter: clamp(1.5rem, 7.5vw, 8rem);

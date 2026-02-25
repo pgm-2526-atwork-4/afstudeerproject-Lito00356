@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Box } from "lucide-react";
 import ErrorMessage from "@design/Alert/ErrorMessage";
 
@@ -16,6 +16,7 @@ const schema = yup.object().shape({
 
 const Login = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const { mutate, error, isPending } = useMutation({
     mutationFn: login,
@@ -35,7 +36,8 @@ const Login = () => {
 
   const handleLogin = (data) => {
     mutate(data);
-    // Hier moet ik nog een redirect doen naar eventeel de start pagina of de profile pagina waar er een knop is om start designing te drukken???
+    navigate("/perspective");
+    // De redirect is nog wat weird hier
   };
 
   return (

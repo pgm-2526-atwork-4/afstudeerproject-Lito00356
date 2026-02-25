@@ -1,12 +1,104 @@
-.menu {
-  background-color: var(--main-bg);
+.menu-profile {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 3rem;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.menu-profile__header {
+  display: flex;
+  align-items: center;
+  background-color: var(--main-bg);
+  border-radius: var(--radius-3xl);
+  height: 3rem;
+  overflow: hidden;
+  max-width: 3rem;
+  transition:
+    max-width 0.4s ease 0.35s,
+    border-radius 0.3s ease 0.35s;
+}
+
+.menu-profile--open .menu-profile__header {
+  max-width: 22rem;
+  border-radius: 0.75rem 0.75rem 0 0;
+  transition:
+    max-width 0.4s ease,
+    border-radius 0.3s ease;
+}
+
+.menu-profile__trigger {
+  all: unset;
+  cursor: pointer;
+  min-width: 3rem;
   height: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
+  font-weight: 600;
+  font-size: var(--text-size-xl);
+}
+
+.menu-profile__email {
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: var(--text-size-sm);
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  padding: 0 0.5rem;
+}
+
+.menu-profile--open .menu-profile__email {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.25s;
+}
+
+.menu-profile__close {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 3rem;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.menu-profile--open .menu-profile__close {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.25s;
+}
+
+.menu-profile__dropdown {
+  background-color: var(--main-bg);
+  border-radius: 0 0 0.75rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 0;
+  width: 100%;
+  transition: max-height 0.35s ease;
+}
+
+.menu-profile--open .menu-profile__dropdown {
+  max-height: 15rem;
+  transition: max-height 0.35s ease 0.3s;
+}
+
+.menu-profile__dropdown-item {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  width: 100%;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: rgb(138, 137, 137);
+  }
 }
