@@ -3,6 +3,7 @@ import "./Collection.css";
 import "@style/theme.css";
 import React, { useState } from "react";
 import { Upload, Eye, Box } from "lucide-react";
+import ImageWithFallback from "@functional/Image/ImageWithFallback";
 
 const mockProjects = [
   {
@@ -28,18 +29,6 @@ const mockProjects = [
     renders: ["render3.jpg"],
   },
 ];
-
-const ImageWithFallback = ({ src, alt, className }) => {
-  const [error, setError] = useState(false);
-  if (!src || error) {
-    return (
-      <div className="collection-project__thumb-fallback">
-        <Box />
-      </div>
-    );
-  }
-  return <img src={src} alt={alt} className={className} onError={() => setError(true)} />;
-};
 
 const Collection = () => {
   const { auth } = useAuth();

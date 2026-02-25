@@ -47,10 +47,14 @@
 
   /* colors: */
   --accent: rgba(183, 195, 193, 1);
+  --accent-muted: rgba(183, 195, 193, 0.1);
   --background: rgba(245, 245, 245, 1);
   --dark: rgba(17, 18, 18, 1);
+  --shadow: rgba(183, 195, 193, 0.15);
 
   --main-color: var(--accent);
   --main-bg: var(--background);
   --main-dark: var(--dark);
+  --main-shadow: var(--shadow);
+  --main-color-muted: var(--accent-muted);
 }
