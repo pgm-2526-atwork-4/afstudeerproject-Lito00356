@@ -33,6 +33,7 @@ const mockProjects = [
 const Collection = () => {
   const { auth } = useAuth();
   const user = auth.user;
+  // eslint-disable-next-line no-unused-vars
   const [selectedProject, setSelectedProject] = useState(null);
 
   return (

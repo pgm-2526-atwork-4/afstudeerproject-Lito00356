@@ -1,6 +1,6 @@
 .collection {
-  padding: var(--spacing-8xl) var(--spacing-2xl) var(--spacing-5xl);
-  min-height: 100dvh;
+  padding: var(--spacing-2xl) var(--spacing-2xl) var(--spacing-5xl);
+  height: 100dvh;
   background-color: var(--main-bg);
 }
 
@@ -10,7 +10,7 @@
 }
 
 .collection__header {
-  margin-bottom: var(--spacing-3xl);
+  margin-bottom: var(--spacing-2xl);
 }
 
 .collection__title {
@@ -112,21 +112,19 @@
 }
 
 .collection-project__btn--load {
-  background-color: rgb(17, 18, 18);
-  color: #fff;
-}
+  border: 1px solid var(--main-dark);
 
-.collection-project__btn--load:hover {
-  background-color: rgba(17, 18, 18, 0.8);
+  &:hover {
+    background-color: var(--main-color-muted);
+  }
 }
 
 .collection-project__btn--view {
-  background-color: rgb(183, 195, 193);
-  color: rgb(17, 18, 18);
-}
+  background-color: var(--main-color);
 
-.collection-project__btn--view:hover {
-  background-color: rgb(163, 175, 173);
+  &:hover {
+    background-color: var(--text-hover-accent-muted);
+  }
 }
 
 .collection__empty {
@@ -143,7 +141,6 @@
 
 .collection__empty-title {
   font-size: 1.5rem;
-  color: rgb(17, 18, 18);
   margin-bottom: 0.5rem;
 }
 
