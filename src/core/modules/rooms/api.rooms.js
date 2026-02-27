@@ -1,5 +1,13 @@
 import { API } from "@core/network/supabase/api";
 
+export const getAllRooms = async () => {
+  const { data, error } = await API.from("rooms").select("*").order("created_at").throwOnError();
+
+  console.log("Error", error);
+
+  return data;
+};
+
 export const uploadRoom = async (body) => {
   const { data, error } = await API.from("rooms")
     .upsert(body, {
