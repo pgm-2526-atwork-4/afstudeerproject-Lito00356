@@ -1,7 +1,12 @@
 import { API } from "@core/network/supabase/api";
 
 export const uploadRoom = async (body) => {
-  const { data, error } = await API.from("rooms").upsert(body).select().single();
+  const { data, error } = await API.from("rooms")
+    .upsert(body, {
+      onconflict: "user_id",
+    })
+    .select()
+    .single();
 
   console.log("ERROR", error);
 
