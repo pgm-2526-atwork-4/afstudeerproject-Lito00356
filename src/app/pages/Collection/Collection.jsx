@@ -8,7 +8,7 @@ import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import ConfirmModal from "@design/Modal/ConfirmModal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createNewProject, getAllProjects } from "@core/modules/projects/api.projects";
+import { createNewProject, getUsersProjects } from "@core/modules/projects/api.projects";
 
 const Collection = () => {
   const { auth } = useAuth();
@@ -20,12 +20,12 @@ const Collection = () => {
   const [newProjectName, setNewProjectName] = useState("");
 
   const {
-    data: rooms,
+    data: projects,
     error,
     isPending,
   } = useQuery({
-    queryKey: ["rooms"],
-    queryFn: getAllProjects,
+    queryKey: ["projects"],
+    queryFn: getUsersProjects,
   });
 
   const formatDate = (dateString) => {
@@ -57,7 +57,7 @@ const Collection = () => {
   };
 
   if (isPending) return <p>Loading...</p>;
-  if (error || !rooms) return <p>Could not load profiles</p>;
+  if (error || !projects) return <p>Could not load profiles</p>;
 
   return (
     <main className="collection">
@@ -69,7 +69,7 @@ const Collection = () => {
           <p className="collection__subtitle">Your design projects</p>
         </header>
 
-        {rooms.length > 0 ? (
+        {projects.length > 0 ? (
           <div className="collection__table">
             <div className="collection__grid collection__labels">
               <span className="collection__col collection__col--preview">Preview</span>
@@ -77,7 +77,7 @@ const Collection = () => {
               <span className="collection__col collection__col--roomdata">Creation date</span>
               <span className="collection__col collection__col--actions">Actions</span>
             </div>
-            {rooms.map((project) => (
+            {projects.map((project) => (
               <div key={project.id} className="collection__grid">
                 <div className="collection__col collection__col--preview">
                   <div className="collection-project__thumb">
@@ -121,7 +121,7 @@ const Collection = () => {
           </div>
         )}
 
-        {/* {rooms.length > 0 ? (
+        {/* {projects.length > 0 ? (
           <div className="collection__table">
             <div className="collection__grid collection__labels">
               <span className="collection__col collection__col--preview">Preview</span>
@@ -130,7 +130,7 @@ const Collection = () => {
               <span className="collection__col collection__col--actions">Actions</span>
             </div>
 
-            {rooms.map((project) => (
+            {projects.map((project) => (
               <div key={project.id} className="collection__grid">
                 <div className="collection__col collection__col--preview">
                   <div className="collection-project__thumb">
