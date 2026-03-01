@@ -8,7 +8,7 @@ export const createNewProject = async (body) => {
   return data;
 };
 
-export const getUsersProjects = async (userId) => {
+export const getUserProjects = async (userId) => {
   const { data, error } = await API.from("projects").select("*").eq("user_id", userId).order("created_at").throwOnError();
 
   if (error) throw error;

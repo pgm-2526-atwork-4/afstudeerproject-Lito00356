@@ -8,7 +8,7 @@ import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import ConfirmModal from "@design/Modal/ConfirmModal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createNewProject, getUsersProjects } from "@core/modules/projects/api.projects";
+import { createNewProject, getUserProjects } from "@core/modules/projects/api.projects";
 
 const Collection = () => {
   const { auth } = useAuth();
@@ -24,8 +24,8 @@ const Collection = () => {
     error,
     isPending,
   } = useQuery({
-    queryKey: ["projects"],
-    queryFn: getUsersProjects,
+    queryKey: ["projects", user.id],
+    queryFn: () => getUserProjects(user.id),
   });
 
   const formatDate = (dateString) => {
