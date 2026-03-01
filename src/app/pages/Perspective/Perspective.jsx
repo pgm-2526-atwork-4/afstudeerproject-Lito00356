@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { OrbitControls, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
-import { uploadRoom } from "@core/modules/rooms/api.rooms";
+import { uploadProject } from "@core/modules/projects/api.projects";
 import useAuth from "@functional/auth/useAuth";
 
 function Scene() {
@@ -39,7 +39,7 @@ const Perspective = () => {
   const user = auth.user;
 
   const saveRoom = useMutation({
-    mutationFn: uploadRoom,
+    mutationFn: uploadProject,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user-room"] });
     },

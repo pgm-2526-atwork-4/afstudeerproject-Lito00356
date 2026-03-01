@@ -7,12 +7,13 @@ import { format } from "date-fns";
 import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import ConfirmModal from "@design/Modal/ConfirmModal";
-import { useQuery } from "@tanstack/react-query";
-import { getAllRooms } from "@core/modules/rooms/api.rooms";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createNewProject, getAllProjects } from "@core/modules/projects/api.projects";
 
 const Collection = () => {
   const { auth } = useAuth();
   const user = auth.user;
+  const queryClient = useQueryClient();
   // eslint-disable-next-line no-unused-vars
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -24,13 +25,24 @@ const Collection = () => {
     isPending,
   } = useQuery({
     queryKey: ["rooms"],
-    queryFn: getAllRooms,
+    queryFn: getAllProjects,
+  });
+
+  const createProject = useMutation({
+    mutationFn: createNewProject,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
   });
 
   const handleCreateProject = () => {
     if (!newProjectName.trim()) return;
-    // TODO: call your create project API here, e.g. createRoom(newProjectName)
-    console.log("Creating project:", newProjectName);
+    const body = {
+      user_id: user.id,
+      scene_name: newProjectName,
+    };
+
+    createProject.mutate(body);
     setNewProjectName("");
     setIsCreateModalOpen(false);
   };
