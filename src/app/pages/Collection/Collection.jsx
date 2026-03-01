@@ -55,8 +55,6 @@ const Collection = () => {
   };
 
   const handleLoadProject = (projectId) => {
-    console.log(projectId);
-
     navigate(`/perspective/${projectId}`);
   };
 
@@ -103,7 +101,7 @@ const Collection = () => {
                 <div className="collection__col collection__col--actions">
                   <button
                     className="collection-project__btn collection-project__btn--load"
-                    onClick={() => handleLoadProject(project.id)}
+                    onClick={() => setSelectedProject(project)}
                   >
                     <Upload size={16} />
                     Load
@@ -124,66 +122,25 @@ const Collection = () => {
             <h1>No items yet</h1>
           </div>
         )}
-
-        {/* {projects.length > 0 ? (
-          <div className="collection__table">
-            <div className="collection__grid collection__labels">
-              <span className="collection__col collection__col--preview">Preview</span>
-              <span className="collection__col collection__col--name">Project Name</span>
-              <span className="collection__col collection__col--roomdata">Room Data</span>
-              <span className="collection__col collection__col--actions">Actions</span>
-            </div>
-
-            {projects.map((project) => (
-              <div key={project.id} className="collection__grid">
-                <div className="collection__col collection__col--preview">
-                  <div className="collection-project__thumb">
-                    <ImageWithFallback
-                      src={project.thumbnail}
-                      alt={project.name}
-                      className="collection-project__thumb-img"
-                    />
-                  </div>
-                </div>
-
-                <div className="collection__col collection__col--name">
-                  <h3 className="collection-project__name">{project.name}</h3>
-                </div>
-
-                <div className="collection__col collection__col--roomdata">
-                  <p className="collection-project__data-row"></p>
-                  <p className="collection-project__data-row"></p>
-                  <p className="collection-project__data-modified"></p>
-                </div>
-
-                <div className="collection__col collection__col--actions">
-                  <button className="collection-project__btn collection-project__btn--load">
-                    <Upload size={16} />
-                    Load
-                  </button>
-                  <button
-                    className="collection-project__btn collection-project__btn--view"
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    <Eye size={16} />
-                    View Renders ({project.renders.length})
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="collection__empty">
-            <Box className="collection__empty-icon" />
-            <h3 className="collection__empty-title">No projects yet</h3>
-            <p className="collection__empty-text">Start creating your first room design</p>
-          </div>
-        )} */}
         <button className="collection-project__btn collection-project__btn--load" onClick={() => setIsCreateModalOpen(true)}>
           <Plus size={16} />
           Create new project
         </button>
       </div>
+
+      <ConfirmModal
+        isOpen={!!selectedProject}
+        title="Do you want to continue?"
+        description={`This will open project: `}
+        project={selectedProject}
+        confirmLabel="Open"
+        cancelLabel="Cancel"
+        onConfirm={() => {
+          handleLoadProject(selectedProject?.id);
+          setSelectedProject(null);
+        }}
+        onCancel={() => setSelectedProject(null)}
+      />
 
       <ConfirmModal
         isOpen={isCreateModalOpen}

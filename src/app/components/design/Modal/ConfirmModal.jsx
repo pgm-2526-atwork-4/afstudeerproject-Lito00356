@@ -11,6 +11,7 @@ const ConfirmModal = ({
   confirmLabel = "Confirm",
   cancelLabel = "Cancel",
   variant = "default",
+  project,
   children,
 }) => {
   const dialogRef = useRef(null);
@@ -38,6 +39,8 @@ const ConfirmModal = ({
     if (e.target === e.currentTarget) onCancel();
   };
 
+  console.log(project);
+
   return (
     <div
       className="modal__backdrop"
@@ -56,7 +59,7 @@ const ConfirmModal = ({
           </button>
         </div>
 
-        {description && <p className="modal__description">{description}</p>}
+        {description && <p className="modal__description">{description + project.scene_name}</p>}
 
         {children && <div className="modal__body">{children}</div>}
 
