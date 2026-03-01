@@ -1,7 +1,7 @@
 import React from "react";
 
-const TopView = () => {
+const Blueprint = () => {
   return <div>TopView</div>;
 };
 
-export default TopView;
+export default Blueprint;

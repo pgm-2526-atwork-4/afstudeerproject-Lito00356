@@ -13,6 +13,7 @@ import Collection from "./app/pages/Collection/Collection.jsx";
 import Perspective from "./app/pages/Perspective/Perspective.jsx";
 import NavLayout from "@functional/layout/NavLayout.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Blueprint from "@pages/Blueprint/Blueprint";
 
 const client = new QueryClient();
 
@@ -31,6 +32,7 @@ createRoot(document.getElementById("root")).render(
 
               <Route path="profile" element={<Profile />} />
               <Route path="collection" element={<Collection />} />
+              <Route path="blueprint" element={<Blueprint />} />
               <Route path="perspective/:projectId" element={<Perspective />} />
             </Route>
           </Routes>
