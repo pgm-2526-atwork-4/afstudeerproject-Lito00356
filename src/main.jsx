@@ -31,7 +31,7 @@ createRoot(document.getElementById("root")).render(
 
               <Route path="profile" element={<Profile />} />
               <Route path="collection" element={<Collection />} />
-              <Route path="perspective" element={<Perspective />} />
+              <Route path="perspective/:projectId" element={<Perspective />} />
             </Route>
           </Routes>
         </BrowserRouter>

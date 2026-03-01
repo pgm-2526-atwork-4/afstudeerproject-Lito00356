@@ -9,11 +9,13 @@ import MenuProfile from "@design/MenuProfile/MenuProfile";
 import ConfirmModal from "@design/Modal/ConfirmModal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createNewProject, getUserProjects } from "@core/modules/projects/api.projects";
+import { useNavigate } from "react-router";
 
 const Collection = () => {
   const { auth } = useAuth();
   const user = auth.user;
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   // eslint-disable-next-line no-unused-vars
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -52,8 +54,10 @@ const Collection = () => {
     setIsCreateModalOpen(false);
   };
 
-  const handleLoadProject = () => {
-    console.log("hello");
+  const handleLoadProject = (projectId) => {
+    console.log(projectId);
+
+    navigate(`/perspective/${projectId}`);
   };
 
   if (isPending) return <p>Loading...</p>;
@@ -99,7 +103,7 @@ const Collection = () => {
                 <div className="collection__col collection__col--actions">
                   <button
                     className="collection-project__btn collection-project__btn--load"
-                    onClick={() => handleLoadProject()}
+                    onClick={() => handleLoadProject(project.id)}
                   >
                     <Upload size={16} />
                     Load

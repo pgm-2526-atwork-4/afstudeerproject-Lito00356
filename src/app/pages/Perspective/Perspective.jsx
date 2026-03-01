@@ -4,9 +4,10 @@ import "./perspective.css";
 import React, { useEffect, useState } from "react";
 import { OrbitControls, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
-import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
-import { uploadProject } from "@core/modules/projects/api.projects";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getProjectById, uploadProject } from "@core/modules/projects/api.projects";
 import useAuth from "@functional/auth/useAuth";
+import { useParams } from "react-router";
 
 function Scene() {
   const { setSize } = useThree();
@@ -37,6 +38,16 @@ const Perspective = () => {
   const queryClient = useQueryClient();
   const { auth } = useAuth();
   const user = auth.user;
+  const { projectId } = useParams();
+
+  const {
+    data: project,
+    isPending,
+    error,
+  } = useQuery({
+    queryKey: ["project", projectId],
+    queryFn: () => getProjectById(projectId),
+  });
 
   const saveRoom = useMutation({
     mutationFn: uploadProject,
@@ -51,7 +62,7 @@ const Perspective = () => {
       position: [0, 0, 0],
       rotation: [0, 0, 0],
       scale: [5, 4, 3],
-      color: "red",
+      color: "purple",
     };
 
     setBoxes((prev) => [...prev, newCube]);
@@ -71,6 +82,9 @@ const Perspective = () => {
     saveRoom.mutate(body);
   }
 
+  if (isPending) return <p>Loading...</p>;
+  if (error || !project) return <p>Could not load project</p>;
+
   return (
     <div className="canvas-page">
       <Canvas className="canvas">
@@ -79,7 +93,7 @@ const Perspective = () => {
         <mesh scale={[5, 0, 5]}>
           <plane />
         </mesh>
-        {boxes.map((box) => (
+        {project?.objects?.boxes?.map((box) => (
           <mesh key={box.id} position={box.position} rotation={box.rotation} scale={box.scale}>
             <boxGeometry />
             <meshStandardMaterial color={box.color} />

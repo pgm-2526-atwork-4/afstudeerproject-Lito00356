@@ -1,13 +1,5 @@
 import { API } from "@core/network/supabase/api";
 
-export const createNewProject = async (body) => {
-  const { data, error } = await API.from("projects").insert(body).select().single();
-
-  if (error) throw error;
-
-  return data;
-};
-
 export const getUserProjects = async (userId) => {
   const { data, error } = await API.from("projects").select("*").eq("user_id", userId).order("created_at").throwOnError();
 
@@ -16,8 +8,8 @@ export const getUserProjects = async (userId) => {
   return data;
 };
 
-export const getProjectById = async (projectId) => {
-  const { data, error } = await API.from("projects").select("*, objects(*)").eq("id", projectId).single();
+export const createNewProject = async (body) => {
+  const { data, error } = await API.from("projects").insert(body).select().single();
 
   if (error) throw error;
 
@@ -26,6 +18,14 @@ export const getProjectById = async (projectId) => {
 
 export const getUserProject = async (userId) => {
   const { data, error } = await API.from("projects").select("scene").eq("user_id", userId).throwOnError().single();
+
+  if (error) throw error;
+
+  return data;
+};
+
+export const getProjectById = async (projectId) => {
+  const { data, error } = await API.from("projects").select("*").eq("id", projectId).single();
 
   if (error) throw error;
 
