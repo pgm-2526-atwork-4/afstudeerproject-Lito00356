@@ -8,6 +8,7 @@ import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/re
 import { getProjectById, uploadProject } from "@core/modules/projects/api.projects";
 import useAuth from "@functional/auth/useAuth";
 import { useParams } from "react-router";
+import Ground from "@design/Ground/Ground";
 
 function Scene() {
   const { setSize } = useThree();
@@ -23,14 +24,7 @@ function Scene() {
     return () => window.removeEventListener("resize", handleResize);
   }, [setSize]);
 
-  return (
-    <>
-      <mesh scale={[10, 10, 0]} rotation-x={Math.PI * 1.5} position={[0, -2, 0]}>
-        <planeGeometry />
-        <meshBasicMaterial color={"white"} />
-      </mesh>
-    </>
-  );
+  return <></>;
 }
 
 const Perspective = () => {
@@ -90,8 +84,12 @@ const Perspective = () => {
       <Canvas className="canvas">
         <ambientLight intensity={1} />
         <Scene />
-        <mesh scale={[5, 0, 5]}>
-          <plane />
+        <mesh>
+          <Ground />
+        </mesh>
+        <mesh position={[0, 0.5, 0]}>
+          <boxGeometry />
+          <meshBasicMaterial color={"yellow"} />
         </mesh>
         {project?.objects?.boxes?.map((box) => (
           <mesh key={box.id} position={box.position} rotation={box.rotation} scale={box.scale}>
