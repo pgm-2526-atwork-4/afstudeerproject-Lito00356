@@ -81,7 +81,7 @@ const Perspective = () => {
 
   return (
     <div className="canvas-page">
-      <Canvas className="canvas">
+      <Canvas className="canvas" camera={{ position: [10, 6, 10], fov: 50 }}>
         <ambientLight intensity={1} />
         <Scene />
         <mesh>
@@ -98,7 +98,7 @@ const Perspective = () => {
             <Wireframe fillMix={0} stroke={"black"} thickness={0.02} />
           </mesh>
         ))}
-        <OrbitControls />
+        <OrbitControls target={[0, 0, 0]} />
       </Canvas>
       <div className="ui-overlay">
         <MenuProfile />
