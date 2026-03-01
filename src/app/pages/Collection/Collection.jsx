@@ -2,10 +2,11 @@ import useAuth from "@functional/auth/useAuth";
 import "./Collection.css";
 import "@style/theme.css";
 import React, { useState } from "react";
-import { Upload, Eye, Box } from "lucide-react";
+import { Upload, Eye, Plus } from "lucide-react";
 import { format } from "date-fns";
 import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
+import ConfirmModal from "@design/Modal/ConfirmModal";
 import { useQuery } from "@tanstack/react-query";
 import { getAllRooms } from "@core/modules/rooms/api.rooms";
 
@@ -14,6 +15,8 @@ const Collection = () => {
   const user = auth.user;
   // eslint-disable-next-line no-unused-vars
   const [selectedProject, setSelectedProject] = useState(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [newProjectName, setNewProjectName] = useState("");
 
   const {
     data: rooms,
@@ -23,6 +26,14 @@ const Collection = () => {
     queryKey: ["rooms"],
     queryFn: getAllRooms,
   });
+
+  const handleCreateProject = () => {
+    if (!newProjectName.trim()) return;
+    // TODO: call your create project API here, e.g. createRoom(newProjectName)
+    console.log("Creating project:", newProjectName);
+    setNewProjectName("");
+    setIsCreateModalOpen(false);
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return "—";
@@ -145,8 +156,35 @@ const Collection = () => {
             <p className="collection__empty-text">Start creating your first room design</p>
           </div>
         )} */}
-        <button>Create new project</button>
+        <button className="collection-project__btn collection-project__btn--load" onClick={() => setIsCreateModalOpen(true)}>
+          <Plus size={16} />
+          Create new project
+        </button>
       </div>
+
+      <ConfirmModal
+        isOpen={isCreateModalOpen}
+        title="Create new project"
+        description="Give your project a name to get started."
+        confirmLabel="Create"
+        cancelLabel="Cancel"
+        onConfirm={handleCreateProject}
+        onCancel={() => {
+          setNewProjectName("");
+          setIsCreateModalOpen(false);
+        }}
+      >
+        <label htmlFor="project-name">Project name</label>
+        <input
+          id="project-name"
+          type="text"
+          placeholder="e.g. Living room redesign"
+          value={newProjectName}
+          onChange={(e) => setNewProjectName(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleCreateProject()}
+          autoFocus
+        />
+      </ConfirmModal>
     </main>
   );
 };
