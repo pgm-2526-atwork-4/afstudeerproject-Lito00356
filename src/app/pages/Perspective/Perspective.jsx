@@ -98,7 +98,7 @@ const Perspective = () => {
             <Wireframe fillMix={0} stroke={"black"} thickness={0.02} />
           </mesh>
         ))}
-        <OrbitControls target={[0, 0, 0]} />
+        <OrbitControls target={[0, 0, 0]} maxPolarAngle={Math.PI / 2} />
       </Canvas>
       <div className="ui-overlay">
         <MenuProfile />
