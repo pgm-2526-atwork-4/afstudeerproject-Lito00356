@@ -28,6 +28,11 @@ const Collection = () => {
     queryFn: getAllProjects,
   });
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "—";
+    return format(new Date(dateString), "dd/MM/yyyy");
+  };
+
   const createProject = useMutation({
     mutationFn: createNewProject,
     onSuccess: () => {
@@ -47,9 +52,8 @@ const Collection = () => {
     setIsCreateModalOpen(false);
   };
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "—";
-    return format(new Date(dateString), "dd/MM/yyyy");
+  const handleLoadProject = () => {
+    console.log("hello");
   };
 
   if (isPending) return <p>Loading...</p>;
@@ -93,7 +97,10 @@ const Collection = () => {
                 </div>
 
                 <div className="collection__col collection__col--actions">
-                  <button className="collection-project__btn collection-project__btn--load">
+                  <button
+                    className="collection-project__btn collection-project__btn--load"
+                    onClick={() => handleLoadProject()}
+                  >
                     <Upload size={16} />
                     Load
                   </button>
