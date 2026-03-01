@@ -1,30 +1,34 @@
+import "./Blueprint.css";
 import { getProjectById } from "@core/modules/projects/api.projects";
-import { Canvas } from "@react-three/fiber";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router";
 
 const Blueprint = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
+  const canvasRef = useRef(null);
 
   const { data: project } = useQuery({
     queryKey: ["project", projectId],
     queryFn: () => getProjectById(projectId),
   });
 
-  useEffect(() => {
-    if (project?.objects) {
-      navigate(`/perspective/${projectId}`);
-    }
-  }, [project, projectId, navigate]);
-
   return (
-    <>
-      <div>
-        <h1>{project?.scene_name}</h1>
+    <div className="blueprint-fullscreen">
+      <div className="canvas-container">
+        <canvas
+          ref={canvasRef}
+          style={{
+            width: "100%",
+            height: "100%",
+            border: "2px solid #ddd",
+            background: "white",
+            cursor: "crosshair",
+          }}
+        />
       </div>
-    </>
+    </div>
   );
 };
 
