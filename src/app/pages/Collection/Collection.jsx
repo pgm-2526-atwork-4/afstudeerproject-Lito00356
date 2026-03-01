@@ -37,8 +37,9 @@ const Collection = () => {
 
   const createProject = useMutation({
     mutationFn: createNewProject,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      navigate(`/blueprint/${data.id}`);
     },
   });
 
