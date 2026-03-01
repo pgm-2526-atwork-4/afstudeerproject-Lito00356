@@ -3,6 +3,7 @@ import "./Collection.css";
 import "@style/theme.css";
 import React, { useState } from "react";
 import { Upload, Eye, Box } from "lucide-react";
+import { format } from "date-fns";
 import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
@@ -23,7 +24,10 @@ const Collection = () => {
     queryFn: getAllRooms,
   });
 
-  console.log(rooms);
+  const formatDate = (dateString) => {
+    if (!dateString) return "—";
+    return format(new Date(dateString), "dd/MM/yyyy");
+  };
 
   if (isPending) return <p>Loading...</p>;
   if (error || !rooms) return <p>Could not load profiles</p>;
@@ -43,7 +47,7 @@ const Collection = () => {
             <div className="collection__grid collection__labels">
               <span className="collection__col collection__col--preview">Preview</span>
               <span className="collection__col collection__col--name">Project name</span>
-              <span className="collection__col collection__col--roomdata">Room date</span>
+              <span className="collection__col collection__col--roomdata">Creation date</span>
               <span className="collection__col collection__col--actions">Actions</span>
             </div>
             {rooms.map((project) => (
@@ -62,9 +66,7 @@ const Collection = () => {
                 </div>
 
                 <div className="collection__col collection__col--roomdata">
-                  <p className="collection-project__data-row"></p>
-                  <p className="collection-project__data-row"></p>
-                  <p className="collection-project__data-modified"></p>
+                  <p className="collection-project__data-row">{formatDate(project.created_at)}</p>
                 </div>
 
                 <div className="collection__col collection__col--actions">
@@ -72,13 +74,13 @@ const Collection = () => {
                     <Upload size={16} />
                     Load
                   </button>
-                  {/* <button
+                  <button
                     className="collection-project__btn collection-project__btn--view"
                     onClick={() => setSelectedProject(project)}
                   >
                     <Eye size={16} />
-                    View Renders ({project.renders.length})
-                  </button> */}
+                    View Renders
+                  </button>
                 </div>
               </div>
             ))}
