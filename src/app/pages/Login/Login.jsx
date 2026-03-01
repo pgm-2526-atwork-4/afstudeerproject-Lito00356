@@ -20,6 +20,9 @@ const Login = () => {
 
   const { mutate, error, isPending } = useMutation({
     mutationFn: login,
+    onSuccess: () => {
+      navigate("/collection");
+    },
   });
 
   const {
@@ -36,9 +39,6 @@ const Login = () => {
 
   const handleLogin = (data) => {
     mutate(data);
-    navigate("/perspective");
-
-    // De redirect is nog wat weird hier
   };
 
   return (

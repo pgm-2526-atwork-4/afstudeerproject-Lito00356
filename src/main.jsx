@@ -4,16 +4,16 @@ import "./style/reset.css";
 import "./style/index.css";
 import App from "./App.jsx";
 import AuthProvider from "./app/components/functional/auth/AuthProvider";
-import { BrowserRouter, Route, Routes } from "react-router";
-import LandingPage from "./app/pages/LandingPage/LandingPage.jsx";
-import Register from "./app/pages/Register/register.jsx";
-import Login from "./app/pages/Login/Login.jsx";
-import Profile from "./app/pages/Profile/Profile.jsx";
-import Collection from "./app/pages/Collection/Collection.jsx";
-import Perspective from "./app/pages/Perspective/Perspective.jsx";
+import LandingPage from "@pages/LandingPage/LandingPage.jsx";
+import Register from "@pages/Register/register.jsx";
+import Login from "@pages/Login/Login.jsx";
+import Profile from "@pages/Profile/Profile.jsx";
+import Collection from "@pages/Collection/Collection.jsx";
+import Perspective from "@pages/Perspective/Perspective.jsx";
 import NavLayout from "@functional/layout/NavLayout.jsx";
+import Blueprint from "@pages/Blueprint/Blueprint.jsx";
+import { BrowserRouter, Route, Routes } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Blueprint from "@pages/Blueprint/Blueprint";
 
 const client = new QueryClient();
 
@@ -32,7 +32,7 @@ createRoot(document.getElementById("root")).render(
 
               <Route path="profile" element={<Profile />} />
               <Route path="collection" element={<Collection />} />
-              <Route path="blueprint" element={<Blueprint />} />
+              <Route path="blueprint/:projectId" element={<Blueprint />} />
               <Route path="perspective/:projectId" element={<Perspective />} />
             </Route>
           </Routes>
