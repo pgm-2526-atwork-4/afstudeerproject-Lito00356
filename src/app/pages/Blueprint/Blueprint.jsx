@@ -1,13 +1,16 @@
 import "./Blueprint.css";
 import { getProjectById } from "@core/modules/projects/api.projects";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
 const Blueprint = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const canvasRef = useRef(null);
+  const [points, setPoints] = useState([]);
+
+  const gridSize = 20;
 
   const { data: project } = useQuery({
     queryKey: ["project", projectId],
@@ -34,8 +37,6 @@ const Blueprint = () => {
     const drawGrid = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
 
-      const gridSize = 20;
-
       for (let x = 0; x <= canvas.width; x += gridSize) {
         context.lineWidth = x % 100 === 0 ? 2 : 1;
         context.strokeStyle = x % 100 === 0 ? "#666" : "#e0e0e0";
@@ -55,8 +56,20 @@ const Blueprint = () => {
         context.lineTo(canvas.width, y);
         context.stroke();
       }
+
+      context.fillStyle = "#007bff";
+      context.strokeStyle = "#ffffff";
+      context.lineWidth = 2;
+
+      points.forEach((p) => {
+        context.beginPath();
+        context.arc(p.x, p.y, 6, 0, Math.PI * 2);
+        context.fill();
+        context.stroke();
+      });
     };
 
+    syncCanvasSize();
     drawGrid();
 
     const handleResize = () => {
@@ -67,13 +80,30 @@ const Blueprint = () => {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [points]);
+
+  const handleCanvasClick = (e) => {
+    const canvas = canvasRef.current;
+
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const snappedPointX = Math.round(x / gridSize) * gridSize;
+    const snappedPointY = Math.round(y / gridSize) * gridSize;
+
+    setPoints((prev) => [...prev, { x: snappedPointX, y: snappedPointY }]);
+  };
 
   return (
     <div className="blueprint-fullscreen">
       <div className="canvas-container">
         <canvas
           ref={canvasRef}
+          onClick={handleCanvasClick}
           style={{
             width: "100%",
             height: "100%",
