@@ -11,6 +11,7 @@ const Blueprint = () => {
   const [points, setPoints] = useState([]);
   const [walls, setWalls] = useState([]);
   const [selectedWall, setSelectedWall] = useState(null);
+  const [isRoomClosed, setIsRoomClosed] = useState(false);
 
   const gridSize = 20;
 
@@ -103,6 +104,9 @@ const Blueprint = () => {
   }, [points, walls]);
 
   const handleCanvasClick = (e) => {
+    if (isRoomClosed) {
+      return;
+    }
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -139,6 +143,7 @@ const Blueprint = () => {
         },
       ]);
 
+      setIsRoomClosed(true);
       return;
     }
 
