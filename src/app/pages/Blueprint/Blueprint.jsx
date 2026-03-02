@@ -9,6 +9,8 @@ const Blueprint = () => {
   const navigate = useNavigate();
   const canvasRef = useRef(null);
   const [points, setPoints] = useState([]);
+  const [walls, setWalls] = useState([]);
+  const [selectedWall, setSelectedWall] = useState(null);
 
   const gridSize = 20;
 
@@ -28,8 +30,6 @@ const Blueprint = () => {
 
       canvas.width = rectangle.width;
       canvas.height = rectangle.height;
-
-      console.log(`Canvas size: ${canvas.width}x${canvas.height}`);
     };
 
     syncCanvasSize();
@@ -67,6 +67,26 @@ const Blueprint = () => {
         context.fill();
         context.stroke();
       });
+
+      context.strokeStyle = "#007bff";
+      canvas.lineWidth = 4;
+      context.lineCap = "round";
+      context.lineJoin = "round";
+
+      walls.forEach((wall) => {
+        const startPoint = points.find((p) => p.id === wall.start);
+        const endPoint = points.find((p) => p.id === wall.end);
+        const isHovered = selectedWall == wall.id;
+
+        if (startPoint && endPoint) {
+          context.beginPath();
+          context.moveTo(startPoint.x, startPoint.y);
+          context.lineTo(endPoint.x, endPoint.y);
+          context.lineWidth = isHovered ? 6 : 4;
+          context.strokeStyle = isHovered ? "#ff4444" : "#007bff";
+          context.stroke();
+        }
+      });
     };
 
     syncCanvasSize();
@@ -84,7 +104,6 @@ const Blueprint = () => {
 
   const handleCanvasClick = (e) => {
     const canvas = canvasRef.current;
-
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
@@ -95,7 +114,29 @@ const Blueprint = () => {
     const snappedPointX = Math.round(x / gridSize) * gridSize;
     const snappedPointY = Math.round(y / gridSize) * gridSize;
 
-    setPoints((prev) => [...prev, { x: snappedPointX, y: snappedPointY }]);
+    const newPoint = {
+      x: snappedPointX,
+      y: snappedPointY,
+      id: crypto.randomUUID(),
+    };
+
+    setPoints((prev) => {
+      const newPoints = [...prev, newPoint];
+
+      if (newPoints.length >= 2) {
+        const lastPoint = newPoints[newPoints.length - 2];
+        const newWall = {
+          id: crypto.randomUUID(),
+          start: lastPoint.id,
+          end: newPoint.id,
+          startPosition: lastPoint,
+          endPosition: newPoint,
+        };
+        setWalls((prevWalls) => [...prevWalls, newWall]);
+      }
+
+      return newPoints;
+    });
   };
 
   return (
