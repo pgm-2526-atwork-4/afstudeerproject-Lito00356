@@ -31,25 +31,25 @@ const Blueprint = () => {
 
     syncCanvasSize();
 
-    const drawVertivalGrid = () => {
+    const drawGrid = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
 
-      context.strokeStyle = "#e0e0e0";
-      context.lineWidth = 1;
+      const gridSize = 20;
 
-      for (let x = 0; x <= canvas.width; x += 20) {
+      for (let x = 0; x <= canvas.width; x += gridSize) {
+        context.lineWidth = x % 100 === 0 ? 2 : 1;
+        context.strokeStyle = x % 100 === 0 ? "#666" : "#e0e0e0";
+
         context.beginPath();
         context.moveTo(x, 0);
         context.lineTo(x, canvas.height);
         context.stroke();
       }
-    };
 
-    const drawHorizontalGrid = () => {
-      context.strokeStyle = "#e0e0e0";
-      context.lineWidth = 1;
+      for (let y = 0; y <= canvas.height; y += gridSize) {
+        context.lineWidth = y % 100 === 0 ? 2 : 1;
+        context.strokeStyle = y % 100 === 0 ? "#666" : "#e0e0e0";
 
-      for (let y = 0; y <= canvas.height; y += 20) {
         context.beginPath();
         context.moveTo(0, y);
         context.lineTo(canvas.width, y);
@@ -57,8 +57,7 @@ const Blueprint = () => {
       }
     };
 
-    drawVertivalGrid();
-    drawHorizontalGrid();
+    drawGrid();
 
     const handleResize = () => {
       syncCanvasSize();
