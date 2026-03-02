@@ -18,26 +18,26 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const client = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <QueryClientProvider client={client}>
-      <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<App />}>
-              <Route element={<NavLayout />}>
-                <Route index element={<LandingPage />} />
-                <Route path="login" element={<Login />} />
-                <Route path="register" element={<Register />} />
-              </Route>
-
-              <Route path="profile" element={<Profile />} />
-              <Route path="collection" element={<Collection />} />
-              <Route path="blueprint/:projectId" element={<Blueprint />} />
-              <Route path="perspective/:projectId" element={<Perspective />} />
+  // <StrictMode>
+  <QueryClientProvider client={client}>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route element={<NavLayout />}>
+              <Route index element={<LandingPage />} />
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
             </Route>
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
-    </QueryClientProvider>
-  </StrictMode>,
+
+            <Route path="profile" element={<Profile />} />
+            <Route path="collection" element={<Collection />} />
+            <Route path="blueprint/:projectId" element={<Blueprint />} />
+            <Route path="perspective/:projectId" element={<Perspective />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  </QueryClientProvider>,
+  // </StrictMode>,
 );

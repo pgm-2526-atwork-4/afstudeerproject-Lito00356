@@ -100,17 +100,17 @@ const Blueprint = () => {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [points]);
+  }, [points, walls]);
 
   const handleCanvasClick = (e) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
-
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
+    const gridSize = 20;
     const snappedPointX = Math.round(x / gridSize) * gridSize;
     const snappedPointY = Math.round(y / gridSize) * gridSize;
 
@@ -120,16 +120,38 @@ const Blueprint = () => {
       id: crypto.randomUUID(),
     };
 
+    const firstPoint = points[0];
+    if (
+      firstPoint &&
+      points.length >= 2 &&
+      Math.abs(newPoint.x - firstPoint.x) < 5 &&
+      Math.abs(newPoint.y - firstPoint.y) < 5
+    ) {
+      const lastPoint = points[points.length - 1];
+      setWalls((prevWalls) => [
+        ...prevWalls,
+        {
+          id: crypto.randomUUID(),
+          start: lastPoint.id,
+          end: firstPoint.id,
+          startPosition: lastPoint,
+          endPosition: firstPoint,
+        },
+      ]);
+
+      return;
+    }
+
     setPoints((prev) => {
       const newPoints = [...prev, newPoint];
 
       if (newPoints.length >= 2) {
-        const lastPoint = newPoints[newPoints.length - 2];
+        const lastPointBefore = newPoints[newPoints.length - 2];
         const newWall = {
           id: crypto.randomUUID(),
-          start: lastPoint.id,
+          start: lastPointBefore.id,
           end: newPoint.id,
-          startPosition: lastPoint,
+          startPosition: lastPointBefore,
           endPosition: newPoint,
         };
         setWalls((prevWalls) => [...prevWalls, newWall]);
