@@ -6,11 +6,40 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: #f8f9fa;
+  background: var(--background);
 }
 
 .canvas-container {
   flex: 1;
   position: relative;
   overflow: hidden;
+}
+
+.reset-blueprint-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  padding: var(--spacing-xs) var(--spacing-base);
+  background-color: var(--dark);
+  color: var(--text-white);
+  border: none;
+  border-radius: var(--radius-xs);
+  font-size: var(--text-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px var(--main-shadow);
+  z-index: 10;
+}
+
+.reset-blueprint-btn:hover {
+  background-color: var(--text-muted);
+  box-shadow: 0 4px 8px var(--main-shadow);
+  transform: translateY(-1px);
+}
+
+.reset-blueprint-btn:active {
+  background-color: var(--main-dark);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px var(--main-color-muted);
 }

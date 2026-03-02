@@ -1,4 +1,5 @@
 import "./Blueprint.css";
+import "@style/theme.css";
 import { getProjectById } from "@core/modules/projects/api.projects";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
@@ -181,6 +182,17 @@ const Blueprint = () => {
           }}
         />
       </div>
+      <button
+        className="reset-blueprint-btn"
+        onClick={() => {
+          setPoints([]);
+          setWalls([]);
+          setIsRoomClosed(false);
+        }}
+        title="Reset all walls and points"
+      >
+        Reset
+      </button>
     </div>
   );
 };
