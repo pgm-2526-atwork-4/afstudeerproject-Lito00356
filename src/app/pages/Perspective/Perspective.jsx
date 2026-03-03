@@ -7,7 +7,7 @@ import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProjectById, uploadProject } from "@core/modules/projects/api.projects";
 import useAuth from "@functional/auth/useAuth";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import Ground from "@design/Ground/Ground";
 import TitleBadge from "@design/TitleBadge/TitleBadge";
 import Room3D from "../../components/functional/Room3D/Room3D";
@@ -35,6 +35,8 @@ const Perspective = () => {
   const { auth } = useAuth();
   const user = auth.user;
   const { projectId } = useParams();
+  const location = useLocation();
+  const blueprintData = location.state;
 
   const {
     data: project,
@@ -62,28 +64,35 @@ const Perspective = () => {
     saveRoom.mutate(body);
   }
 
+  const getPolygonVertices = (walls, points) => {
+    if (!walls?.length || !points?.length) {
+      return [
+        [1, 0, 1],
+        [3, 0, 1],
+        [3, 0, 3],
+        [1, 0, 3],
+      ];
+    }
+
+    const vertices = points.map((point) => [point.x / 100, 0, point.y / 100]);
+
+    return vertices;
+  };
+
   if (isPending) return <p>Loading...</p>;
   if (error || !project) return <p>Could not load project</p>;
 
   return (
     <div className="canvas-page">
       <TitleBadge title="perspective" />
-      <Canvas className="canvas" camera={{ position: [10, 6, 10], fov: 50 }}>
+      <Canvas className="canvas" camera={{ position: [10, 6, 10], fov: 50 }} style={{ width: "100vw", height: "100vh" }}>
         <ambientLight intensity={1} />
         <Scene />
         <mesh>
           <Ground />
         </mesh>
 
-        <Room3D
-          vertices={[
-            [1, 0, 0],
-            [3, 0, 0],
-            [3, 0, 3],
-            [1, 0, 3],
-          ]}
-          height={2.5}
-        />
+        <Room3D vertices={getPolygonVertices(blueprintData.walls, blueprintData.points)} height={2.5} />
 
         {project?.objects?.boxes?.map((box) => (
           <mesh key={box.id} position={box.position} rotation={box.rotation} scale={box.scale}>

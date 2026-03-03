@@ -15,13 +15,10 @@ const Room3D = ({ vertices = [], height = 2.5 }) => {
       return newShape;
     }
 
-    console.log("Building shape from", vertices.length, "vertices");
-
     newShape.moveTo(vertices[0][0], vertices[0][2]);
 
     for (let i = 1; i < vertices.length; i++) {
       newShape.lineTo(vertices[i][0], vertices[i][2]);
-      console.log(`Line to: ${vertices[i][0]}, ${vertices[i][2]}`);
     }
 
     newShape.lineTo(vertices[0][0], vertices[0][2]);
@@ -35,7 +32,7 @@ const Room3D = ({ vertices = [], height = 2.5 }) => {
   }, [shape, height]);
 
   return (
-    <mesh geometry={geometry}>
+    <mesh geometry={geometry} rotation={[Math.PI / 2, 0, 0]} position={[0, height, 0]}>
       <meshStandardMaterial color="lightBlue" />
     </mesh>
   );
