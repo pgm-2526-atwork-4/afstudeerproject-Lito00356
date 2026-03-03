@@ -1,8 +1,9 @@
 import { TransformControls } from "@react-three/drei";
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import * as THREE from "three";
 
 const Room3D = ({ vertices = [], height = 2.5 }) => {
+  const geoRef = useRef();
   const shape = useMemo(() => {
     const newShape = new THREE.Shape();
 
@@ -34,7 +35,7 @@ const Room3D = ({ vertices = [], height = 2.5 }) => {
 
   return (
     <>
-      <mesh geometry={geometry} rotation={[Math.PI / 2, 0, 0]} position={[0, height, 0]} ref={geometry}>
+      <mesh geometry={geometry} rotation={[Math.PI / 2, 0, 0]} position={[0, height, 0]} ref={geoRef}>
         <meshStandardMaterial color="lightBlue" />
       </mesh>
       <TransformControls object={geometry} />
