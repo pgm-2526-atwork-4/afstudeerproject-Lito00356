@@ -66,15 +66,17 @@ const Perspective = () => {
 
   const getPolygonVertices = (walls, points) => {
     if (!walls?.length || !points?.length) {
-      return [
-        [1, 0, 1],
-        [3, 0, 1],
-        [3, 0, 3],
-        [1, 0, 3],
-      ];
+      return [];
     }
 
-    const vertices = points.map((point) => [point.x / 100, 0, point.y / 100]);
+    const centerX = points.reduce((sum, p) => sum + p.x, 0) / points.length;
+    const centerY = points.reduce((sum, p) => sum + p.y, 0) / points.length;
+
+    const vertices = points.map((point) => {
+      const relX = (point.x - centerX) / 100;
+      const relZ = (point.y - centerY) / 100;
+      return [relX, 0, relZ];
+    });
 
     return vertices;
   };
