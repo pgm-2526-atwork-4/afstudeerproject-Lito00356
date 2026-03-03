@@ -1,0 +1,371 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 18988,
+      "max": [
+        137.17897033691406,
+        69.8060531616211,
+        91.4864501953125
+      ],
+      "min": [
+        -173.88375854492188,
+        -0.011678977869451046,
+        -71.38477325439453
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 227856,
+      "componentType": 5126,
+      "count": 18988,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 18988,
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 18988,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 151904,
+      "componentType": 5126,
+      "count": 18988,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 303808,
+      "componentType": 5126,
+      "count": 18988,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 455712,
+      "componentType": 5126,
+      "count": 18988,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 104460,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 455712,
+      "componentType": 5126,
+      "count": 3554,
+      "max": [
+        42.84333038330078,
+        38.8636474609375,
+        32.14347839355469
+      ],
+      "min": [
+        -42.73735427856445,
+        -37.04253005981445,
+        -32.61164474487305
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 498360,
+      "componentType": 5126,
+      "count": 3554,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 303808,
+      "componentType": 5126,
+      "count": 3554,
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 607616,
+      "componentType": 5126,
+      "count": 3554,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 636048,
+      "componentType": 5126,
+      "count": 3554,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 664480,
+      "componentType": 5126,
+      "count": 3554,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 692912,
+      "componentType": 5126,
+      "count": 3554,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 417840,
+      "componentType": 5125,
+      "count": 19584,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "generator": "fab-model-conversion",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 496176,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 721344,
+      "byteOffset": 496176,
+      "byteStride": 8,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 541008,
+      "byteOffset": 1217520,
+      "byteStride": 12,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 360672,
+      "byteOffset": 1758528,
+      "byteStride": 16,
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 2119200,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/FURNITURE_017_MAT_baseColor.png"
+    },
+    {
+      "uri": "textures/FURNITURE_017_MAT_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/FURNITURE_017_MAT_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "FURNITURE_017_MAT",
+      "normalTexture": {
+        "index": 2
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.0,
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Naviglio sofa_FURNITURE_017_MAT_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3,
+            "TEXCOORD_1": 4,
+            "TEXCOORD_2": 5,
+            "TEXCOORD_3": 6
+          },
+          "indices": 7,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Naviglio sofa_PILLOW_FURNITURE_017_MAT_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 9,
+            "POSITION": 8,
+            "TANGENT": 10,
+            "TEXCOORD_0": 11,
+            "TEXCOORD_1": 12,
+            "TEXCOORD_2": 13,
+            "TEXCOORD_3": 14
+          },
+          "indices": 15,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "naviglio_sofa.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4,
+        6
+      ],
+      "name": "Naviglio sofa_ROOT"
+    },
+    {
+      "children": [
+        5
+      ],
+      "name": "Naviglio sofa"
+    },
+    {
+      "mesh": 0,
+      "name": "Naviglio sofa_FURNITURE_017_MAT_0"
+    },
+    {
+      "children": [
+        7
+      ],
+      "matrix": [
+        0.4412195086479187,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.4412195086479128,
+        -7.188378455910893e-08,
+        0.0,
+        0.0,
+        7.188378455910893e-08,
+        0.4412195086479128,
+        0.0,
+        66.73347473144531,
+        60.11052703857422,
+        -31.04939842224121,
+        1.0
+      ],
+      "name": "Naviglio sofa_PILLOW"
+    },
+    {
+      "mesh": 1,
+      "name": "Naviglio sofa_PILLOW_FURNITURE_017_MAT_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}

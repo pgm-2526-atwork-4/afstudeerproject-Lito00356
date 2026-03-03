@@ -55,13 +55,15 @@ const Perspective = () => {
   });
 
   async function handleSave() {
-    const body = {
-      user_id: user.id,
-      scene_name: "boxTest",
-      objects: { boxes },
-    };
+    console.log("project saved");
 
-    saveRoom.mutate(body);
+    // const body = {
+    //   user_id: user.id,
+    //   scene_name: "boxTest",
+    //   objects: { boxes },
+    // };
+
+    // saveRoom.mutate(body);
   }
 
   const getPolygonVertices = (walls, points) => {
@@ -107,7 +109,6 @@ const Perspective = () => {
       </Canvas>
       <div className="ui-overlay">
         <MenuProfile />
-        <button className="add-block-btn">+ Voeg blokje toe</button>
         <button className="save-btn" onClick={() => handleSave()}>
           Sla blokje op
         </button>
