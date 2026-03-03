@@ -34,7 +34,7 @@ function Scene() {
 }
 
 const Perspective = () => {
-  const [boxes, setBoxes] = useState([]);
+  const [furniture, setFurniture] = useState([]);
   const queryClient = useQueryClient();
   const { auth } = useAuth();
   const user = auth.user;
@@ -64,7 +64,7 @@ const Perspective = () => {
     const body = {
       user_id: user.id,
       scene_name: "boxTest",
-      objects: { boxes },
+      objects: { furniture },
     };
 
     saveRoom.mutate(body);
@@ -87,13 +87,26 @@ const Perspective = () => {
     return vertices;
   };
 
+  const addFurniture = () => {
+    const newSofa = {
+      id: `sofa-${Date.now()}`,
+      type: "sofa",
+      position: [2, 0, 2],
+      scale: [1, 1, 1],
+      rotation: [0, 0, 0],
+    };
+    console.log("succesfully added sofa");
+
+    setFurniture((prev) => [...prev, newSofa]);
+  };
+
   if (isPending) return <p>Loading...</p>;
   if (error || !project) return <p>Could not load project</p>;
 
   return (
     <div className="canvas-page">
       <TitleBadge title="perspective" />
-      <MenuFurniture />
+      <MenuFurniture handleAddFurniture={addFurniture} />
       <Canvas className="canvas" camera={{ position: [10, 6, 10], fov: 50 }} style={{ width: "100vw", height: "100vh" }}>
         <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={2} />
         <Scene />
@@ -102,6 +115,10 @@ const Perspective = () => {
         </mesh>
 
         <Room3D vertices={getPolygonVertices(blueprintData.walls, blueprintData.points)} height={2.5} />
+
+        {furniture.map((item) => (
+          <Furniture key={item.id} position={item.position} scale={item.scale} rotation={item.rotation} />
+        ))}
 
         <OrbitControls target={[0, 0, 0]} maxPolarAngle={Math.PI / 2} makeDefault />
       </Canvas>

@@ -3,12 +3,8 @@ import "./MenuFurniture.css";
 import { Armchair, X } from "lucide-react";
 import React, { useState } from "react";
 
-// ------------------------------------------------------------------
-// Furniture categories – extend or replace with API data
-// ------------------------------------------------------------------
 const CATEGORIES = ["Zetels", "Tafels", "Bedden", "Stoelen", "Kasten", "Lampen"];
 
-// (temporarily keep catalogue stub so nothing below breaks)
 const CATALOGUE = {
   Zetels: [
     {
@@ -83,13 +79,15 @@ const CATALOGUE = {
   ],
 };
 
-const MenuFurniture = ({ onFurnitureSelect }) => {
+const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture }) => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const items = selectedCategory ? (CATALOGUE[selectedCategory] ?? []) : [];
 
-  const handleLoadFurniture = () => {};
+  const handleLoadFurniture = () => {
+    handleAddFurniture();
+  };
 
   return (
     <div className={`furniture-menu${panelOpen ? " furniture-menu--open" : ""}`}>
