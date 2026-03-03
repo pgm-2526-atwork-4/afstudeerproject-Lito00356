@@ -3,12 +3,13 @@ import "@style/theme.css";
 import { getProjectById } from "@core/modules/projects/api.projects";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 
 const Blueprint = () => {
   const { projectId } = useParams();
   const canvasRef = useRef(null);
+  const navigate = useNavigate();
   const [points, setPoints] = useState([]);
   const [walls, setWalls] = useState([]);
   const [selectedWall, setSelectedWall] = useState(null);
@@ -198,8 +199,13 @@ const Blueprint = () => {
     setPreviewPoint(existingPoint ? null : { x: snappedPointX, y: snappedPointY });
   };
 
-  const handleConvert = () => {
-    console.log("converted");
+  const handleConvertTo3D = () => {
+    navigate(`/perspective/${projectId}`, {
+      state: {
+        points,
+        walls,
+      },
+    });
   };
 
   return (
@@ -237,7 +243,7 @@ const Blueprint = () => {
       <button
         className="convert-blueprint-btn"
         disabled={!isRoomClosed}
-        onClick={() => handleConvert()}
+        onClick={() => handleConvertTo3D()}
         title="Convert blueprint to 3D model"
       >
         Convert to 3D
