@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
+import TitleBadge from "@design/TitleBadge/TitleBadge";
 
 const Blueprint = () => {
   const { projectId } = useParams();
@@ -210,9 +211,7 @@ const Blueprint = () => {
 
   return (
     <div className="blueprint-fullscreen">
-      <div>
-        <strong className="blueprint-title">Top view</strong>
-      </div>
+      <TitleBadge title="blueprint" />
       <MenuProfile />
       <div className="canvas-container">
         <canvas

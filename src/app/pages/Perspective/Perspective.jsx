@@ -9,6 +9,7 @@ import { getProjectById, uploadProject } from "@core/modules/projects/api.projec
 import useAuth from "@functional/auth/useAuth";
 import { useParams } from "react-router";
 import Ground from "@design/Ground/Ground";
+import TitleBadge from "@design/TitleBadge/TitleBadge";
 
 function Scene() {
   const { setSize } = useThree();
@@ -50,28 +51,12 @@ const Perspective = () => {
     },
   });
 
-  function addCube() {
-    const newCube = {
-      id: crypto.randomUUID(),
-      position: [0, 0, 0],
-      rotation: [0, 0, 0],
-      scale: [5, 4, 3],
-      color: "purple",
-    };
-
-    setBoxes((prev) => [...prev, newCube]);
-  }
-
   async function handleSave() {
     const body = {
       user_id: user.id,
       scene_name: "boxTest",
       objects: { boxes },
     };
-
-    console.log("BODY:", JSON.stringify(body, null, 2));
-    console.log("user.id type:", typeof user.id);
-    console.log("user.id:", user.id);
 
     saveRoom.mutate(body);
   }
@@ -81,16 +66,14 @@ const Perspective = () => {
 
   return (
     <div className="canvas-page">
+      <TitleBadge title="perspective" />
       <Canvas className="canvas" camera={{ position: [10, 6, 10], fov: 50 }}>
         <ambientLight intensity={1} />
         <Scene />
         <mesh>
           <Ground />
         </mesh>
-        <mesh position={[0, 0.5, 0]}>
-          <boxGeometry />
-          <meshBasicMaterial color={"yellow"} />
-        </mesh>
+
         {project?.objects?.boxes?.map((box) => (
           <mesh key={box.id} position={box.position} rotation={box.rotation} scale={box.scale}>
             <boxGeometry />
@@ -102,9 +85,7 @@ const Perspective = () => {
       </Canvas>
       <div className="ui-overlay">
         <MenuProfile />
-        <button className="add-block-btn" onClick={() => addCube()}>
-          + Voeg blokje toe
-        </button>
+        <button className="add-block-btn">+ Voeg blokje toe</button>
         <button className="save-btn" onClick={() => handleSave()}>
           Sla blokje op
         </button>

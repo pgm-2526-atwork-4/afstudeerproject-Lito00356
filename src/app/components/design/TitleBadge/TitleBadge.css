@@ -1,0 +1,14 @@
+.title-badge {
+  position: absolute;
+  top: var(--spacing-2xl);
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  z-index: 15;
+  background-color: var(--main-color);
+  text-transform: uppercase;
+  padding: var(--spacing-2xs) var(--spacing-base);
+  border-radius: var(--radius-base);
+  font-size: var(--text-size-base);
+  font-weight: 700;
+}
