@@ -3,16 +3,16 @@ import "@style/theme.css";
 import { getProjectById } from "@core/modules/projects/api.projects";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 
 const Blueprint = () => {
   const { projectId } = useParams();
-  const navigate = useNavigate();
   const canvasRef = useRef(null);
   const [points, setPoints] = useState([]);
   const [walls, setWalls] = useState([]);
   const [selectedWall, setSelectedWall] = useState(null);
   const [isRoomClosed, setIsRoomClosed] = useState(false);
+  const [previewPoint, setPreviewPoint] = useState(null);
 
   const gridSize = 20;
 
@@ -59,6 +59,18 @@ const Blueprint = () => {
         context.stroke();
       }
 
+      if (previewPoint) {
+        context.save();
+        context.fillStyle = "rgba(0, 123, 255, 0.3)"; // zacht blauw
+        context.strokeStyle = "#007bff";
+        context.lineWidth = 2;
+        context.beginPath();
+        context.arc(previewPoint.x, previewPoint.y, 6, 0, Math.PI * 2);
+        context.fill();
+        context.stroke();
+        context.restore();
+      }
+
       context.fillStyle = "#007bff";
       context.strokeStyle = "#ffffff";
       context.lineWidth = 2;
@@ -102,7 +114,7 @@ const Blueprint = () => {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [points, walls]);
+  }, [points, walls, previewPoint, isRoomClosed]);
 
   const handleCanvasClick = (e) => {
     if (isRoomClosed) {
@@ -167,12 +179,32 @@ const Blueprint = () => {
     });
   };
 
+  const handleMouseMove = (e) => {
+    if (isRoomClosed) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const snappedPointX = Math.round(x / gridSize) * gridSize;
+    const snappedPointY = Math.round(y / gridSize) * gridSize;
+
+    const existingPoint = points.some((p) => Math.abs(p.x - snappedPointX) < 10 && Math.abs(p.y - snappedPointY) < 10);
+
+    setPreviewPoint(existingPoint ? null : { x: snappedPointX, y: snappedPointY });
+  };
+
   return (
     <div className="blueprint-fullscreen">
       <div className="canvas-container">
         <canvas
           ref={canvasRef}
           onClick={handleCanvasClick}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={() => setPreviewPoint(null)}
           style={{
             width: "100%",
             height: "100%",
