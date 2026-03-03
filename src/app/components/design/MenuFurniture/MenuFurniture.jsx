@@ -83,93 +83,6 @@ const CATALOGUE = {
   ],
 };
 
-const FurnitureItem = ({ item, onSelect }) => {
-  const [open, setOpen] = useState(false);
-  const [selectedFabric, setSelectedFabric] = useState(item.fabrics[0]);
-  const [selectedColor, setSelectedColor] = useState(item.colors[0]);
-
-  return (
-    <article className={`furniture-item${open ? " furniture-item--open" : ""}`}>
-      <button className="furniture-item__header" onClick={() => setOpen((v) => !v)} aria-expanded={open}>
-        <div className="furniture-item__thumb">
-          <ImageWithFallback src={item.image} alt={item.title} />
-        </div>
-        <span className="furniture-item__title">{item.title}</span>
-        <ChevronRight className={`furniture-item__chevron${open ? " furniture-item__chevron--open" : ""}`} size={14} />
-      </button>
-
-      {open && (
-        <div className="furniture-item__body">
-          <div className="furniture-item__options">
-            <p className="furniture-item__label">Stof</p>
-            <div className="furniture-item__swatches furniture-item__swatches--text">
-              {item.fabrics.map((f) => (
-                <button
-                  key={f}
-                  className={`swatch-text${selectedFabric === f ? " swatch-text--active" : ""}`}
-                  onClick={() => setSelectedFabric(f)}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="furniture-item__options">
-            <p className="furniture-item__label">Kleur</p>
-            <div className="furniture-item__swatches">
-              {item.colors.map((c) => (
-                <button
-                  key={c}
-                  className={`swatch-color${selectedColor === c ? " swatch-color--active" : ""}`}
-                  style={{ backgroundColor: c }}
-                  title={c}
-                  onClick={() => setSelectedColor(c)}
-                />
-              ))}
-            </div>
-          </div>
-
-          <button
-            className="furniture-item__select-btn"
-            onClick={() => onSelect({ ...item, fabric: selectedFabric, color: selectedColor })}
-          >
-            Selecteren
-          </button>
-        </div>
-      )}
-    </article>
-  );
-};
-
-const FurnitureCategory = ({ label, items, onSelect }) => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className="furniture-category">
-      <button
-        className={`furniture-category__header${open ? " furniture-category__header--open" : ""}`}
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-      >
-        <span>{label}</span>
-        <ChevronDown
-          className={`furniture-category__chevron${open ? " furniture-category__chevron--open" : ""}`}
-          size={16}
-        />
-      </button>
-
-      <div className={`furniture-category__body${open ? " furniture-category__body--open" : ""}`}>
-        <div className="furniture-category__scroll">
-          {items.map((item) => (
-            <FurnitureItem key={item.id} item={item} onSelect={onSelect} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const MenuFurniture = ({ onFurnitureSelect }) => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -178,7 +91,6 @@ const MenuFurniture = ({ onFurnitureSelect }) => {
 
   return (
     <div className={`furniture-menu${panelOpen ? " furniture-menu--open" : ""}`}>
-      {/* ── Horizontal bar: toggle (left/always visible) + panel (right) ── */}
       <div className="furniture-menu__bar">
         <button
           className="furniture-menu__toggle"
@@ -214,9 +126,14 @@ const MenuFurniture = ({ onFurnitureSelect }) => {
         </div>
       </div>
 
-      {/* ── Cards grid – opens below when a category is selected ── */}
       {panelOpen && items.length > 0 && (
         <div className="furniture-menu__items">
+          <button className="furniture-card" onClick={() => handleLoadFurniture()}>
+            <div className="furniture-card__thumb">
+              <ImageWithFallback />
+            </div>
+            <span className="furniture-card__title">Sofa</span>
+          </button>
           {items.map((item) => (
             <button key={item.id} className="furniture-card" onClick={() => onFurnitureSelect && onFurnitureSelect(item)}>
               <div className="furniture-card__thumb">
