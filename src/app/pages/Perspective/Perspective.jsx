@@ -103,15 +103,6 @@ const Perspective = () => {
 
         <Room3D vertices={getPolygonVertices(blueprintData.walls, blueprintData.points)} height={2.5} />
 
-        <Furniture />
-
-        {project?.objects?.boxes?.map((box) => (
-          <mesh key={box.id} position={box.position} rotation={box.rotation} scale={box.scale}>
-            <boxGeometry />
-            <meshStandardMaterial color={box.color} />
-            <Wireframe fillMix={0} stroke={"black"} thickness={0.02} />
-          </mesh>
-        ))}
         <OrbitControls target={[0, 0, 0]} maxPolarAngle={Math.PI / 2} makeDefault />
       </Canvas>
       <div className="ui-overlay">

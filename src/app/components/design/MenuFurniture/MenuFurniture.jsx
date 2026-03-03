@@ -89,6 +89,8 @@ const MenuFurniture = ({ onFurnitureSelect }) => {
 
   const items = selectedCategory ? (CATALOGUE[selectedCategory] ?? []) : [];
 
+  const handleLoadFurniture = () => {};
+
   return (
     <div className={`furniture-menu${panelOpen ? " furniture-menu--open" : ""}`}>
       <div className="furniture-menu__bar">
