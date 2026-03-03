@@ -8,7 +8,7 @@ export const Ground = () => {
     sectionSize: 3,
     sectionThickness: 1,
     sectionColor: "#9d4b4b",
-    fadeDistance: 30,
+    fadeDistance: 40,
     fadeStrength: 1,
     followCamera: false,
     infiniteGrid: true,

@@ -38,7 +38,6 @@ const Room3D = ({ vertices = [], height = 2.5 }) => {
       <mesh geometry={geometry} rotation={[Math.PI / 2, 0, 0]} position={[0, height, 0]} ref={geoRef}>
         <meshStandardMaterial color="lightBlue" />
       </mesh>
-      <TransformControls object={geometry} />
     </>
   );
 };

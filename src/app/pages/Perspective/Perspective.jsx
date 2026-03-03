@@ -1,16 +1,20 @@
-import { Canvas, useThree } from "@react-three/fiber";
 import "@style/theme.css";
 import "./perspective.css";
+import { Canvas, useThree } from "@react-three/fiber";
 import React, { useEffect, useState } from "react";
-import { OrbitControls, Wireframe } from "@react-three/drei";
+import { OrbitControls, useGLTF, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProjectById, uploadProject } from "@core/modules/projects/api.projects";
 import useAuth from "@functional/auth/useAuth";
 import { useLocation, useParams } from "react-router";
 import Ground from "@design/Ground/Ground";
 import TitleBadge from "@design/TitleBadge/TitleBadge";
-import Room3D from "../../components/functional/Room3D/Room3D";
+import Room3D from "@functional/Room3D/Room3D";
+import Furniture from "@functional/Furniture/Furniture";
+import MenuFurniture from "@design/MenuFurniture/MenuFurniture";
+
+useGLTF.preload("/models/sofa.gltf");
 
 function Scene() {
   const { setSize } = useThree();
@@ -57,13 +61,13 @@ const Perspective = () => {
   async function handleSave() {
     console.log("project saved");
 
-    // const body = {
-    //   user_id: user.id,
-    //   scene_name: "boxTest",
-    //   objects: { boxes },
-    // };
+    const body = {
+      user_id: user.id,
+      scene_name: "boxTest",
+      objects: { boxes },
+    };
 
-    // saveRoom.mutate(body);
+    saveRoom.mutate(body);
   }
 
   const getPolygonVertices = (walls, points) => {
@@ -89,6 +93,7 @@ const Perspective = () => {
   return (
     <div className="canvas-page">
       <TitleBadge title="perspective" />
+      <MenuFurniture />
       <Canvas className="canvas" camera={{ position: [10, 6, 10], fov: 50 }} style={{ width: "100vw", height: "100vh" }}>
         <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={2} />
         <Scene />
@@ -97,6 +102,8 @@ const Perspective = () => {
         </mesh>
 
         <Room3D vertices={getPolygonVertices(blueprintData.walls, blueprintData.points)} height={2.5} />
+
+        <Furniture />
 
         {project?.objects?.boxes?.map((box) => (
           <mesh key={box.id} position={box.position} rotation={box.rotation} scale={box.scale}>
