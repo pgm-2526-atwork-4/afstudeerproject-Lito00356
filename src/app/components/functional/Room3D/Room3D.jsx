@@ -1,10 +1,41 @@
-import React from "react";
-import { BoxGeometry } from "three";
+import React, { useMemo } from "react";
+import * as THREE from "three";
 
-const Room3D = ({ height = 2.5 }) => {
+const Room3D = ({ vertices = [], height = 2.5 }) => {
+  const shape = useMemo(() => {
+    const newShape = new THREE.Shape();
+
+    if (vertices.length === 0) {
+      newShape.moveTo(0, 0);
+      newShape.lineTo(4, 0);
+      newShape.lineTo(4, 4);
+      newShape.lineTo(0, 4);
+      newShape.lineTo(0, 0);
+
+      return newShape;
+    }
+
+    console.log("Building shape from", vertices.length, "vertices");
+
+    newShape.moveTo(vertices[0][0], vertices[0][2]);
+
+    for (let i = 1; i < vertices.length; i++) {
+      newShape.lineTo(vertices[i][0], vertices[i][2]);
+      console.log(`Line to: ${vertices[i][0]}, ${vertices[i][2]}`);
+    }
+
+    newShape.lineTo(vertices[0][0], vertices[0][2]);
+
+    return newShape;
+  }, [vertices]);
+
+  const geometry = useMemo(() => {
+    const settings = { depth: height, bevelEnabled: false };
+    return new THREE.ExtrudeGeometry(shape, settings);
+  }, [shape, height]);
+
   return (
-    <mesh position={[0, 0, 0]}>
-      <BoxGeometry args={[4, height, 4]} />
+    <mesh geometry={geometry}>
       <meshStandardMaterial color="lightBlue" />
     </mesh>
   );

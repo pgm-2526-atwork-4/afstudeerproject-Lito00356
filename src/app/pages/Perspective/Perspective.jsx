@@ -10,6 +10,7 @@ import useAuth from "@functional/auth/useAuth";
 import { useParams } from "react-router";
 import Ground from "@design/Ground/Ground";
 import TitleBadge from "@design/TitleBadge/TitleBadge";
+import Room3D from "../../components/functional/Room3D/Room3D";
 
 function Scene() {
   const { setSize } = useThree();
@@ -73,6 +74,16 @@ const Perspective = () => {
         <mesh>
           <Ground />
         </mesh>
+
+        <Room3D
+          vertices={[
+            [1, 0, 0],
+            [3, 0, 0],
+            [3, 0, 3],
+            [1, 0, 3],
+          ]}
+          height={2.5}
+        />
 
         {project?.objects?.boxes?.map((box) => (
           <mesh key={box.id} position={box.position} rotation={box.rotation} scale={box.scale}>
