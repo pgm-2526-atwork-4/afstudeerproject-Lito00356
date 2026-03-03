@@ -1,3 +1,4 @@
+import { TransformControls } from "@react-three/drei";
 import React, { useMemo } from "react";
 import * as THREE from "three";
 
@@ -32,9 +33,12 @@ const Room3D = ({ vertices = [], height = 2.5 }) => {
   }, [shape, height]);
 
   return (
-    <mesh geometry={geometry} rotation={[Math.PI / 2, 0, 0]} position={[0, height, 0]}>
-      <meshStandardMaterial color="lightBlue" />
-    </mesh>
+    <>
+      <mesh geometry={geometry} rotation={[Math.PI / 2, 0, 0]} position={[0, height, 0]} ref={geometry}>
+        <meshStandardMaterial color="lightBlue" />
+      </mesh>
+      <TransformControls object={geometry} />
+    </>
   );
 };
 

@@ -88,7 +88,7 @@ const Perspective = () => {
     <div className="canvas-page">
       <TitleBadge title="perspective" />
       <Canvas className="canvas" camera={{ position: [10, 6, 10], fov: 50 }} style={{ width: "100vw", height: "100vh" }}>
-        <ambientLight intensity={1} />
+        <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={2} />
         <Scene />
         <mesh>
           <Ground />
@@ -103,7 +103,7 @@ const Perspective = () => {
             <Wireframe fillMix={0} stroke={"black"} thickness={0.02} />
           </mesh>
         ))}
-        <OrbitControls target={[0, 0, 0]} maxPolarAngle={Math.PI / 2} />
+        <OrbitControls target={[0, 0, 0]} maxPolarAngle={Math.PI / 2} makeDefault />
       </Canvas>
       <div className="ui-overlay">
         <MenuProfile />
