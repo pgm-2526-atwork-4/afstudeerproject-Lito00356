@@ -4,6 +4,7 @@ import { getProjectById } from "@core/modules/projects/api.projects";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
+import MenuProfile from "@design/MenuProfile/MenuProfile";
 
 const Blueprint = () => {
   const { projectId } = useParams();
@@ -197,8 +198,16 @@ const Blueprint = () => {
     setPreviewPoint(existingPoint ? null : { x: snappedPointX, y: snappedPointY });
   };
 
+  const handleConvert = () => {
+    console.log("converted");
+  };
+
   return (
     <div className="blueprint-fullscreen">
+      <div>
+        <strong className="blueprint-title">Top view</strong>
+      </div>
+      <MenuProfile />
       <div className="canvas-container">
         <canvas
           ref={canvasRef}
@@ -224,6 +233,14 @@ const Blueprint = () => {
         title="Reset all walls and points"
       >
         Reset
+      </button>
+      <button
+        className="convert-blueprint-btn"
+        disabled={!isRoomClosed}
+        onClick={() => handleConvert()}
+        title="Convert blueprint to 3D model"
+      >
+        Convert to 3D
       </button>
     </div>
   );

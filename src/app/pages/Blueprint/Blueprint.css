@@ -7,6 +7,22 @@
   display: flex;
   flex-direction: column;
   background: var(--background);
+  position: relative;
+}
+
+.blueprint-title {
+  position: absolute;
+  top: var(--spacing-2xl);
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  z-index: 10;
+  background-color: var(--main-color);
+  text-transform: uppercase;
+  padding: var(--spacing-2xs) var(--spacing-base);
+  border-radius: var(--radius-base);
+  font-size: var(--text-size-base);
+  font-weight: 700;
 }
 
 .canvas-container {
@@ -17,8 +33,8 @@
 
 .reset-blueprint-btn {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: var(--spacing-2xl);
+  right: var(--spacing-2xl);
   padding: var(--spacing-xs) var(--spacing-base);
   background-color: var(--dark);
   color: var(--text-white);
@@ -42,4 +58,38 @@
   background-color: var(--main-dark);
   transform: translateY(0);
   box-shadow: 0 1px 2px var(--main-color-muted);
+}
+
+.convert-blueprint-btn {
+  position: absolute;
+  bottom: var(--spacing-5xl);
+  right: var(--spacing-2xl);
+  padding: var(--spacing-xs) var(--spacing-base);
+  background-color: var(--main-color);
+  color: var(--dark);
+  border: none;
+  border-radius: var(--radius-xs);
+  font-size: var(--text-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px var(--main-shadow);
+  z-index: 10;
+}
+
+.convert-blueprint-btn:hover:not(:disabled) {
+  background-color: var(--accent-muted);
+  box-shadow: 0 4px 8px var(--main-shadow);
+  transform: translateY(-1px);
+}
+
+.convert-blueprint-btn:active:not(:disabled) {
+  background-color: var(--main-color);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px var(--main-shadow);
+}
+
+.convert-blueprint-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
