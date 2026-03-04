@@ -1,11 +1,11 @@
 import "@style/theme.css";
 import "./perspective.css";
-import { Canvas, useThree } from "@react-three/fiber";
-import React, { useEffect, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import React, { useState } from "react";
 import { OrbitControls, useGLTF, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProjectById, uploadProject } from "@core/modules/projects/api.projects";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getProjectById } from "@core/modules/projects/api.projects";
 import useAuth from "@functional/auth/useAuth";
 import { useLocation, useParams } from "react-router";
 import Ground from "@design/Ground/Ground";
@@ -13,50 +13,64 @@ import TitleBadge from "@design/TitleBadge/TitleBadge";
 import Room3D from "@functional/Room3D/Room3D";
 import Furniture from "@functional/Furniture/Furniture";
 import MenuFurniture from "@design/MenuFurniture/MenuFurniture";
+import { useSaveRoom } from "@core/hooks/useSaveRoom";
 
 useGLTF.preload("/models/sofa.gltf");
 
-function Scene() {
-  const { setSize } = useThree();
+// function Scene() {
+//   const { setSize } = useThree();
 
-  useEffect(() => {
-    const handleResize = () => {
-      setSize(window.innerWidth, window.innerHeight);
-    };
+//   useEffect(() => {
+//     const handleResize = () => {
+//       setSize(window.innerWidth, window.innerHeight);
+//     };
 
-    window.addEventListener("resize", handleResize);
-    handleResize();
+//     window.addEventListener("resize", handleResize);
+//     handleResize();
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, [setSize]);
+//     return () => window.removeEventListener("resize", handleResize);
+//   }, [setSize]);
 
-  return <></>;
-}
+//   return <></>;
+// }
 
 const Perspective = () => {
   const [furniture, setFurniture] = useState([]);
-  const queryClient = useQueryClient();
   const { auth } = useAuth();
   const user = auth.user;
   const { projectId } = useParams();
-  const location = useLocation();
-  const blueprintData = location.state;
+  const id = Number(projectId);
+  // const location = useLocation();
+  // const blueprintData = location.state;
+  const saveRoom = useSaveRoom();
 
   const {
     data: project,
     isPending,
     error,
   } = useQuery({
-    queryKey: ["project", projectId],
-    queryFn: () => getProjectById(projectId),
+    queryKey: ["project", id],
+    queryFn: () => getProjectById(id),
   });
 
-  const saveRoom = useMutation({
-    mutationFn: uploadProject,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user-room"] });
-    },
-  });
+  // console.log("🧪 projectId:", id, typeof id);
+  // console.log("🧪 RAW project data:", project);
+  // console.log("🧪 room_data:", project?.room_data);
+  // console.log("🧪 points:", project?.room_data?.points);
+  // console.log(
+  //   "🧪 vertices voor Room3D:",
+  //   project?.room_data?.points?.map((p) => [p.x / 100, 0, p.y / 100]),
+  // );
+
+  // console.log("🧪 points SAFE:", project?.room_data?.points);
+  // console.log("🧪 walls SAFE:", project?.room_data?.walls);
+
+  // const saveRoom = useMutation({
+  //   mutationFn: uploadProject,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["user-room"] });
+  //   },
+  // });
 
   async function handleSave() {
     console.log("project saved");
@@ -100,8 +114,9 @@ const Perspective = () => {
     setFurniture((prev) => [...prev, newSofa]);
   };
 
-  if (isPending) return <p>Loading...</p>;
-  if (error || !project) return <p>Could not load project</p>;
+  if (isPending) return <p>Laden...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  if (!project) return <p>Project {projectId} niet gevonden</p>;
 
   return (
     <div className="canvas-page">
@@ -109,13 +124,12 @@ const Perspective = () => {
       <MenuFurniture handleAddFurniture={addFurniture} />
       <Canvas className="canvas" camera={{ position: [10, 6, 10], fov: 50 }} style={{ width: "100vw", height: "100vh" }}>
         <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={2} />
-        <Scene />
+        {/* <Scene /> */}
         <mesh>
           <Ground />
         </mesh>
 
-        <Room3D vertices={getPolygonVertices(blueprintData.walls, blueprintData.points)} height={2.5} />
-
+        {project?.room_data && <Room3D vertices={getPolygonVertices(project.room_data.points)} />}
         {furniture.map((item) => (
           <Furniture key={item.id} position={item.position} scale={item.scale} rotation={item.rotation} />
         ))}

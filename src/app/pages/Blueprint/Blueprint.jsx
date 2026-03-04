@@ -6,11 +6,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import TitleBadge from "@design/TitleBadge/TitleBadge";
+import { useSaveRoom } from "@core/hooks/useSaveRoom";
+import useAuth from "@functional/auth/useAuth";
 
 const Blueprint = () => {
+  const { auth } = useAuth();
+  const user = auth.user;
   const { projectId } = useParams();
+  const id = Number(projectId);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
+  const saveRoom = useSaveRoom();
   const [points, setPoints] = useState([]);
   const [walls, setWalls] = useState([]);
   const [selectedWall, setSelectedWall] = useState(null);
@@ -20,8 +26,8 @@ const Blueprint = () => {
   const gridSize = 20;
 
   const { data: project } = useQuery({
-    queryKey: ["project", projectId],
-    queryFn: () => getProjectById(projectId),
+    queryKey: ["project", id],
+    queryFn: () => getProjectById(id),
   });
 
   useEffect(() => {
@@ -201,12 +207,28 @@ const Blueprint = () => {
   };
 
   const handleConvertTo3D = () => {
-    navigate(`/perspective/${projectId}`, {
-      state: {
+    const body = {
+      id: Number(projectId),
+      user_id: user.id,
+      scene_name: project.scene_name,
+      room_data: {
         points,
         walls,
       },
-    });
+    };
+
+    console.log(body);
+
+    saveRoom.mutate(body);
+
+    navigate(`/perspective/${projectId}`);
+
+    // navigate(`/perspective/${projectId}`, {
+    //   state: {
+    //     points,
+    //     walls,
+    //   },
+    // });
   };
 
   return (

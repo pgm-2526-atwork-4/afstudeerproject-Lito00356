@@ -38,9 +38,6 @@ const MenuProfile = () => {
         </button>
       </div>
       <div className="menu-profile__dropdown">
-        <Link className="menu-profile__dropdown-item" to="/profile" onClick={() => setOpen(false)}>
-          Profile
-        </Link>
         <Link className="menu-profile__dropdown-item" to="/collection" onClick={() => setOpen(false)}>
           Collection
         </Link>
