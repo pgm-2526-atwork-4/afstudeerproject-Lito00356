@@ -53,18 +53,6 @@ const Perspective = () => {
     queryFn: () => getProjectById(id),
   });
 
-  // console.log("🧪 projectId:", id, typeof id);
-  // console.log("🧪 RAW project data:", project);
-  // console.log("🧪 room_data:", project?.room_data);
-  // console.log("🧪 points:", project?.room_data?.points);
-  // console.log(
-  //   "🧪 vertices voor Room3D:",
-  //   project?.room_data?.points?.map((p) => [p.x / 100, 0, p.y / 100]),
-  // );
-
-  // console.log("🧪 points SAFE:", project?.room_data?.points);
-  // console.log("🧪 walls SAFE:", project?.room_data?.walls);
-
   // const saveRoom = useMutation({
   //   mutationFn: uploadProject,
   //   onSuccess: () => {
