@@ -7,7 +7,7 @@ import { X } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { logout } from "@core/modules/auth/api.auth";
 
-const MenuProfile = () => {
+const MenuProfile = ({ colorClass }) => {
   const { auth } = useAuth();
   const user = auth.user;
   const [open, setOpen] = useState(false);
@@ -19,7 +19,7 @@ const MenuProfile = () => {
   };
 
   return (
-    <div className={`menu-profile${open ? " menu-profile--open" : ""}`}>
+    <div className={`menu-profile ${colorClass} ${open ? " menu-profile--open" : ""}`}>
       <div className="menu-profile__header">
         {!open ? (
           <button

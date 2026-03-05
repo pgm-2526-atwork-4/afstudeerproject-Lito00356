@@ -235,7 +235,7 @@ const Blueprint = () => {
   return (
     <div className="blueprint-fullscreen">
       <TitleBadge title="blueprint" />
-      <MenuProfile />
+      <MenuProfile colorClass="dark" />
       <div className="canvas-container">
         <canvas
           ref={canvasRef}
