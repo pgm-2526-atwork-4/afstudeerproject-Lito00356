@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Box } from "lucide-react";
 import ErrorMessage from "@design/Alert/ErrorMessage";
 
@@ -16,6 +16,8 @@ const schema = yup.object().shape({
 });
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const {
     control,
     handleSubmit,
@@ -53,6 +55,8 @@ const Register = () => {
 
   const handleRegister = (data) => {
     createUser(data);
+
+    navigate("/collection");
   };
 
   return (

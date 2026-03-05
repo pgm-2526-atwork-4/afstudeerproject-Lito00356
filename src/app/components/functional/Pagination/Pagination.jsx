@@ -23,14 +23,14 @@ const Pagination = ({ currentPage, pageCount, onPageChanged }) => {
     if (pageNumber === null) {
       pageLinks.push(
         <li key={index}>
-          <span>&hellip;</span>
+          <span className="pagination__ellipsis">&hellip;</span>
         </li>,
       );
     } else {
       pageLinks.push(
         <li key={index}>
           <button
-            className={"button " + (pageNumber === currentPage ? "is-current" : "")}
+            className={"pagination__btn" + (pageNumber === currentPage ? " pagination__btn--current" : "")}
             aria-label={`Go to page ${pageNumber}`}
             onClick={() => onPageChanged(pageNumber)}
           >
@@ -42,12 +42,16 @@ const Pagination = ({ currentPage, pageCount, onPageChanged }) => {
   });
 
   return (
-    <nav>
-      <button className="button" disabled={currentPage === 1} onClick={() => onPageChanged(currentPage - 1)}>
+    <nav className="pagination">
+      <button className="pagination__btn" disabled={currentPage === 1} onClick={() => onPageChanged(currentPage - 1)}>
         Previous
       </button>
-      <ul>{pageLinks}</ul>
-      <button className="button" disabled={currentPage === pageCount} onClick={() => onPageChanged(currentPage + 1)}>
+      <ul className="pagination__list">{pageLinks}</ul>
+      <button
+        className="pagination__btn"
+        disabled={currentPage === pageCount}
+        onClick={() => onPageChanged(currentPage + 1)}
+      >
         Next
       </button>
     </nav>
