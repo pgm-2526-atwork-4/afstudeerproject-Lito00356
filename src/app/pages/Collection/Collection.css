@@ -133,7 +133,19 @@
 
 .collection__empty {
   text-align: center;
-  padding: 5rem 2rem;
+  padding: 6rem 2rem;
+
+  &-title {
+    font-size: var(--text-size-2xl);
+    color: var(--text-black);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 500;
+  }
+
+  &-text {
+    font-size: var(--text-size-base);
+    color: var(--text-muted);
+  }
 }
 
 .collection__empty-icon {
@@ -141,15 +153,6 @@
   height: 4rem;
   color: rgb(183, 195, 193);
   margin: 0 auto 1rem;
-}
-
-.collection__empty-title {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.collection__empty-text {
-  color: rgba(17, 18, 18, 0.7);
 }
 
 .collection__footer {

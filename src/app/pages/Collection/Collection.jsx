@@ -154,8 +154,9 @@ const Collection = () => {
             ))}
           </div>
         ) : (
-          <div>
-            <h1>No items yet</h1>
+          <div className="collection__empty">
+            <h2 className="collection__empty-title">No projects yet</h2>
+            <p className="collection__empty-text">Create a new project to get started</p>
           </div>
         )}
 
