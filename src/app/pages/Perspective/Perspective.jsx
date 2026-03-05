@@ -4,10 +4,10 @@ import { Canvas } from "@react-three/fiber";
 import React, { useState } from "react";
 import { OrbitControls, useGLTF, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@core/modules/projects/api.projects";
 import useAuth from "@functional/auth/useAuth";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import Ground from "@design/Ground/Ground";
 import TitleBadge from "@design/TitleBadge/TitleBadge";
 import Room3D from "@functional/Room3D/Room3D";
@@ -40,8 +40,6 @@ const Perspective = () => {
   const user = auth.user;
   const { projectId } = useParams();
   const id = Number(projectId);
-  // const location = useLocation();
-  // const blueprintData = location.state;
   const saveRoom = useSaveRoom();
 
   const {
@@ -53,12 +51,7 @@ const Perspective = () => {
     queryFn: () => getProjectById(id),
   });
 
-  // const saveRoom = useMutation({
-  //   mutationFn: uploadProject,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["user-room"] });
-  //   },
-  // });
+  // const vertices= { project?.room_data?.points ? project.room_data.points.map(p => [p.x/100, 0, p.y/100]): [] }
 
   async function handleSave() {
     console.log("project saved");
@@ -72,22 +65,22 @@ const Perspective = () => {
     saveRoom.mutate(body);
   }
 
-  const getPolygonVertices = (walls, points) => {
-    if (!walls?.length || !points?.length) {
-      return [];
-    }
+  // const getPolygonVertices = (walls, points) => {
+  //   if (!walls?.length || !points?.length) {
+  //     return [];
+  //   }
 
-    const centerX = points.reduce((sum, p) => sum + p.x, 0) / points.length;
-    const centerY = points.reduce((sum, p) => sum + p.y, 0) / points.length;
+  //   const centerX = points.reduce((sum, p) => sum + p.x, 0) / points.length;
+  //   const centerY = points.reduce((sum, p) => sum + p.y, 0) / points.length;
 
-    const vertices = points.map((point) => {
-      const relX = (point.x - centerX) / 100;
-      const relZ = (point.y - centerY) / 100;
-      return [relX, 0, relZ];
-    });
+  //   const vertices = points.map((point) => {
+  //     const relX = (point.x - centerX) / 100;
+  //     const relZ = (point.y - centerY) / 100;
+  //     return [relX, 0, relZ];
+  //   });
 
-    return vertices;
-  };
+  //   return vertices;
+  // };
 
   const addFurniture = () => {
     const newSofa = {
@@ -112,12 +105,16 @@ const Perspective = () => {
       <MenuFurniture handleAddFurniture={addFurniture} />
       <Canvas className="canvas" camera={{ position: [10, 6, 10], fov: 50 }} style={{ width: "100vw", height: "100vh" }}>
         <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={2} />
+        <pointLight position={[0, 8, 0]} color="#ffff00" intensity={1} />
         {/* <Scene /> */}
         <mesh>
           <Ground />
         </mesh>
 
-        {project?.room_data && <Room3D vertices={getPolygonVertices(project.room_data.points)} />}
+        {project?.room_data && (
+          <Room3D vertices={project.room_data.points.map((p) => [p.x / 100, 0, p.y / 100])} wallThickness={0.2} />
+        )}
+
         {furniture.map((item) => (
           <Furniture key={item.id} position={item.position} scale={item.scale} rotation={item.rotation} />
         ))}
