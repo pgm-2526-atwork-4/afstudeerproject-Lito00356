@@ -25,9 +25,14 @@ const Blueprint = () => {
 
   const gridSize = 20;
 
-  const { data: project } = useQuery({
+  const {
+    data: project,
+    isPending,
+    error,
+  } = useQuery({
     queryKey: ["project", id],
     queryFn: () => getProjectById(id),
+    enabled: !!id,
   });
 
   useEffect(() => {
@@ -210,26 +215,21 @@ const Blueprint = () => {
     const body = {
       id: Number(projectId),
       user_id: user.id,
-      scene_name: project.scene_name,
+      scene_name: project?.scene_name,
       room_data: {
         points,
         walls,
       },
     };
 
-    console.log(body);
-
     saveRoom.mutate(body);
 
     navigate(`/perspective/${projectId}`);
-
-    // navigate(`/perspective/${projectId}`, {
-    //   state: {
-    //     points,
-    //     walls,
-    //   },
-    // });
   };
+
+  if (isPending) return <p>Laden...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  if (!project) return <p>Project {projectId} niet gevonden</p>;
 
   return (
     <div className="blueprint-fullscreen">
