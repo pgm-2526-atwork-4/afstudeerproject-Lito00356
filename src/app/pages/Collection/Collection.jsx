@@ -134,11 +134,22 @@ const Collection = () => {
             <h1>No items yet</h1>
           </div>
         )}
-        <Pagination currentPage={currentPage} pageCount={pageCount} pageSize={pageSize} onPageChanged={handlePageChanged} />
-        <button className="collection-project__btn collection-project__btn--load" onClick={() => setIsCreateModalOpen(true)}>
-          <Plus size={16} />
-          Create new project
-        </button>
+
+        <div className="collection__footer">
+          <Pagination
+            currentPage={currentPage}
+            pageCount={pageCount}
+            pageSize={pageSize}
+            onPageChanged={handlePageChanged}
+          />
+          <button
+            className="collection-project__btn collection-project__btn--load"
+            onClick={() => setIsCreateModalOpen(true)}
+          >
+            <Plus size={16} />
+            Create new project
+          </button>
+        </div>
       </div>
 
       <ConfirmModal

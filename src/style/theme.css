@@ -48,6 +48,7 @@
   /* colors: */
   --accent: rgba(183, 195, 193, 1);
   --accent-muted: rgba(183, 195, 193, 0.3);
+  --accent-light: rgba(220, 230, 229, 1);
   --background: rgba(245, 245, 245, 1);
   --dark: rgba(17, 18, 18, 1);
   --shadow: rgba(183, 195, 193, 0.15);
@@ -57,4 +58,5 @@
   --main-dark: var(--dark);
   --main-shadow: var(--shadow);
   --main-color-muted: var(--accent-muted);
+  --main-color-light: var(--accent-light);
 }
