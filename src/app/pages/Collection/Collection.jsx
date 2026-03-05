@@ -2,13 +2,13 @@ import useAuth from "@functional/auth/useAuth";
 import "./Collection.css";
 import "@style/theme.css";
 import React, { useState } from "react";
-import { Upload, Eye, Plus } from "lucide-react";
+import { Upload, Eye, Plus, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import ConfirmModal from "@design/Modal/ConfirmModal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createNewProject, getUserProjects } from "@core/modules/projects/api.projects";
+import { createNewProject, deleteProject, getUserProjects } from "@core/modules/projects/api.projects";
 import { useNavigate } from "react-router";
 import Pagination from "@functional/Pagination/Pagination";
 
@@ -20,6 +20,7 @@ const Collection = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   // Pagination state:
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,6 +49,13 @@ const Collection = () => {
     },
   });
 
+  const deleteSelectedProject = useMutation({
+    mutationFn: deleteProject,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+  });
+
   const handleCreateProject = () => {
     if (!newProjectName.trim()) return;
     const body = {
@@ -70,10 +78,13 @@ const Collection = () => {
     setCurrentPage(pageNumber);
   };
 
-  // Get projects for current page
+  const handleDeleteProject = (id) => {
+    deleteSelectedProject.mutate(id);
+  };
+
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const projectsToDisplay = projects.slice(startIndex, endIndex);
+  const projectsToDisplay = projects?.slice(startIndex, endIndex);
 
   if (isPending) return <p>Loading...</p>;
   if (error || !projects) return <p>Could not load profiles</p>;
@@ -130,6 +141,14 @@ const Collection = () => {
                     <Eye size={16} />
                     View Renders
                   </button>
+                  <button
+                    onClick={() => {
+                      setIsDeleteModalOpen(true);
+                      setSelectedProject(project);
+                    }}
+                  >
+                    <Trash2 />
+                  </button>
                 </div>
               </div>
             ))}
@@ -152,6 +171,7 @@ const Collection = () => {
         </div>
       </div>
 
+      {/* Modal for loading */}
       <ConfirmModal
         isOpen={!!selectedProject}
         title="Do you want to continue?"
@@ -166,6 +186,26 @@ const Collection = () => {
         onCancel={() => setSelectedProject(null)}
       />
 
+      {/* Modal for deleting */}
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        title="Do you want to continue?"
+        description={`This will delete project: `}
+        project={selectedProject}
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        onConfirm={() => {
+          handleDeleteProject(selectedProject?.id);
+          setIsDeleteModalOpen(false);
+          setSelectedProject(null);
+        }}
+        onCancel={() => {
+          setIsDeleteModalOpen(false);
+          setSelectedProject(null);
+        }}
+      />
+
+      {/* Modal for creating new project */}
       <ConfirmModal
         isOpen={isCreateModalOpen}
         title="Create new project"

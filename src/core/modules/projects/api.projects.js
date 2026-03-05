@@ -44,3 +44,11 @@ export const uploadProject = async (body) => {
 
   return data;
 };
+
+export const deleteProject = async (projectId) => {
+  const { data, error } = await API.from("projects").delete().eq("id", projectId).single();
+
+  if (error) throw error;
+
+  return data;
+};
