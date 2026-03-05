@@ -19,6 +19,7 @@ const Blueprint = () => {
   const saveRoom = useSaveRoom();
   const [points, setPoints] = useState([]);
   const [walls, setWalls] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [selectedWall, setSelectedWall] = useState(null);
   const [isRoomClosed, setIsRoomClosed] = useState(false);
   const [previewPoint, setPreviewPoint] = useState(null);

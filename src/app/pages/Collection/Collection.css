@@ -1,6 +1,6 @@
 .collection {
   padding: var(--spacing-2xl) var(--spacing-2xl) var(--spacing-5xl);
-  height: 100%;
+  min-height: 100vh;
   background-color: var(--main-bg);
 }
 

@@ -17,13 +17,13 @@ const Collection = () => {
   const user = auth.user;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  // eslint-disable-next-line no-unused-vars
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
 
   // Pagination state:
   const [currentPage, setCurrentPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
   const [pageSize, setPageSize] = useState(4);
 
   const {
@@ -70,6 +70,11 @@ const Collection = () => {
     setCurrentPage(pageNumber);
   };
 
+  // Get projects for current page
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const projectsToDisplay = projects.slice(startIndex, endIndex);
+
   if (isPending) return <p>Loading...</p>;
   if (error || !projects) return <p>Could not load profiles</p>;
 
@@ -91,7 +96,7 @@ const Collection = () => {
               <span className="collection__col collection__col--roomdata">Creation date</span>
               <span className="collection__col collection__col--actions">Actions</span>
             </div>
-            {projects.map((project) => (
+            {projectsToDisplay.map((project) => (
               <div key={project.id} className="collection__grid">
                 <div className="collection__col collection__col--preview">
                   <div className="collection-project__thumb">
@@ -136,12 +141,7 @@ const Collection = () => {
         )}
 
         <div className="collection__footer">
-          <Pagination
-            currentPage={currentPage}
-            pageCount={pageCount}
-            pageSize={pageSize}
-            onPageChanged={handlePageChanged}
-          />
+          <Pagination currentPage={currentPage} pageCount={pageCount} onPageChanged={handlePageChanged} />
           <button
             className="collection-project__btn collection-project__btn--load"
             onClick={() => setIsCreateModalOpen(true)}
