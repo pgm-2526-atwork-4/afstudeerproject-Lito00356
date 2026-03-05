@@ -1,6 +1,6 @@
 .collection {
   padding: var(--spacing-2xl) var(--spacing-2xl) var(--spacing-5xl);
-  height: 100dvh;
+  height: 100%;
   background-color: var(--main-bg);
 }
 
@@ -40,10 +40,7 @@
   gap: 1.5rem;
   padding: 1.5rem 2rem;
   align-items: center;
-}
-
-.collection__row {
-  border-bottom: 1px solid var(--main-color-muted);
+  background-color: var(--main-bg);
   transition: background-color 0.15s ease;
 
   &:last-child {

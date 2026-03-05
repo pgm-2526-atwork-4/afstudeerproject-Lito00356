@@ -10,6 +10,7 @@ import ConfirmModal from "@design/Modal/ConfirmModal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createNewProject, getUserProjects } from "@core/modules/projects/api.projects";
 import { useNavigate } from "react-router";
+import Pagination from "@functional/Pagination/Pagination";
 
 const Collection = () => {
   const { auth } = useAuth();
@@ -20,6 +21,10 @@ const Collection = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
+
+  // Pagination state:
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(4);
 
   const {
     data: projects,
@@ -57,6 +62,12 @@ const Collection = () => {
 
   const handleLoadProject = (projectId) => {
     navigate(`/perspective/${projectId}`);
+  };
+
+  const pageCount = Math.ceil(projects?.length / pageSize);
+
+  const handlePageChanged = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   if (isPending) return <p>Loading...</p>;
@@ -123,6 +134,7 @@ const Collection = () => {
             <h1>No items yet</h1>
           </div>
         )}
+        <Pagination currentPage={currentPage} pageCount={pageCount} pageSize={pageSize} onPageChanged={handlePageChanged} />
         <button className="collection-project__btn collection-project__btn--load" onClick={() => setIsCreateModalOpen(true)}>
           <Plus size={16} />
           Create new project

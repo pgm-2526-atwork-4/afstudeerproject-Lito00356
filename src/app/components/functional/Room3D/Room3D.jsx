@@ -22,12 +22,6 @@ const Room3D = ({ vertices = [], wallThickness = 0.2, height = 2.5 }) => {
     return new THREE.ExtrudeGeometry(shape, extrudeSettings);
   }, [vertices, wallThickness, height]);
 
-  console.log("🧪 Faces:", geometry.attributes.position.count);
-  console.log(
-    "🧪 Bounds:",
-    new THREE.Box3().setFromBufferAttribute(geometry.attributes.position).getSize(new THREE.Vector3()),
-  );
-
   return (
     <>
       <mesh geometry={geometry} rotation={[Math.PI / 2, 0, 0]} position={[0, height, 0]}>

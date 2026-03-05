@@ -90,7 +90,6 @@ const Perspective = () => {
       scale: [1, 1, 1],
       rotation: [0, 0, 0],
     };
-    console.log("succesfully added sofa");
 
     setFurniture((prev) => [...prev, newSofa]);
   };
@@ -123,9 +122,9 @@ const Perspective = () => {
       </Canvas>
       <div className="ui-overlay">
         <MenuProfile />
-        <button className="save-btn" onClick={() => handleSave()}>
+        {/* <button className="save-btn" onClick={() => handleSave()}>
           Sla blokje op
-        </button>
+        </button> */}
       </div>
     </div>
   );
