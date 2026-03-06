@@ -1,0 +1,30 @@
+.container .color {
+  background: white;
+  height: var(--spacing-2xl);
+  width: var(--spacing-2xl);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-base);
+  position: absolute;
+  top: -2rem;
+  left: 6rem;
+}
+
+.container .material {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-base);
+  position: absolute;
+  top: -2rem;
+  left: -6rem;
+  background-color: green;
+
+  height: var(--spacing-2xl);
+  width: var(--spacing-2xl);
+}
+
+.container .color:hover {
+  background-color: red;
+}

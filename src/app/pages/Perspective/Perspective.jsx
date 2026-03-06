@@ -2,7 +2,7 @@ import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
 import React from "react";
-import { OrbitControls, useGLTF, Wireframe } from "@react-three/drei";
+import { OrbitControls, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@core/modules/projects/api.projects";
@@ -15,8 +15,6 @@ import Furniture from "@functional/Furniture/Furniture";
 import MenuFurniture from "@design/MenuFurniture/MenuFurniture";
 import { useSaveRoom } from "@core/hooks/useSaveRoom";
 import { useLocalFurniture } from "@core/hooks/useLocalFurniture";
-
-useGLTF.preload("/models/sofa.gltf");
 
 // function Scene() {
 //   const { setSize } = useThree();
@@ -86,7 +84,12 @@ const Perspective = () => {
     <div className="canvas-page">
       <TitleBadge title="perspective" />
       <MenuFurniture handleAddFurniture={addFurniture} />
-      <Canvas className="canvas" camera={{ position: [10, 6, 10], fov: 50 }} style={{ width: "100vw", height: "100vh" }}>
+      <Canvas
+        dpr={[1, 2]}
+        className="canvas"
+        camera={{ position: [10, 6, 10], fov: 50 }}
+        style={{ width: "100vw", height: "100vh" }}
+      >
         <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={2} />
         <pointLight position={[0, 8, 0]} color="#ffff00" intensity={1} />
         {/* <Scene /> */}
