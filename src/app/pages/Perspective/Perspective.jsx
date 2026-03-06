@@ -1,7 +1,7 @@
 import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
-import React, { useState } from "react";
+import React from "react";
 import { OrbitControls, useGLTF, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
@@ -14,6 +14,7 @@ import Room3D from "@functional/Room3D/Room3D";
 import Furniture from "@functional/Furniture/Furniture";
 import MenuFurniture from "@design/MenuFurniture/MenuFurniture";
 import { useSaveRoom } from "@core/hooks/useSaveRoom";
+import { useLocalFurniture } from "@core/hooks/useLocalFurniture";
 
 useGLTF.preload("/models/sofa.gltf");
 
@@ -35,7 +36,6 @@ useGLTF.preload("/models/sofa.gltf");
 // }
 
 const Perspective = () => {
-  const [furniture, setFurniture] = useState([]);
   const { auth } = useAuth();
   const user = auth.user;
   const { projectId } = useParams();
@@ -51,43 +51,27 @@ const Perspective = () => {
     queryFn: () => getProjectById(id),
   });
 
-  // const vertices= { project?.room_data?.points ? project.room_data.points.map(p => [p.x/100, 0, p.y/100]): [] }
+  const [furniture, setFurniture] = useLocalFurniture(projectId);
 
   async function handleSave() {
     console.log("project saved");
 
     const body = {
       user_id: user.id,
-      scene_name: "boxTest",
+      scene_name: project?.scene_name,
+      room_data: project?.room_data,
       objects: { furniture },
     };
 
     saveRoom.mutate(body);
   }
 
-  // const getPolygonVertices = (walls, points) => {
-  //   if (!walls?.length || !points?.length) {
-  //     return [];
-  //   }
-
-  //   const centerX = points.reduce((sum, p) => sum + p.x, 0) / points.length;
-  //   const centerY = points.reduce((sum, p) => sum + p.y, 0) / points.length;
-
-  //   const vertices = points.map((point) => {
-  //     const relX = (point.x - centerX) / 100;
-  //     const relZ = (point.y - centerY) / 100;
-  //     return [relX, 0, relZ];
-  //   });
-
-  //   return vertices;
-  // };
-
   const addFurniture = () => {
     const newSofa = {
       id: `sofa-${Date.now()}`,
       type: "sofa",
-      position: [2, 0, 2],
-      scale: [1, 1, 1],
+      position: [5, 0, 2],
+      scale: [0.5, 0.5, 0.5],
       rotation: [0, 0, 0],
     };
 
@@ -96,7 +80,7 @@ const Perspective = () => {
 
   if (isPending) return <p>Laden...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (!project) return <p>Project {projectId} niet gevonden</p>;
+  if (!project) return <p>Project {projectId} not found</p>;
 
   return (
     <div className="canvas-page">
@@ -129,9 +113,9 @@ const Perspective = () => {
       </Canvas>
       <div className="ui-overlay">
         <MenuProfile />
-        {/* <button className="save-btn" onClick={() => handleSave()}>
-          Sla blokje op
-        </button> */}
+        <button className="save-btn" onClick={() => handleSave()}>
+          Save scene
+        </button>
       </div>
     </div>
   );
