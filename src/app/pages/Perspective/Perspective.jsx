@@ -111,7 +111,14 @@ const Perspective = () => {
         </mesh>
 
         {project?.room_data && (
-          <Room3D vertices={project.room_data.points.map((p) => [p.x / 100, 0, p.y / 100])} wallThickness={0.2} />
+          <Room3D
+            walls={project.room_data.walls.map((w) => ({
+              id: w.id,
+              start: [w.startPosition.x / 100, 0, w.startPosition.y / 100],
+              end: [w.endPosition.x / 100, 0, w.endPosition.y / 100],
+            }))}
+            wallThickness={0.2}
+          />
         )}
 
         {furniture.map((item) => (

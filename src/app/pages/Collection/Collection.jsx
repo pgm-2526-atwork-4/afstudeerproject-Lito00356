@@ -91,7 +91,7 @@ const Collection = () => {
 
   return (
     <main className="collection">
-      <MenuProfile colorClass={"dark"} />
+      <MenuProfile colorClass="dark" />
 
       <div className="collection__container">
         <header className="collection__header">
