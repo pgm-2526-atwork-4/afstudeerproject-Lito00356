@@ -9,7 +9,7 @@ const Furniture = ({
   position = [0, 0, 0],
   scale = [1, 1, 1],
   rotation = [0, 0, 0],
-  id,
+  // id, // dat gaat nog voor de menu zijn
   isSelected,
   onSelect,
   onDeselect,
