@@ -1,8 +1,8 @@
 import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
-import React from "react";
-import { OrbitControls, Wireframe } from "@react-three/drei";
+import React, { useState } from "react";
+import { OrbitControls, Select, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@core/modules/projects/api.projects";
@@ -15,6 +15,7 @@ import Furniture from "@functional/Furniture/Furniture";
 import MenuFurniture from "@design/MenuFurniture/MenuFurniture";
 import { useSaveRoom } from "@core/hooks/useSaveRoom";
 import { useLocalFurniture } from "@core/hooks/useLocalFurniture";
+import { EffectComposer, Outline } from "@react-three/postprocessing";
 
 // function Scene() {
 //   const { setSize } = useThree();
@@ -39,6 +40,7 @@ const Perspective = () => {
   const { projectId } = useParams();
   const id = Number(projectId);
   const saveRoom = useSaveRoom();
+  const [selectedObject, setSelectedObject] = useState(null);
 
   const {
     data: project,
@@ -90,6 +92,9 @@ const Perspective = () => {
         camera={{ position: [10, 6, 10], fov: 50 }}
         style={{ width: "100vw", height: "100vh" }}
       >
+        <EffectComposer>
+          <Outline />
+        </EffectComposer>
         <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={2} />
         <pointLight position={[0, 8, 0]} color="#ffff00" intensity={1} />
         {/* <Scene /> */}
@@ -109,7 +114,17 @@ const Perspective = () => {
         )}
 
         {furniture.map((item) => (
-          <Furniture key={item.id} position={item.position} scale={item.scale} rotation={item.rotation} />
+          <Select key={item.id} enabled={selectedObject === item.id}>
+            <Furniture
+              key={item.id}
+              position={item.position}
+              scale={item.scale}
+              rotation={item.rotation}
+              isSelected={selectedObject === item.id}
+              onSelect={() => setSelectedObject(item.id)}
+              onDeselect={() => setSelectedObject(null)}
+            />
+          </Select>
         ))}
 
         <OrbitControls target={[0, 0, 0]} maxPolarAngle={Math.PI / 2} makeDefault />

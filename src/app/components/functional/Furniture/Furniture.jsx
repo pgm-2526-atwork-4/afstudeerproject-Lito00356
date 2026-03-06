@@ -5,12 +5,25 @@ import React, { useRef } from "react";
 
 useGLTF.preload("/models/sofa.gltf");
 
-const Furniture = ({ position = [0, 0, 0], scale = [1, 1, 1], rotation = [0, 0, 0] }) => {
+const Furniture = ({
+  position = [0, 0, 0],
+  scale = [1, 1, 1],
+  rotation = [0, 0, 0],
+  id,
+  isSelected,
+  onSelect,
+  onDeselect,
+}) => {
   const object = useRef();
   const { scene } = useGLTF("/models/sofa.gltf");
 
   return (
-    <>
+    <mesh
+      onClick={(e) => {
+        e.stopPropagation();
+        isSelected ? onDeselect() : onSelect();
+      }}
+    >
       <primitive object={scene} position={position} scale={scale} rotation={rotation} ref={object}>
         <Html position={[0, 1, 0]} wrapperClass="container" distanceFactor={5}>
           <div className="color">
@@ -21,8 +34,12 @@ const Furniture = ({ position = [0, 0, 0], scale = [1, 1, 1], rotation = [0, 0, 
           </div>
         </Html>
       </primitive>
-      <TransformControls mode="translate" object={scene} size={0.5} />
-    </>
+      {isSelected && (
+        <>
+          <TransformControls mode="translate" object={scene} size={0.5} />
+        </>
+      )}
+    </mesh>
   );
 };
 
