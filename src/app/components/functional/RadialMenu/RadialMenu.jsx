@@ -10,47 +10,23 @@ const MATERIALS = [
   { id: "metal", icon: "⚙️", label: "Metaal" },
 ];
 
-const RadialMenu = ({ furnitureId }) => {
+const RadialMenu = ({ furnitureId, position = [0, 0, 0], offsetX = 1, offsetY = 1 }) => {
   const [colorOpen, setColorOpen] = useState(false);
   const [materialOpen, setMaterialOpen] = useState(false);
 
   const changeFurnitureColor = (color) => console.log("color:", color);
   const changeMaterial = (mat) => console.log("material:", mat);
 
-  const toggleColor = () => {
-    setColorOpen((prev) => !prev);
-    setMaterialOpen(false);
-  };
-
-  const toggleMaterial = () => {
-    setMaterialOpen((prev) => !prev);
-    setColorOpen(false);
-  };
+  const [x, y, z] = position;
 
   return (
-    <Html position={[0, 1, 0]} wrapperClass="radial-menu" distanceFactor={5}>
-      <div className="radial-menu__groups">
-        <div className={`radial-menu__group ${colorOpen ? "radial-menu__group--open" : ""}`}>
-          <button className="radial-menu__toggle" onClick={toggleColor}>
-            {colorOpen ? <X size={14} /> : <Palette size={14} />}
-          </button>
-
-          {COLORS.map((color, i) => (
-            <div
-              key={color}
-              className="radial-menu__item radial-menu__item--color"
-              style={{
-                "--angle": `${i * 60}deg`,
-                "--color": color,
-                "--delay": `${i * 55}ms`,
-              }}
-              onClick={() => changeFurnitureColor(color)}
-            />
-          ))}
-        </div>
-
+    <>
+      <Html position={[x - offsetX, y + offsetY, z]} wrapperClass="radial-menu" distanceFactor={8}>
         <div className={`radial-menu__group ${materialOpen ? "radial-menu__group--open" : ""}`}>
-          <button className="radial-menu__toggle radial-menu__toggle--material" onClick={toggleMaterial}>
+          <button
+            className="radial-menu__toggle radial-menu__toggle--material"
+            onClick={() => setMaterialOpen((prev) => !prev)}
+          >
             {materialOpen ? <X size={14} /> : <BrickWall size={14} />}
           </button>
 
@@ -69,8 +45,29 @@ const RadialMenu = ({ furnitureId }) => {
             </div>
           ))}
         </div>
-      </div>
-    </Html>
+      </Html>
+
+      <Html position={[x + offsetX, y + offsetY, z]} wrapperClass="radial-menu" distanceFactor={8}>
+        <div className={`radial-menu__group ${colorOpen ? "radial-menu__group--open" : ""}`}>
+          <button className="radial-menu__toggle" onClick={() => setColorOpen((prev) => !prev)}>
+            {colorOpen ? <X size={14} /> : <Palette size={14} />}
+          </button>
+
+          {COLORS.map((color, i) => (
+            <div
+              key={color}
+              className="radial-menu__item radial-menu__item--color"
+              style={{
+                "--angle": `${i * 60}deg`,
+                "--color": color,
+                "--delay": `${i * 55}ms`,
+              }}
+              onClick={() => changeFurnitureColor(color)}
+            />
+          ))}
+        </div>
+      </Html>
+    </>
   );
 };
 
