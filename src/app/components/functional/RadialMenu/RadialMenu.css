@@ -25,11 +25,11 @@
     background 0.2s ease,
     transform 0.2s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
 
-.main-btn:hover {
-  background: #555;
-  transform: scale(1.1);
+  &:hover {
+    background: #555;
+    transform: scale(1.1);
+  }
 }
 
 .menu-item {
@@ -52,11 +52,11 @@
   transition:
     transform 0.35s ease,
     opacity 0.35s ease;
-}
 
-.menu-item:hover {
-  filter: brightness(1.2);
-  transform: rotate(var(--angle)) translateX(3.5rem) scale(1.15) !important;
+  &:hover {
+    filter: brightness(1.2);
+    transform: rotate(var(--angle)) translateX(3.5rem) scale(1.15) !important;
+  }
 }
 
 .radial-menu.expanded .menu-item {
@@ -86,9 +86,9 @@
   transition:
     background 0.2s ease,
     transform 0.2s ease;
-}
 
-.material:hover {
-  background: #777;
-  transform: translateX(-50%) scale(1.1);
+  &:hover {
+    background: #777;
+    transform: translateX(-50%) scale(1.1);
+  }
 }
