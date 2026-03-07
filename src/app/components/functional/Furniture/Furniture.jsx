@@ -1,7 +1,7 @@
 import RadialMenu from "@functional/RadialMenu/RadialMenu";
 import "./Furniture.css";
 import { TransformControls, useGLTF } from "@react-three/drei";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 useGLTF.preload("/models/sofa.gltf");
 
@@ -13,21 +13,46 @@ const Furniture = ({
   isSelected,
   onSelect,
   onDeselect,
+  onPositionChange,
 }) => {
-  const object = useRef();
   const { scene } = useGLTF("/models/sofa.gltf");
+  const transformRef = useRef();
+  const primitiveRef = useRef();
+  const [primitiveReady, setPrimitiveReady] = useState(null);
+
+  useEffect(() => {
+    if (primitiveRef.current) {
+      setPrimitiveReady(primitiveRef.current);
+    }
+  }, []);
 
   return (
-    <mesh
-      onClick={(e) => {
-        e.stopPropagation();
-        isSelected ? onDeselect() : onSelect();
-      }}
-    >
-      <primitive object={scene} position={position} scale={scale} rotation={rotation} ref={object} />
+    <mesh>
+      <primitive
+        ref={primitiveRef}
+        object={scene}
+        position={position}
+        scale={scale}
+        rotation={rotation}
+        onClick={(e) => {
+          e.stopPropagation();
+          isSelected ? onDeselect() : onSelect();
+        }}
+      />
       {isSelected && (
         <>
-          <TransformControls mode="translate" object={scene} size={0.5} />
+          <TransformControls
+            ref={transformRef}
+            object={primitiveReady}
+            mode="translate"
+            size={0.5}
+            onObjectChange={() => {
+              const pos = primitiveRef.current?.position;
+              if (pos) {
+                onPositionChange(furnitureId, [pos.x, pos.y, pos.z]);
+              }
+            }}
+          />
         </>
       )}
       <RadialMenu furnitureId={furnitureId} position={position} offsetX={0.8} offsetY={0.5} />

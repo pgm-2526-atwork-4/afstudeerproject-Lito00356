@@ -38,9 +38,8 @@ const Perspective = () => {
   const { auth } = useAuth();
   const user = auth.user;
   const { projectId } = useParams();
-  const id = Number(projectId);
+  const projectNumberId = Number(projectId);
   const saveRoom = useSaveRoom();
-  const [selectedObject, setSelectedObject] = useState(null);
   const cube = useRef();
 
   const {
@@ -48,10 +47,11 @@ const Perspective = () => {
     isPending,
     error,
   } = useQuery({
-    queryKey: ["project", id],
-    queryFn: () => getProjectById(id),
+    queryKey: ["project", projectNumberId],
+    queryFn: () => getProjectById(projectNumberId),
   });
 
+  const [selectedObject, setSelectedObject] = useState(null);
   const [furniture, setFurniture] = useLocalFurniture(projectId);
 
   async function handleSave() {
@@ -71,12 +71,16 @@ const Perspective = () => {
     const newSofa = {
       id: `sofa-${Date.now()}`,
       type: "sofa",
-      position: [5, 0, 2],
+      position: [5, 0, 5],
       scale: [0.5, 0.5, 0.5],
       rotation: [0, 0, 0],
     };
 
     setFurniture((prev) => [...prev, newSofa]);
+  };
+
+  const handlePositionChange = (furnitureId, newPosition) => {
+    setFurniture((prev) => prev.map((item) => (item.id === furnitureId ? { ...item, position: newPosition } : item)));
   };
 
   if (isPending) return <p>Laden...</p>;
@@ -118,12 +122,14 @@ const Perspective = () => {
           <Select key={item.id} enabled={selectedObject === item.id}>
             <Furniture
               key={item.id}
+              furnitureId={item.id}
               position={item.position}
               scale={item.scale}
               rotation={item.rotation}
               isSelected={selectedObject === item.id}
               onSelect={() => setSelectedObject(item.id)}
               onDeselect={() => setSelectedObject(null)}
+              onPositionChange={handlePositionChange}
             />
           </Select>
         ))}
