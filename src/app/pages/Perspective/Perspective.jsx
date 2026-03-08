@@ -108,23 +108,16 @@ const Perspective = () => {
           <Ground />
         </mesh>
 
-        <Geometry>
-          <Base>
-            {project?.room_data && (
-              <Room3D
-                walls={project.room_data.walls.map((w) => ({
-                  id: w.id,
-                  start: [w.startPosition.x / 100, 0, w.startPosition.y / 100],
-                  end: [w.endPosition.x / 100, 0, w.endPosition.y / 100],
-                }))}
-                wallThickness={0.2}
-              />
-            )}
-          </Base>
-          <Subtraction>
-            <boxGeometry />
-          </Subtraction>
-        </Geometry>
+        {project?.room_data && (
+          <Room3D
+            walls={project.room_data.walls.map((w) => ({
+              id: w.id,
+              start: [w.startPosition.x / 100, 0, w.startPosition.y / 100],
+              end: [w.endPosition.x / 100, 0, w.endPosition.y / 100],
+            }))}
+            wallThickness={0.2}
+          />
+        )}
 
         {furniture.map((item) => (
           <Select key={item.id} enabled={selectedObject === item.id}>
