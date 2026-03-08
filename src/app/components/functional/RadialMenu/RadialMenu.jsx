@@ -10,6 +10,7 @@ const MATERIALS = [
   { id: "metal", icon: "⚙️", label: "Metaal" },
 ];
 
+// eslint-disable-next-line no-unused-vars
 const RadialMenu = ({ furnitureId, position = [0, 0, 0], offsetX = 1, offsetY = 1 }) => {
   const [colorOpen, setColorOpen] = useState(false);
   const [materialOpen, setMaterialOpen] = useState(false);

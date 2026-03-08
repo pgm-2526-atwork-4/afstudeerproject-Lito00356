@@ -41,6 +41,7 @@ const Perspective = () => {
   const { projectId } = useParams();
   const projectNumberId = Number(projectId);
   const saveRoom = useSaveRoom();
+  // eslint-disable-next-line no-unused-vars
   const cube = useRef();
 
   const {
