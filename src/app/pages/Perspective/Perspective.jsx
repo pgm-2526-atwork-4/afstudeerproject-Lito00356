@@ -16,6 +16,7 @@ import MenuFurniture from "@design/MenuFurniture/MenuFurniture";
 import { useSaveRoom } from "@core/hooks/useSaveRoom";
 import { useLocalFurniture } from "@core/hooks/useLocalFurniture";
 import { EffectComposer, Outline } from "@react-three/postprocessing";
+import { Base, Geometry, Subtraction } from "@react-three/csg";
 
 // function Scene() {
 //   const { setSize } = useThree();
@@ -107,16 +108,23 @@ const Perspective = () => {
           <Ground />
         </mesh>
 
-        {project?.room_data && (
-          <Room3D
-            walls={project.room_data.walls.map((w) => ({
-              id: w.id,
-              start: [w.startPosition.x / 100, 0, w.startPosition.y / 100],
-              end: [w.endPosition.x / 100, 0, w.endPosition.y / 100],
-            }))}
-            wallThickness={0.2}
-          />
-        )}
+        <Geometry>
+          <Base>
+            {project?.room_data && (
+              <Room3D
+                walls={project.room_data.walls.map((w) => ({
+                  id: w.id,
+                  start: [w.startPosition.x / 100, 0, w.startPosition.y / 100],
+                  end: [w.endPosition.x / 100, 0, w.endPosition.y / 100],
+                }))}
+                wallThickness={0.2}
+              />
+            )}
+          </Base>
+          <Subtraction>
+            <boxGeometry />
+          </Subtraction>
+        </Geometry>
 
         {furniture.map((item) => (
           <Select key={item.id} enabled={selectedObject === item.id}>

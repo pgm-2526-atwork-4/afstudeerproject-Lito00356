@@ -52,3 +52,19 @@ export const deleteProject = async (projectId) => {
 
   return data;
 };
+
+export const getOpenings = async (projectId) => {
+  const { data, error } = await API.from("projects").select("openings").eq("id", projectId).single();
+
+  if (error) throw error;
+
+  return data.openings ?? {};
+};
+
+export const saveOpenings = async (projectId, openings) => {
+  const { data, error } = await API.from("projects").update({ openings }).eq("id", projectId).select("openings").single();
+
+  if (error) throw error;
+
+  return data.openings;
+};
