@@ -17,6 +17,7 @@ import { useSaveRoom } from "@core/hooks/useSaveRoom";
 import { useLocalFurniture } from "@core/hooks/useLocalFurniture";
 import { EffectComposer, Outline } from "@react-three/postprocessing";
 import { Base, Geometry, Subtraction } from "@react-three/csg";
+import MenuSidebar from "@design/MenuSidebar/MenuSidebar";
 
 // function Scene() {
 //   const { setSize } = useThree();
@@ -93,6 +94,7 @@ const Perspective = () => {
     <div className="canvas-page">
       <TitleBadge title="perspective" />
       <MenuFurniture handleAddFurniture={addFurniture} />
+      <MenuSidebar />
       <Canvas
         dpr={[1, 2]}
         className="canvas"
