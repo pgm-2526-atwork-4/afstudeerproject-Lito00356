@@ -2,16 +2,22 @@ import "./OnboardingModal.css";
 import React from "react";
 
 const OnboardingModal = ({
+  isVisible,
   title,
   description,
   currentStep,
   totalSteps,
   onNext,
+  onPrev,
   onClose,
-  onSkip,
   skipChecked,
   onSkipChange,
 }) => {
+  if (!isVisible) return null;
+
+  const isLastStep = currentStep + 1 >= totalSteps;
+  const isFirstStep = currentStep === 0;
+
   return (
     <div className="onboarding-overlay">
       <div className="onboarding-modal">
@@ -35,12 +41,19 @@ const OnboardingModal = ({
         <div className="onboarding-footer">
           <label className="onboarding-skip">
             <input type="checkbox" checked={skipChecked} onChange={(e) => onSkipChange(e.target.checked)} />
-            Niet meer tonen
+            Don't show tips again
           </label>
 
-          <button className="onboarding-btn" onClick={onNext}>
-            {currentStep + 1 >= totalSteps ? "Klaar 🎉" : "Volgende →"}
-          </button>
+          <div className="onboarding-actions">
+            {!isFirstStep && (
+              <button className="onboarding-btn onboarding-btn--prev" onClick={onPrev}>
+                Back
+              </button>
+            )}
+            <button className="onboarding-btn onboarding-btn--next" onClick={onNext}>
+              {isLastStep ? "Done" : "Next"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -6,33 +6,70 @@ export const useOnboarding = (page) => {
   const { auth } = useAuth();
   const queryClient = useQueryClient();
 
-  const { data: onboarding } = useQuery({
+  const { data: onboarding, isPending } = useQuery({
     queryKey: ["onboarding", auth.user?.id],
     queryFn: () => getOnboarding(auth.user?.id),
   });
 
-  const progress = onboarding?.progress?.[page] ?? { seen: false, currentStep: 0 };
-  const isVisible = !progress.complted && !onboarding?.skipped;
+  const progress = onboarding?.progress?.[page] ?? { seen: false, currentStep: 0, completed: false };
   const currentStep = progress.currentStep ?? 0;
 
-  const updateStep = useMutation({
+  const isVisible = !onboarding?.skipped && !progress.completed && !isPending;
+
+  const updateProgress = useMutation({
     mutationFn: (newProgress) => saveOnboarding(auth.user?.id, newProgress),
-    onSuccess: () => queryClient.invalidateQueries(["onboarding"]),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["onboarding"] }),
   });
 
   const nextStep = (maxSteps) => {
     const next = currentStep + 1;
     const completed = next >= maxSteps;
 
-    updateStep.mutate({
-      ...onboarding?.progress,
-      [page]: { seen: true, currentStep: next, completed },
+    updateProgress.mutate({
+      skipped: onboarding?.skipped ?? false,
+      progress: {
+        ...onboarding?.progress,
+        [page]: { seen: true, currentStep: completed ? currentStep : next, completed },
+      },
     });
   };
 
-  const skip = () => {
-    updateStep.mutate({ skipped: true });
+  const prevStep = () => {
+    if (currentStep <= 0) return;
+
+    updateProgress.mutate({
+      skipped: onboarding?.skipped ?? false,
+      progress: {
+        ...onboarding?.progress,
+        [page]: { ...progress, currentStep: currentStep - 1, completed: false },
+      },
+    });
   };
 
-  return { isVisible, currentStep, nextStep, skip };
+  const skip = (skipForever) => {
+    updateProgress.mutate({
+      skipped: skipForever,
+      progress: onboarding?.progress ?? {},
+    });
+  };
+
+  const resetPage = () => {
+    updateProgress.mutate({
+      skipped: onboarding?.skipped ?? false,
+      progress: {
+        ...onboarding?.progress,
+        [page]: { seen: false, currentStep: 0, completed: false },
+      },
+    });
+  };
+
+  return {
+    isVisible,
+    currentStep,
+    nextStep,
+    prevStep,
+    skip,
+    resetPage,
+    isPending,
+  };
 };

@@ -13,6 +13,7 @@ import { useNavigate } from "react-router";
 import Pagination from "@functional/Pagination/Pagination";
 import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
+import { useOnboarding } from "@core/hooks/useOnboarding";
 
 const Collection = () => {
   const { auth } = useAuth();
@@ -23,6 +24,7 @@ const Collection = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [skipChecked, setSkipChecked] = useState(false);
 
   // Pagination state:
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,10 +32,8 @@ const Collection = () => {
   const [pageSize, setPageSize] = useState(4);
 
   // Onboarding
-  const onboarding = ONBOARDING_STEPS.welcome;
-  const [currentStep, setCurrentStep] = useState(0);
-  const [skipChecked, setSkipChecked] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
+  const onboardingSteps = ONBOARDING_STEPS.welcome;
+  const { isVisible, currentStep, nextStep, prevStep, skip } = useOnboarding("welcome");
 
   const {
     data: projects,
@@ -90,19 +90,6 @@ const Collection = () => {
     deleteSelectedProject.mutate(id);
   };
 
-  const handleNext = () => {
-    if (currentStep + 1 >= onboarding.length) {
-      setIsVisible(false);
-      if (skipChecked) {
-        // supabase mark as skipp
-      }
-      return;
-    }
-    setCurrentStep((prev) => prev + 1);
-  };
-
-  if (!isVisible) return null;
-
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const projectsToDisplay = projects?.slice(startIndex, endIndex);
@@ -114,12 +101,14 @@ const Collection = () => {
     <main className="collection">
       <MenuProfile colorClass="dark" />
       <OnboardingModal
-        title={onboarding[currentStep].title}
-        description={onboarding[currentStep].description}
+        isVisible={isVisible}
+        title={onboardingSteps[currentStep]?.title}
+        description={onboardingSteps[currentStep]?.description}
         currentStep={currentStep}
-        totalSteps={onboarding.length}
-        onNext={handleNext}
-        onClose={() => setIsVisible(false)}
+        totalSteps={onboardingSteps.length}
+        onNext={() => nextStep(onboardingSteps.length)}
+        onPrev={prevStep}
+        onClose={() => skip(skipChecked)}
         skipChecked={skipChecked}
         onSkipChange={setSkipChecked}
       />
