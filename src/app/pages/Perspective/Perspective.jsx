@@ -94,7 +94,6 @@ const Perspective = () => {
     <div className="canvas-page">
       <TitleBadge title="perspective" />
       <MenuFurniture handleAddFurniture={addFurniture} />
-      <MenuSidebar />
       <Canvas
         dpr={[1, 2]}
         className="canvas"
