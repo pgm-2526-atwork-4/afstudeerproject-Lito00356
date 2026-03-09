@@ -1,4 +1,4 @@
-export const STEPS = {
+export const ONBOARDING_STEPS = {
   welcome: [
     {
       id: 1,

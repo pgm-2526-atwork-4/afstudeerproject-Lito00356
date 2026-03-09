@@ -11,6 +11,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createNewProject, deleteProject, getUserProjects } from "@core/modules/projects/api.projects";
 import { useNavigate } from "react-router";
 import Pagination from "@functional/Pagination/Pagination";
+import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
+import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 
 const Collection = () => {
   const { auth } = useAuth();
@@ -26,6 +28,12 @@ const Collection = () => {
   const [currentPage, setCurrentPage] = useState(1);
   // eslint-disable-next-line no-unused-vars
   const [pageSize, setPageSize] = useState(4);
+
+  // Onboarding
+  const onboarding = ONBOARDING_STEPS.welcome;
+  const [currentStep, setCurrentStep] = useState(0);
+  const [skipChecked, setSkipChecked] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   const {
     data: projects,
@@ -82,6 +90,19 @@ const Collection = () => {
     deleteSelectedProject.mutate(id);
   };
 
+  const handleNext = () => {
+    if (currentStep + 1 >= onboarding.length) {
+      setIsVisible(false);
+      if (skipChecked) {
+        // supabase mark as skipp
+      }
+      return;
+    }
+    setCurrentStep((prev) => prev + 1);
+  };
+
+  if (!isVisible) return null;
+
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const projectsToDisplay = projects?.slice(startIndex, endIndex);
@@ -92,6 +113,16 @@ const Collection = () => {
   return (
     <main className="collection">
       <MenuProfile colorClass="dark" />
+      <OnboardingModal
+        title={onboarding[currentStep].title}
+        description={onboarding[currentStep].description}
+        currentStep={currentStep}
+        totalSteps={onboarding.length}
+        onNext={handleNext}
+        onClose={() => setIsVisible(false)}
+        skipChecked={skipChecked}
+        onSkipChange={setSkipChecked}
+      />
 
       <div className="collection__container">
         <header className="collection__header">

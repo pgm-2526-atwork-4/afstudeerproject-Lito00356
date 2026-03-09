@@ -8,6 +8,8 @@ import MenuProfile from "@design/MenuProfile/MenuProfile";
 import TitleBadge from "@design/TitleBadge/TitleBadge";
 import { useSaveRoom } from "@core/hooks/useSaveRoom";
 import useAuth from "@functional/auth/useAuth";
+import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
+import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 
 const Blueprint = () => {
   const { auth } = useAuth();

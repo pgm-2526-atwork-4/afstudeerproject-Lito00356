@@ -1,0 +1,106 @@
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  .onboarding-modal {
+    background: #1e1e1e;
+    color: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 420px;
+    max-width: 90vw;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    .onboarding-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .onboarding-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .onboarding-close {
+        background: none;
+        border: none;
+        color: #aaa;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+
+    .onboarding-description {
+      color: #ccc;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .onboarding-steps {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+
+      .onboarding-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #444;
+        transition: background 0.3s ease;
+
+        &.active {
+          background: #fff;
+        }
+      }
+    }
+
+    .onboarding-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .onboarding-skip {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #aaa;
+        font-size: 0.85rem;
+        cursor: pointer;
+
+        input {
+          cursor: pointer;
+          accent-color: #fff;
+        }
+      }
+
+      .onboarding-btn {
+        background: #fff;
+        color: #111;
+        border: none;
+        border-radius: 8px;
+        padding: 0.5rem 1.25rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+
+        &:hover {
+          opacity: 0.85;
+        }
+      }
+    }
+  }
+}
