@@ -10,6 +10,7 @@ import { useSaveRoom } from "@core/hooks/useSaveRoom";
 import useAuth from "@functional/auth/useAuth";
 import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
+import { useOnboarding } from "@core/hooks/useOnboarding";
 
 const Blueprint = () => {
   const { auth } = useAuth();
@@ -230,6 +231,11 @@ const Blueprint = () => {
     navigate(`/perspective/${projectId}`);
   };
 
+  // Onboarding
+  const onboardingSteps = ONBOARDING_STEPS.blueprint;
+  const [skipChecked, setSkipChecked] = useState(false);
+  const { isVisible, currentStep, nextStep, prevStep, skip } = useOnboarding("blueprint");
+
   if (isPending) return <p>Laden...</p>;
   if (error) return <p>Error: {error.message}</p>;
   if (!project) return <p>Project {projectId} niet gevonden</p>;
@@ -238,6 +244,18 @@ const Blueprint = () => {
     <div className="blueprint-fullscreen">
       <TitleBadge title="blueprint" />
       <MenuProfile colorClass="dark" />
+      <OnboardingModal
+        isVisible={isVisible}
+        title={onboardingSteps[currentStep]?.title}
+        description={onboardingSteps[currentStep]?.description}
+        currentStep={currentStep}
+        totalSteps={onboardingSteps.length}
+        onNext={() => nextStep(onboardingSteps.length)}
+        onPrev={prevStep}
+        onClose={() => skip(skipChecked)}
+        skipChecked={skipChecked}
+        onSkipChange={setSkipChecked}
+      />
       <div className="canvas-container">
         <canvas
           ref={canvasRef}
