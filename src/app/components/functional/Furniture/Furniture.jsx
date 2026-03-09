@@ -27,7 +27,7 @@ const Furniture = ({
   }, []);
 
   return (
-    <mesh>
+    <group>
       <primitive
         ref={primitiveRef}
         object={scene}
@@ -36,9 +36,10 @@ const Furniture = ({
         rotation={rotation}
         onClick={(e) => {
           e.stopPropagation();
-          isSelected ? onDeselect() : onSelect();
+          isSelected ? onDeselect() : onSelect(primitiveRef.current);
         }}
       />
+
       {isSelected && (
         <>
           <TransformControls
@@ -56,7 +57,7 @@ const Furniture = ({
         </>
       )}
       <RadialMenu furnitureId={furnitureId} position={position} offsetX={0.8} offsetY={0.5} />
-    </mesh>
+    </group>
   );
 };
 

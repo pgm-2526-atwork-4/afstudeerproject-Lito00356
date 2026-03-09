@@ -1,7 +1,7 @@
 import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { OrbitControls, Select, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
@@ -16,8 +16,6 @@ import MenuFurniture from "@design/MenuFurniture/MenuFurniture";
 import { useSaveRoom } from "@core/hooks/useSaveRoom";
 import { useLocalFurniture } from "@core/hooks/useLocalFurniture";
 import { EffectComposer, Outline } from "@react-three/postprocessing";
-import { Base, Geometry, Subtraction } from "@react-three/csg";
-import MenuSidebar from "@design/MenuSidebar/MenuSidebar";
 import { useOnboarding } from "@core/hooks/useOnboarding";
 import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
@@ -45,8 +43,6 @@ const Perspective = () => {
   const { projectId } = useParams();
   const projectNumberId = Number(projectId);
   const saveRoom = useSaveRoom();
-  // eslint-disable-next-line no-unused-vars
-  const cube = useRef();
 
   const {
     data: project,
@@ -58,6 +54,7 @@ const Perspective = () => {
   });
 
   const [selectedObject, setSelectedObject] = useState(null);
+  const [outlineSelection, setOutlineSelection] = useState([]);
   const [furniture, setFurniture] = useLocalFurniture(projectId);
 
   async function handleSave() {
@@ -87,6 +84,23 @@ const Perspective = () => {
 
   const handlePositionChange = (furnitureId, newPosition) => {
     setFurniture((prev) => prev.map((item) => (item.id === furnitureId ? { ...item, position: newPosition } : item)));
+  };
+
+  const handleSelect = (id, meshRef) => {
+    setSelectedObject(id);
+
+    const meshes = [];
+    meshRef?.traverse?.((child) => {
+      if (child.isMesh) {
+        meshes.push(child);
+      }
+    });
+    setOutlineSelection(meshes);
+  };
+
+  const handleDeselect = () => {
+    setSelectedObject(null);
+    setOutlineSelection([]);
   };
 
   // Onboarding
@@ -121,7 +135,13 @@ const Perspective = () => {
         style={{ width: "100vw", height: "100vh" }}
       >
         <EffectComposer multisampling={8} autoClear={false}>
-          <Outline blur visibleEdgeColor="white" edgeStrength={100} width={500} />
+          <Outline
+            selection={outlineSelection}
+            visibleEdgeColor="orange"
+            hiddenEdgeColor="orange"
+            edgeStrength={3}
+            width={1000}
+          />
         </EffectComposer>
         <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={2} />
         <pointLight position={[0, 8, 0]} color="#ffff00" intensity={1} />
@@ -150,8 +170,8 @@ const Perspective = () => {
               scale={item.scale}
               rotation={item.rotation}
               isSelected={selectedObject === item.id}
-              onSelect={() => setSelectedObject(item.id)}
-              onDeselect={() => setSelectedObject(null)}
+              onSelect={(meshRef) => handleSelect(item.id, meshRef)}
+              onDeselect={handleDeselect}
               onPositionChange={handlePositionChange}
             />
           </Select>
