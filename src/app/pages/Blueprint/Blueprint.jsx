@@ -11,6 +11,7 @@ import useAuth from "@functional/auth/useAuth";
 import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 import { useOnboarding } from "@core/hooks/useOnboarding";
+import { getDistance } from "@core/utils/geometry";
 
 const Blueprint = () => {
   const { auth } = useAuth();
@@ -26,6 +27,11 @@ const Blueprint = () => {
   const [selectedWall, setSelectedWall] = useState(null);
   const [isRoomClosed, setIsRoomClosed] = useState(false);
   const [previewPoint, setPreviewPoint] = useState(null);
+
+  // Calculate distnace
+  const [liveDistance, setLiveDistance] = useState(null);
+
+  console.log(liveDistance);
 
   const gridSize = 20;
 
@@ -105,6 +111,7 @@ const Blueprint = () => {
       context.lineCap = "round";
       context.lineJoin = "round";
 
+      // Om de muren te tekenen
       walls.forEach((wall) => {
         const startPoint = points.find((p) => p.id === wall.start);
         const endPoint = points.find((p) => p.id === wall.end);
@@ -119,6 +126,60 @@ const Blueprint = () => {
           context.stroke();
         }
       });
+
+      walls.forEach((wall) => {
+        if (!wall.distance) return;
+
+        const startPoint = points.find((p) => p.id === wall.start);
+        const endPoint = points.find((p) => p.id === wall.end);
+        if (!startPoint || !endPoint) return;
+
+        const midX = (startPoint.x + endPoint.x) / 2;
+        const midY = (startPoint.y + endPoint.y) / 2;
+
+        const angle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x);
+
+        context.save();
+        context.translate(midX, midY);
+        context.rotate(angle);
+
+        const label = `${wall.distance}m`;
+        context.font = "bold 12px sans-serif";
+        const textWidth = context.measureText(label).width;
+        context.fillStyle = "rgba(250,250,250,0.85)";
+        context.fillRect(-textWidth / 2 - 4, -22, textWidth + 8, 18);
+
+        context.fillStyle = "#007bff";
+        context.textAlign = "center";
+        context.fillText(label, 0, -9);
+
+        context.restore();
+      });
+
+      if (liveDistance && points.length > 0) {
+        const { from, to, label } = liveDistance;
+
+        const midX = (from.x + to.x) / 2;
+        const midY = (from.y + to.y) / 2;
+        const angle = Math.atan2(to.y - from.y, to.x - from.x);
+
+        context.save();
+        context.translate(midX, midY);
+        context.rotate(angle);
+
+        context.font = "bold 12px sans-serif";
+        const textWidth = context.measureText(label).width;
+
+        // Iets andere stijl dan permanent label — oranje/preview
+        context.fillStyle = "rgba(255, 200, 0, 0.9)";
+        context.fillRect(-textWidth / 2 - 4, -22, textWidth + 8, 18);
+
+        context.fillStyle = "#333";
+        context.textAlign = "center";
+        context.fillText(label, 0, -9);
+
+        context.restore();
+      }
     };
 
     syncCanvasSize();
@@ -171,11 +232,24 @@ const Blueprint = () => {
           end: firstPoint.id,
           startPosition: lastPoint,
           endPosition: firstPoint,
+          distance: getDistance(lastPoint, firstPoint).meter,
         },
       ]);
 
       setIsRoomClosed(true);
       return;
+    }
+
+    if (points.length > 0) {
+      const lastPoint = points[points.length - 1];
+      const { meter } = getDistance(lastPoint, { x: snappedPointX, y: snappedPointY });
+      setLiveDistance({
+        from: lastPoint,
+        to: { x: snappedPointX, y: snappedPointY },
+        label: `${meter}m`,
+      });
+    } else {
+      setLiveDistance(null);
     }
 
     setPoints((prev) => {
@@ -189,6 +263,7 @@ const Blueprint = () => {
           end: newPoint.id,
           startPosition: lastPointBefore,
           endPosition: newPoint,
+          distance: getDistance(lastPointBefore, newPoint).meter,
         };
         setWalls((prevWalls) => [...prevWalls, newWall]);
       }
@@ -261,7 +336,10 @@ const Blueprint = () => {
           ref={canvasRef}
           onClick={handleCanvasClick}
           onMouseMove={handleMouseMove}
-          onMouseLeave={() => setPreviewPoint(null)}
+          onMouseLeave={() => {
+            setPreviewPoint(null);
+            setLiveDistance(null);
+          }}
           style={{
             width: "100%",
             height: "100%",
