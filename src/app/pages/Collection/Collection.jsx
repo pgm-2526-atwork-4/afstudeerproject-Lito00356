@@ -24,7 +24,6 @@ const Collection = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [skipChecked, setSkipChecked] = useState(false);
 
   // Pagination state:
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,6 +32,7 @@ const Collection = () => {
 
   // Onboarding
   const onboardingSteps = ONBOARDING_STEPS.welcome;
+  const [skipChecked, setSkipChecked] = useState(false);
   const { isVisible, currentStep, nextStep, prevStep, skip } = useOnboarding("welcome");
 
   const {

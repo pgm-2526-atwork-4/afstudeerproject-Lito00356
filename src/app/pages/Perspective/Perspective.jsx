@@ -18,6 +18,9 @@ import { useLocalFurniture } from "@core/hooks/useLocalFurniture";
 import { EffectComposer, Outline } from "@react-three/postprocessing";
 import { Base, Geometry, Subtraction } from "@react-three/csg";
 import MenuSidebar from "@design/MenuSidebar/MenuSidebar";
+import { useOnboarding } from "@core/hooks/useOnboarding";
+import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
+import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 
 // function Scene() {
 //   const { setSize } = useThree();
@@ -86,6 +89,11 @@ const Perspective = () => {
     setFurniture((prev) => prev.map((item) => (item.id === furnitureId ? { ...item, position: newPosition } : item)));
   };
 
+  // Onboarding
+  const onboardingSteps = ONBOARDING_STEPS.perspective;
+  const [skipChecked, setSkipChecked] = useState(false);
+  const { isVisible, currentStep, nextStep, prevStep, skip } = useOnboarding("perspective");
+
   if (isPending) return <p>Laden...</p>;
   if (error) return <p>Error: {error.message}</p>;
   if (!project) return <p>Project {projectId} not found</p>;
@@ -94,6 +102,18 @@ const Perspective = () => {
     <div className="canvas-page">
       <TitleBadge title="perspective" />
       <MenuFurniture handleAddFurniture={addFurniture} />
+      <OnboardingModal
+        isVisible={isVisible}
+        title={onboardingSteps[currentStep]?.title}
+        description={onboardingSteps[currentStep]?.description}
+        currentStep={currentStep}
+        totalSteps={onboardingSteps.length}
+        onNext={() => nextStep(onboardingSteps.length)}
+        onPrev={prevStep}
+        onClose={() => skip(skipChecked)}
+        skipChecked={skipChecked}
+        onSkipChange={setSkipChecked}
+      />
       <Canvas
         dpr={[1, 2]}
         className="canvas"
