@@ -1,6 +1,6 @@
 .furniture-menu {
   position: fixed;
-  top: 50%;
+  top: 15rem;
   right: -320px;
   transform: translateY(-50%);
   z-index: 200;
@@ -35,7 +35,6 @@
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.2s ease;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
 }
 
 .furniture-menu__toggle:hover {

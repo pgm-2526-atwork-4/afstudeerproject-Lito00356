@@ -3,7 +3,14 @@ import { Html } from "@react-three/drei";
 import { BrickWall, Palette, X } from "lucide-react";
 import React, { useState } from "react";
 
-const COLORS = ["red", "green", "blue", "orange", "purple", "pink"];
+const COLORS = [
+  { name: "red", hex: "#EF4444" },
+  { name: "green", hex: "#10B981" },
+  { name: "blue", hex: "#3B82F6" },
+  { name: "orange", hex: "#F97316" },
+  { name: "purple", hex: "#A855F7" },
+  { name: "pink", hex: "#EC4899" },
+];
 const MATERIALS = [
   { id: "wood", icon: "🪵", label: "Hout" },
   { id: "stone", icon: "🪨", label: "Steen" },
@@ -36,6 +43,7 @@ const RadialMenu = ({ furnitureId }) => {
               style={{
                 "--angle": `${i * 60}deg`,
                 "--delay": `${i * 55}ms`,
+                backgroundColor: "#B7C3C1",
               }}
               onClick={() => changeMaterial(mat.id)}
               title={mat.label}
@@ -54,14 +62,14 @@ const RadialMenu = ({ furnitureId }) => {
 
           {COLORS.map((color, i) => (
             <div
-              key={color}
+              key={color.name}
               className="radial-menu__item radial-menu__item--color"
               style={{
                 "--angle": `${i * 60}deg`,
-                "--color": color,
                 "--delay": `${i * 55}ms`,
+                backgroundColor: color.hex,
               }}
-              onClick={() => changeFurnitureColor(color)}
+              onClick={() => changeFurnitureColor(color.name)}
             />
           ))}
         </div>

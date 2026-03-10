@@ -48,6 +48,7 @@ const Perspective = () => {
 
   async function handleSave() {
     const body = {
+      id: project?.id,
       user_id: user.id,
       scene_name: project?.scene_name,
       room_data: project?.room_data,

@@ -106,7 +106,7 @@ const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture }) => {
 
         <div className="furniture-menu__panel" aria-hidden={!panelOpen}>
           <label htmlFor="furniture-category-select" className="furniture-menu__label">
-            Meubels
+            Furniture
           </label>
           <select
             id="furniture-category-select"
@@ -115,7 +115,7 @@ const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture }) => {
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="" disabled>
-              Kies een categorie…
+              Choose a category..
             </option>
             {CATEGORIES.map((cat) => (
               <option key={cat} value={cat}>
