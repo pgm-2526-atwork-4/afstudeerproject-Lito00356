@@ -1,8 +1,7 @@
 import RadialMenu from "@functional/RadialMenu/RadialMenu";
 import "./Furniture.css";
-import { TransformControls, useGLTF, useKeyboardControls } from "@react-three/drei";
+import { TransformControls, useGLTF } from "@react-three/drei";
 import React, { useEffect, useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
 
 useGLTF.preload("/models/sofa.gltf");
 

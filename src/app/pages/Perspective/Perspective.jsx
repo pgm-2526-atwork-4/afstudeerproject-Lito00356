@@ -19,6 +19,7 @@ import { EffectComposer, Outline } from "@react-three/postprocessing";
 import { useOnboarding } from "@core/hooks/useOnboarding";
 import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
+import MenuSave from "@design/MenuSave/MenuSave";
 
 const keyMap = [
   { name: "translate", keys: ["w"] },
@@ -103,7 +104,7 @@ const Perspective = () => {
   return (
     <div className="canvas-page">
       <TitleBadge title="perspective" />
-      <MenuFurniture handleAddFurniture={addFurniture} />
+
       <OnboardingModal
         isVisible={isVisible}
         title={onboardingSteps[currentStep]?.title}
@@ -171,9 +172,8 @@ const Perspective = () => {
       </KeyboardControls>
       <div className="ui-overlay">
         <MenuProfile />
-        <button className="save-btn" onClick={() => handleSave()}>
-          Save scene
-        </button>
+        <MenuFurniture handleAddFurniture={addFurniture} />
+        <MenuSave />
       </div>
     </div>
   );
