@@ -2,7 +2,7 @@ import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
 import React, { useState } from "react";
-import { OrbitControls, Select, Wireframe } from "@react-three/drei";
+import { KeyboardControls, OrbitControls, Select, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@core/modules/projects/api.projects";
@@ -20,22 +20,10 @@ import { useOnboarding } from "@core/hooks/useOnboarding";
 import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 
-// function Scene() {
-//   const { setSize } = useThree();
-
-//   useEffect(() => {
-//     const handleResize = () => {
-//       setSize(window.innerWidth, window.innerHeight);
-//     };
-
-//     window.addEventListener("resize", handleResize);
-//     handleResize();
-
-//     return () => window.removeEventListener("resize", handleResize);
-//   }, [setSize]);
-
-//   return <></>;
-// }
+const keyMap = [
+  { name: "translate", keys: ["w"] },
+  { name: "rotate", keys: ["r"] },
+];
 
 const Perspective = () => {
   const { auth } = useAuth();
@@ -128,57 +116,59 @@ const Perspective = () => {
         skipChecked={skipChecked}
         onSkipChange={setSkipChecked}
       />
-      <Canvas
-        dpr={[1, 2]}
-        className="canvas"
-        camera={{ position: [10, 6, 10], fov: 50 }}
-        style={{ width: "100vw", height: "100vh" }}
-      >
-        <EffectComposer multisampling={8} autoClear={false}>
-          <Outline
-            selection={outlineSelection}
-            visibleEdgeColor="orange"
-            hiddenEdgeColor="orange"
-            edgeStrength={3}
-            width={1000}
-          />
-        </EffectComposer>
-        <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={2} />
-        <pointLight position={[0, 8, 0]} color="#ffff00" intensity={1} />
-        {/* <Scene /> */}
-        <mesh>
-          <Ground />
-        </mesh>
-
-        {project?.room_data && (
-          <Room3D
-            walls={project.room_data.walls.map((w) => ({
-              id: w.id,
-              start: [w.startPosition.x / 100, 0, w.startPosition.y / 100],
-              end: [w.endPosition.x / 100, 0, w.endPosition.y / 100],
-            }))}
-            wallThickness={0.2}
-          />
-        )}
-
-        {furniture.map((item) => (
-          <Select key={item.id} enabled={selectedObject === item.id}>
-            <Furniture
-              key={item.id}
-              furnitureId={item.id}
-              position={item.position}
-              scale={item.scale}
-              rotation={item.rotation}
-              isSelected={selectedObject === item.id}
-              onSelect={(meshRef) => handleSelect(item.id, meshRef)}
-              onDeselect={handleDeselect}
-              onPositionChange={handlePositionChange}
+      <KeyboardControls map={keyMap}>
+        <Canvas
+          dpr={[1, 2]}
+          className="canvas"
+          camera={{ position: [10, 6, 10], fov: 50 }}
+          style={{ width: "100vw", height: "100vh" }}
+        >
+          <EffectComposer multisampling={8} autoClear={false}>
+            <Outline
+              selection={outlineSelection}
+              visibleEdgeColor="orange"
+              hiddenEdgeColor="orange"
+              edgeStrength={3}
+              width={1000}
             />
-          </Select>
-        ))}
+          </EffectComposer>
+          <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={2} />
+          <pointLight position={[0, 8, 0]} color="#ffff00" intensity={1} />
+          {/* <Scene /> */}
+          <mesh>
+            <Ground />
+          </mesh>
 
-        <OrbitControls target={[0, 0, 0]} maxPolarAngle={Math.PI / 2} makeDefault />
-      </Canvas>
+          {project?.room_data && (
+            <Room3D
+              walls={project.room_data.walls.map((w) => ({
+                id: w.id,
+                start: [w.startPosition.x / 100, 0, w.startPosition.y / 100],
+                end: [w.endPosition.x / 100, 0, w.endPosition.y / 100],
+              }))}
+              wallThickness={0.2}
+            />
+          )}
+
+          {furniture.map((item) => (
+            <Select key={item.id} enabled={selectedObject === item.id}>
+              <Furniture
+                key={item.id}
+                furnitureId={item.id}
+                position={item.position}
+                scale={item.scale}
+                rotation={item.rotation}
+                isSelected={selectedObject === item.id}
+                onSelect={(meshRef) => handleSelect(item.id, meshRef)}
+                onDeselect={handleDeselect}
+                onPositionChange={handlePositionChange}
+              />
+            </Select>
+          ))}
+
+          <OrbitControls target={[0, 0, 0]} maxPolarAngle={Math.PI / 2} makeDefault />
+        </Canvas>
+      </KeyboardControls>
       <div className="ui-overlay">
         <MenuProfile />
         <button className="save-btn" onClick={() => handleSave()}>

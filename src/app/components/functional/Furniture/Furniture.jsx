@@ -1,7 +1,8 @@
 import RadialMenu from "@functional/RadialMenu/RadialMenu";
 import "./Furniture.css";
-import { TransformControls, useGLTF } from "@react-three/drei";
+import { TransformControls, useGLTF, useKeyboardControls } from "@react-three/drei";
 import React, { useEffect, useRef, useState } from "react";
+import { useFrame } from "@react-three/fiber";
 
 useGLTF.preload("/models/sofa.gltf");
 
@@ -19,11 +20,22 @@ const Furniture = ({
   const transformRef = useRef();
   const primitiveRef = useRef();
   const [primitiveReady, setPrimitiveReady] = useState(null);
+  const [translationMode, setTranslationMode] = useState("translate");
 
   useEffect(() => {
     if (primitiveRef.current) {
       setPrimitiveReady(primitiveRef.current);
     }
+  }, []);
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "w") setTranslationMode("translate");
+      if (e.key === "r") setTranslationMode("rotate");
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
   return (
@@ -45,7 +57,7 @@ const Furniture = ({
           <TransformControls
             ref={transformRef}
             object={primitiveReady}
-            mode="translate"
+            mode={translationMode}
             size={0.5}
             onObjectChange={() => {
               const pos = primitiveRef.current?.position;
