@@ -51,7 +51,7 @@ const Floor = ({ walls }) => {
   );
 };
 
-const Room3D = ({ walls = [], wallThickness = 0.2, height = 2.5 }) => {
+const Room3D = ({ walls = [], wallThickness = 0.1, height = 2.5 }) => {
   return (
     <group>
       {walls.map((wall) => (

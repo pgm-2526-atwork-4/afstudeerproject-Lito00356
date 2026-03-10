@@ -4,12 +4,10 @@ import { BrickWall, Palette, X } from "lucide-react";
 import React, { useState } from "react";
 
 const COLORS = [
+  { name: "white", hex: "#FFFFFF" },
   { name: "red", hex: "#EF4444" },
   { name: "green", hex: "#10B981" },
   { name: "blue", hex: "#3B82F6" },
-  { name: "orange", hex: "#F97316" },
-  { name: "purple", hex: "#A855F7" },
-  { name: "pink", hex: "#EC4899" },
 ];
 const MATERIALS = [
   { id: "wood", icon: "🪵", label: "Hout" },
@@ -18,11 +16,13 @@ const MATERIALS = [
 ];
 
 // eslint-disable-next-line no-unused-vars
-const RadialMenu = ({ furnitureId }) => {
+const RadialMenu = ({ furnitureId, onColorChange }) => {
   const [colorOpen, setColorOpen] = useState(false);
   const [materialOpen, setMaterialOpen] = useState(false);
 
-  const changeFurnitureColor = (color) => console.log("color:", color);
+  const changeFurnitureColor = (color) => {
+    onColorChange(furnitureId, color);
+  };
   const changeMaterial = (mat) => console.log("material:", mat);
 
   return (
@@ -41,9 +41,8 @@ const RadialMenu = ({ furnitureId }) => {
               key={mat.id}
               className="radial-menu__item radial-menu__item--material"
               style={{
-                "--angle": `${i * 60}deg`,
+                "--angle": `${(i - 49.5) * 45}deg`,
                 "--delay": `${i * 55}ms`,
-                backgroundColor: "#B7C3C1",
               }}
               onClick={() => changeMaterial(mat.id)}
               title={mat.label}
@@ -65,7 +64,7 @@ const RadialMenu = ({ furnitureId }) => {
               key={color.name}
               className="radial-menu__item radial-menu__item--color"
               style={{
-                "--angle": `${i * 60}deg`,
+                "--angle": `${(i - 49.5) * 45}deg`,
                 "--delay": `${i * 55}ms`,
                 backgroundColor: color.hex,
               }}

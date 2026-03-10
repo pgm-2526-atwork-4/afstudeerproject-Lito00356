@@ -14,6 +14,8 @@ const Furniture = ({
   onSelect,
   onDeselect,
   onTransformChange,
+  color,
+  onColorChange,
 }) => {
   const { scene } = useGLTF("/models/sofa.gltf");
   const transformRef = useRef();
@@ -37,6 +39,17 @@ const Furniture = ({
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
+  useEffect(() => {
+    if (!scene) return;
+
+    scene.traverse((child) => {
+      if (child.isMesh) {
+        child.material.color.set(color);
+        child.material.needsUpdate = true;
+      }
+    });
+  }, [color, scene]);
+
   return (
     <group>
       <primitive
@@ -50,7 +63,13 @@ const Furniture = ({
           isSelected ? onDeselect() : onSelect(primitiveRef.current);
         }}
       >
-        <RadialMenu furnitureId={furnitureId} position={position} offsetX={0.8} offsetY={0.5} />
+        <RadialMenu
+          furnitureId={furnitureId}
+          position={position}
+          offsetX={0.8}
+          offsetY={0.5}
+          onColorChange={onColorChange}
+        />
       </primitive>
 
       {isSelected && (

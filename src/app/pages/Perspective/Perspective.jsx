@@ -59,15 +59,16 @@ const Perspective = () => {
   }
 
   const addFurniture = () => {
-    const newSofa = {
+    const newObject = {
       id: `sofa-${Date.now()}`,
       type: "sofa",
       position: [5, 0, 5],
       scale: [0.5, 0.5, 0.5],
       rotation: [0, 0, 0],
+      color: "rgba(240, 240, 240, 1)",
     };
 
-    setFurniture((prev) => [...prev, newSofa]);
+    setFurniture((prev) => [...prev, newObject]);
   };
 
   const handleTransformChange = (furnitureId, changes) => {
@@ -89,6 +90,10 @@ const Perspective = () => {
   const handleDeselect = () => {
     setSelectedObject(null);
     setOutlineSelection([]);
+  };
+
+  const handleColorChange = (furnitureId, color) => {
+    setFurniture((prev) => prev.map((item) => (item.id === furnitureId ? { ...item, color } : item)));
   };
 
   useEffect(() => {
@@ -173,6 +178,7 @@ const Perspective = () => {
               <Furniture
                 key={item.id}
                 furnitureId={item.id}
+                color={item.color ?? "rgba(240, 240, 240, 1)"}
                 position={item.position}
                 scale={item.scale}
                 rotation={item.rotation}
@@ -180,6 +186,7 @@ const Perspective = () => {
                 onSelect={(meshRef) => handleSelect(item.id, meshRef)}
                 onDeselect={handleDeselect}
                 onTransformChange={handleTransformChange}
+                onColorChange={handleColorChange}
               />
             </Select>
           ))}
