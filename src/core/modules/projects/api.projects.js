@@ -35,7 +35,7 @@ export const getProjectById = async (projectId) => {
 export const uploadProject = async (body) => {
   const { data, error } = await API.from("projects")
     .upsert(body, {
-      onconflict: "user_id",
+      onconflict: "id",
     })
     .select()
     .single();

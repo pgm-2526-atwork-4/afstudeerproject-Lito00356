@@ -13,7 +13,7 @@ const Furniture = ({
   isSelected,
   onSelect,
   onDeselect,
-  onPositionChange,
+  onTransformChange,
 }) => {
   const { scene } = useGLTF("/models/sofa.gltf");
   const transformRef = useRef();
@@ -60,8 +60,13 @@ const Furniture = ({
             size={0.5}
             onObjectChange={() => {
               const pos = primitiveRef.current?.position;
-              if (pos) {
-                onPositionChange(furnitureId, [pos.x, pos.y, pos.z]);
+              const rot = primitiveRef.current?.rotation;
+
+              if (pos || rot) {
+                onTransformChange(furnitureId, {
+                  position: [pos.x, pos.y, pos.z],
+                  rotation: [rot.x, rot.y, rot.z],
+                });
               }
             }}
           />

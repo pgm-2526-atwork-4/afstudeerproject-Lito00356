@@ -1,7 +1,7 @@
 import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { KeyboardControls, OrbitControls, Select, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
@@ -44,11 +44,9 @@ const Perspective = () => {
 
   const [selectedObject, setSelectedObject] = useState(null);
   const [outlineSelection, setOutlineSelection] = useState([]);
-  const [furniture, setFurniture] = useLocalFurniture(projectId);
+  const [furniture, setFurniture] = useLocalFurniture(projectId) ?? [];
 
   async function handleSave() {
-    console.log("project saved");
-
     const body = {
       user_id: user.id,
       scene_name: project?.scene_name,
@@ -71,8 +69,8 @@ const Perspective = () => {
     setFurniture((prev) => [...prev, newSofa]);
   };
 
-  const handlePositionChange = (furnitureId, newPosition) => {
-    setFurniture((prev) => prev.map((item) => (item.id === furnitureId ? { ...item, position: newPosition } : item)));
+  const handleTransformChange = (furnitureId, changes) => {
+    setFurniture((prev) => prev.map((item) => (item.id === furnitureId ? { ...item, ...changes } : item)));
   };
 
   const handleSelect = (id, meshRef) => {
@@ -91,6 +89,24 @@ const Perspective = () => {
     setSelectedObject(null);
     setOutlineSelection([]);
   };
+
+  useEffect(() => {
+    if (!furniture.length || !project) return;
+
+    const timer = setTimeout(() => {
+      const body = {
+        id: project?.id,
+        user_id: user.id,
+        scene_name: project?.scene_name,
+        room_data: project?.room_data,
+        objects: { furniture },
+      };
+
+      saveRoom.mutate(body);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [furniture]);
 
   // Onboarding
   const onboardingSteps = ONBOARDING_STEPS.perspective;
@@ -162,7 +178,7 @@ const Perspective = () => {
                 isSelected={selectedObject === item.id}
                 onSelect={(meshRef) => handleSelect(item.id, meshRef)}
                 onDeselect={handleDeselect}
-                onPositionChange={handlePositionChange}
+                onTransformChange={handleTransformChange}
               />
             </Select>
           ))}
