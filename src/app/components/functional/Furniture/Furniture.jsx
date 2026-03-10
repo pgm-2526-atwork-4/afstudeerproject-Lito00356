@@ -49,7 +49,9 @@ const Furniture = ({
           e.stopPropagation();
           isSelected ? onDeselect() : onSelect(primitiveRef.current);
         }}
-      />
+      >
+        <RadialMenu furnitureId={furnitureId} position={position} offsetX={0.8} offsetY={0.5} />
+      </primitive>
 
       {isSelected && (
         <>
@@ -72,7 +74,6 @@ const Furniture = ({
           />
         </>
       )}
-      <RadialMenu furnitureId={furnitureId} position={position} offsetX={0.8} offsetY={0.5} />
     </group>
   );
 };

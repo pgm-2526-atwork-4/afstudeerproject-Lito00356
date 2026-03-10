@@ -11,18 +11,16 @@ const MATERIALS = [
 ];
 
 // eslint-disable-next-line no-unused-vars
-const RadialMenu = ({ furnitureId, position = [0, 0, 0], offsetX = 1, offsetY = 1 }) => {
+const RadialMenu = ({ furnitureId }) => {
   const [colorOpen, setColorOpen] = useState(false);
   const [materialOpen, setMaterialOpen] = useState(false);
 
   const changeFurnitureColor = (color) => console.log("color:", color);
   const changeMaterial = (mat) => console.log("material:", mat);
 
-  const [x, y, z] = position;
-
   return (
     <>
-      <Html position={[x - offsetX, y + offsetY, z]} wrapperClass="radial-menu" distanceFactor={6}>
+      <Html position={[-1, 1, 0]} wrapperClass="radial-menu" distanceFactor={6}>
         <div className={`radial-menu__group ${materialOpen ? "radial-menu__group--open" : ""}`}>
           <button
             className="radial-menu__toggle radial-menu__toggle--material"
@@ -48,7 +46,7 @@ const RadialMenu = ({ furnitureId, position = [0, 0, 0], offsetX = 1, offsetY = 
         </div>
       </Html>
 
-      <Html position={[x + offsetX, y + offsetY, z]} wrapperClass="radial-menu" distanceFactor={6}>
+      <Html position={[1, 1, 0]} wrapperClass="radial-menu" distanceFactor={6}>
         <div className={`radial-menu__group ${colorOpen ? "radial-menu__group--open" : ""}`}>
           <button className="radial-menu__toggle" onClick={() => setColorOpen((prev) => !prev)}>
             {colorOpen ? <X size={14} /> : <Palette size={14} />}
