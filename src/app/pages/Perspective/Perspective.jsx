@@ -173,7 +173,7 @@ const Perspective = () => {
       <div className="ui-overlay">
         <MenuProfile />
         <MenuFurniture handleAddFurniture={addFurniture} />
-        <MenuSave />
+        <MenuSave onSave={handleSave} />
       </div>
     </div>
   );
