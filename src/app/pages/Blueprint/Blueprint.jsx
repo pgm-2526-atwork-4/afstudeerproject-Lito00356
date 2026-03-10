@@ -31,8 +31,6 @@ const Blueprint = () => {
   // Calculate distnace
   const [liveDistance, setLiveDistance] = useState(null);
 
-  console.log(liveDistance);
-
   const gridSize = 20;
 
   const {
@@ -47,6 +45,7 @@ const Blueprint = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+
     if (!canvas) return;
 
     const context = canvas.getContext("2d");
@@ -193,7 +192,7 @@ const Blueprint = () => {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [points, walls, previewPoint, isRoomClosed]);
+  }, [points, walls, previewPoint, isRoomClosed, liveDistance, isPending]);
 
   const handleCanvasClick = (e) => {
     if (isRoomClosed) {
@@ -288,6 +287,18 @@ const Blueprint = () => {
     const existingPoint = points.some((p) => Math.abs(p.x - snappedPointX) < 10 && Math.abs(p.y - snappedPointY) < 10);
 
     setPreviewPoint(existingPoint ? null : { x: snappedPointX, y: snappedPointY });
+
+    if (points.length > 0) {
+      const lastPoint = points[points.length - 1];
+      const { meter } = getDistance(lastPoint, { x: snappedPointX, y: snappedPointY });
+      setLiveDistance({
+        from: lastPoint,
+        to: { x: snappedPointX, y: snappedPointY },
+        label: `${meter}m`,
+      });
+    } else {
+      setLiveDistance(null);
+    }
   };
 
   const handleConvertTo3D = () => {
