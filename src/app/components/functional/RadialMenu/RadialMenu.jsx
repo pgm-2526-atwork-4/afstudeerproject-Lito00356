@@ -20,7 +20,7 @@ const RadialMenu = ({ furnitureId }) => {
 
   return (
     <>
-      <Html position={[-1, 1, 0]} wrapperClass="radial-menu" distanceFactor={6}>
+      <Html position={[-1.5, 1, 0]} wrapperClass="radial-menu" distanceFactor={6}>
         <div className={`radial-menu__group ${materialOpen ? "radial-menu__group--open" : ""}`}>
           <button
             className="radial-menu__toggle radial-menu__toggle--material"

@@ -64,6 +64,10 @@ const Furniture = ({
               const pos = primitiveRef.current?.position;
               const rot = primitiveRef.current?.rotation;
 
+              if (pos && pos.y < 0) {
+                primitiveRef.current.position.y = 0;
+              }
+
               if (pos || rot) {
                 onTransformChange(furnitureId, {
                   position: [pos.x, pos.y, pos.z],
