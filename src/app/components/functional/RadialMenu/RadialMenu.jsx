@@ -43,6 +43,7 @@ const RadialMenu = ({ furnitureId, onColorChange }) => {
               style={{
                 "--angle": `${(i - 49.5) * 45}deg`,
                 "--delay": `${i * 55}ms`,
+                backgroundColor: "#B7C3C1",
               }}
               onClick={() => changeMaterial(mat.id)}
               title={mat.label}
