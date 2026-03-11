@@ -1,6 +1,6 @@
 import RadialMenu from "@functional/RadialMenu/RadialMenu";
 import "./Furniture.css";
-import { TransformControls, useGLTF } from "@react-three/drei";
+import { meshBounds, TransformControls, useGLTF } from "@react-three/drei";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -77,15 +77,36 @@ const Furniture = ({
           isSelected ? onDeselect() : onSelect(primitiveRef.current);
         }}
       >
-        <RadialMenu
-          furnitureId={furnitureId}
-          position={position}
-          leftOffset={-halfWidth - 0.2}
-          rightOffset={halfWidth + 0.2}
-          height={halfHeight}
-          onColorChange={onColorChange}
-        />
+        {isSelected && (
+          <RadialMenu
+            furnitureId={furnitureId}
+            position={position}
+            leftOffset={-halfWidth - 0.2}
+            rightOffset={halfWidth + 0.2}
+            height={halfHeight}
+            onColorChange={onColorChange}
+          />
+        )}
       </primitive>
+      <mesh
+        position={position}
+        visible={false}
+        onClick={(e) => {
+          e.stopPropagation();
+          isSelected ? onDeselect() : onSelect(primitiveRef.current);
+        }}
+        onPointerEnter={(e) => {
+          e.stopPropagation();
+          document.body.style.cursor = "pointer";
+        }}
+        onPointerLeave={(e) => {
+          e.stopPropagation();
+          document.body.style.cursor = "default";
+        }}
+      >
+        <boxGeometry args={boxSize} />
+        <meshBasicMaterial />
+      </mesh>
 
       {isSelected && primitiveReady && (
         <>

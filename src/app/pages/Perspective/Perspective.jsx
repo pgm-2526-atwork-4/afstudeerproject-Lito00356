@@ -162,7 +162,13 @@ const Perspective = () => {
           <pointLight position={[0, 8, 0]} color="#ffff00" intensity={1} />
           {/* <Scene /> */}
           <mesh>
-            <Ground />
+            <Ground
+              // Dat werkt toch nog niet zo goed
+              onPointerMissed={() => {
+                setSelectedObject(null);
+                setOutlineSelection([]);
+              }}
+            />
           </mesh>
 
           {project?.room_data && (
