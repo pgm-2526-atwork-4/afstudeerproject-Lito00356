@@ -1,7 +1,8 @@
 import RadialMenu from "@functional/RadialMenu/RadialMenu";
 import "./Furniture.css";
 import { TransformControls, useGLTF } from "@react-three/drei";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import * as THREE from "three";
 
 useGLTF.preload("/models/sofa.gltf");
 
@@ -22,12 +23,25 @@ const Furniture = ({
   const primitiveRef = useRef();
   const [primitiveReady, setPrimitiveReady] = useState(null);
   const [translationMode, setTranslationMode] = useState("translate");
+  const [boxSize, setBoxSize] = useState([1, 1, 1]);
+
+  const halfWidth = boxSize[0] / 1.2;
+  const halfHeight = boxSize[1] / 0.4;
 
   useEffect(() => {
     if (primitiveRef.current) {
       setPrimitiveReady(primitiveRef.current);
     }
   }, []);
+
+  useLayoutEffect(() => {
+    if (!scene) return;
+
+    const box = new THREE.Box3().setFromObject(scene);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    setBoxSize([size.x, size.y, size.z]);
+  }, [scene]);
 
   useEffect(() => {
     const handleKey = (e) => {
@@ -66,13 +80,14 @@ const Furniture = ({
         <RadialMenu
           furnitureId={furnitureId}
           position={position}
-          offsetX={0.8}
-          offsetY={0.5}
+          leftOffset={-halfWidth - 0.2}
+          rightOffset={halfWidth + 0.2}
+          height={halfHeight}
           onColorChange={onColorChange}
         />
       </primitive>
 
-      {isSelected && (
+      {isSelected && primitiveReady && (
         <>
           <TransformControls
             ref={transformRef}
@@ -89,7 +104,7 @@ const Furniture = ({
 
               if (pos || rot) {
                 onTransformChange(furnitureId, {
-                  position: [pos.x, pos.y, pos.z],
+                  position: [pos.x, Math.max(0, pos.y), pos.z],
                   rotation: [rot.x, rot.y, rot.z],
                 });
               }
