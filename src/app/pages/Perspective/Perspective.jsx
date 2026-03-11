@@ -118,7 +118,7 @@ const Perspective = () => {
   // Onboarding
   const onboardingSteps = ONBOARDING_STEPS.perspective;
   const [skipChecked, setSkipChecked] = useState(false);
-  const { isVisible, currentStep, nextStep, prevStep, skip } = useOnboarding("perspective");
+  const { isVisible, currentStep, nextStep, prevStep, skip, resetPage } = useOnboarding("perspective");
 
   if (isPending) return <p>Laden...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -196,7 +196,7 @@ const Perspective = () => {
         </Canvas>
       </KeyboardControls>
       <div className="ui-overlay">
-        <TutorialBtn />
+        <TutorialBtn onReset={resetPage} />
         <MenuProfile />
         <MenuFurniture handleAddFurniture={addFurniture} />
         <MenuSave onSave={handleSave} />

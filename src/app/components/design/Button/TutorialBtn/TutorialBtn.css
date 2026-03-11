@@ -1,5 +1,4 @@
 .tutorial-btn {
-  all: unset;
   position: absolute;
   top: var(--spacing-2xl);
   right: var(--spacing-6xl);
@@ -7,22 +6,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3rem;
+  min-width: 3rem;
   height: 3rem;
   border-radius: var(--radius-3xl);
+  border: none;
   background-color: var(--main-bg);
   color: var(--text-black);
   transition:
     background-color 0.2s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 15;
 }
 
 .tutorial-btn:hover {
   background-color: var(--accent-muted);
-  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
