@@ -98,6 +98,19 @@ const Perspective = () => {
     setFurniture((prev) => prev.map((item) => (item.id === furnitureId ? { ...item, color } : item)));
   };
 
+  const handleFurnitureDelete = (id) => {
+    console.log("Delete");
+
+    setFurniture((prev) => prev.filter((item) => item.id !== id));
+    handleDeselect();
+  };
+
+  const handleResetRotation = (id) => {
+    console.log("rotation");
+
+    handleTransformChange(id, { rotation: [0, 0, 0] });
+  };
+
   useEffect(() => {
     if (!furniture.length || !project) return;
 
@@ -201,7 +214,11 @@ const Perspective = () => {
         <MenuProfile />
         <MenuFurniture handleAddFurniture={addFurniture} />
         <MenuSave onSave={handleSave} />
-        <ObjectOptions />
+        <ObjectOptions
+          isVisible={!!selectedObject}
+          onDelete={() => handleFurnitureDelete(selectedObject)}
+          onResetRotation={() => handleResetRotation(selectedObject)}
+        />
       </div>
     </div>
   );
