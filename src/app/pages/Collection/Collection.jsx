@@ -181,7 +181,11 @@ const Collection = () => {
         )}
 
         <div className="collection__footer">
-          <Pagination currentPage={currentPage} pageCount={pageCount} onPageChanged={handlePageChanged} />
+          {pageCount > 4 ? (
+            <Pagination currentPage={currentPage} pageCount={pageCount} onPageChanged={handlePageChanged} />
+          ) : (
+            <div></div>
+          )}
           <button
             className="collection-project__btn collection-project__btn--load"
             onClick={() => setIsCreateModalOpen(true)}
