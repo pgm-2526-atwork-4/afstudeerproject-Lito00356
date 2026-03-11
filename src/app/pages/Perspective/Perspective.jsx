@@ -118,7 +118,7 @@ const Perspective = () => {
   // Onboarding
   const onboardingSteps = ONBOARDING_STEPS.perspective;
   const [skipChecked, setSkipChecked] = useState(false);
-  const { isVisible, currentStep, nextStep, prevStep, skip, resetPage } = useOnboarding("perspective");
+  const { isVisible, currentStep, nextStep, prevStep, skip, resetPage, close, reopen } = useOnboarding("perspective");
 
   if (isPending) return <p>Laden...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -128,18 +128,6 @@ const Perspective = () => {
     <div className="canvas-page">
       <TitleBadge title="perspective" />
 
-      <OnboardingModal
-        isVisible={isVisible}
-        title={onboardingSteps[currentStep]?.title}
-        description={onboardingSteps[currentStep]?.description}
-        currentStep={currentStep}
-        totalSteps={onboardingSteps.length}
-        onNext={() => nextStep(onboardingSteps.length)}
-        onPrev={prevStep}
-        onClose={() => skip(skipChecked)}
-        skipChecked={skipChecked}
-        onSkipChange={setSkipChecked}
-      />
       <KeyboardControls map={keyMap}>
         <Canvas
           dpr={[1, 2]}
@@ -196,7 +184,19 @@ const Perspective = () => {
         </Canvas>
       </KeyboardControls>
       <div className="ui-overlay">
-        <TutorialBtn onReset={resetPage} />
+        <OnboardingModal
+          isVisible={isVisible}
+          title={onboardingSteps[currentStep]?.title}
+          description={onboardingSteps[currentStep]?.description}
+          currentStep={currentStep}
+          totalSteps={onboardingSteps.length}
+          onNext={() => nextStep(onboardingSteps.length)}
+          onPrev={prevStep}
+          onClose={() => (skipChecked ? skip(true) : close())}
+          skipChecked={skipChecked}
+          onSkipChange={setSkipChecked}
+        />
+        <TutorialBtn onReset={reopen} />
         <MenuProfile />
         <MenuFurniture handleAddFurniture={addFurniture} />
         <MenuSave onSave={handleSave} />
