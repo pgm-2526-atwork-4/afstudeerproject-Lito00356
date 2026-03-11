@@ -17,7 +17,7 @@ import { useOnboarding } from "@core/hooks/useOnboarding";
 
 const Collection = () => {
   const { auth } = useAuth();
-  const user = auth.user;
+  const user = auth?.user;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [selectedProject, setSelectedProject] = useState(null);
@@ -40,8 +40,8 @@ const Collection = () => {
     error,
     isPending,
   } = useQuery({
-    queryKey: ["projects", user.id],
-    queryFn: () => getUserProjects(user.id),
+    queryKey: ["projects", user?.id],
+    queryFn: () => getUserProjects(user?.id),
   });
 
   const formatDate = (dateString) => {

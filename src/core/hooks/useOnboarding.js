@@ -10,8 +10,8 @@ export const useOnboarding = (page) => {
   const [isClosed, setIsClosed] = useState(false);
 
   const { data: onboarding, isPending } = useQuery({
-    queryKey: ["onboarding", auth.user?.id],
-    queryFn: () => getOnboarding(auth.user?.id),
+    queryKey: ["onboarding", auth?.user?.id],
+    queryFn: () => getOnboarding(auth?.user?.id),
   });
 
   const progress = onboarding?.progress?.[page] ?? { seen: false, currentStep: 0, completed: false };

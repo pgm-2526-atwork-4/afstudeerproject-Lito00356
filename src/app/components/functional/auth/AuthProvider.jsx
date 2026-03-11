@@ -28,6 +28,7 @@ const AuthProvider = ({ children }) => {
       data: { subscription },
     } = API.auth.onAuthStateChange((event) => {
       switch (event) {
+        case "SIGNED_IN":
         case "USER_UPDATED":
         case "TOKEN_REFRESHED":
           fetchAuth();
