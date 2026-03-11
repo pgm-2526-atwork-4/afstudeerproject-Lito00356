@@ -21,6 +21,7 @@ import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 import MenuSave from "@design/MenuSave/MenuSave";
 import TutorialBtn from "@design/Button/TutorialBtn/TutorialBtn";
+import ObjectOptions from "@design/Button/ObjectOptions/ObjectOptions";
 
 const keyMap = [
   { name: "translate", keys: ["w"] },
@@ -118,7 +119,7 @@ const Perspective = () => {
   // Onboarding
   const onboardingSteps = ONBOARDING_STEPS.perspective;
   const [skipChecked, setSkipChecked] = useState(false);
-  const { isVisible, currentStep, nextStep, prevStep, skip, resetPage, close, reopen } = useOnboarding("perspective");
+  const { isVisible, currentStep, nextStep, prevStep, skip, close, reopen } = useOnboarding("perspective");
 
   if (isPending) return <p>Laden...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -200,6 +201,7 @@ const Perspective = () => {
         <MenuProfile />
         <MenuFurniture handleAddFurniture={addFurniture} />
         <MenuSave onSave={handleSave} />
+        <ObjectOptions />
       </div>
     </div>
   );
