@@ -14,8 +14,8 @@ const MenuProfile = ({ colorClass }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await logout();
     navigate("/login");
+    await logout();
   };
 
   return (
