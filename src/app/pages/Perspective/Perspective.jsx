@@ -20,6 +20,7 @@ import { useOnboarding } from "@core/hooks/useOnboarding";
 import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 import MenuSave from "@design/MenuSave/MenuSave";
+import TutorialBtn from "@design/Button/TutorialBtn/TutorialBtn";
 
 const keyMap = [
   { name: "translate", keys: ["w"] },
@@ -195,6 +196,7 @@ const Perspective = () => {
         </Canvas>
       </KeyboardControls>
       <div className="ui-overlay">
+        <TutorialBtn />
         <MenuProfile />
         <MenuFurniture handleAddFurniture={addFurniture} />
         <MenuSave onSave={handleSave} />
