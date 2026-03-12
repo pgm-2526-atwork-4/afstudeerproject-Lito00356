@@ -1,6 +1,6 @@
 import RadialMenu from "@functional/RadialMenu/RadialMenu";
 import "./Furniture.css";
-import { meshBounds, TransformControls, useGLTF } from "@react-three/drei";
+import { meshBounds, TransformControls, useBounds, useGLTF } from "@react-three/drei";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -24,6 +24,7 @@ const Furniture = ({
   const [primitiveReady, setPrimitiveReady] = useState(null);
   const [translationMode, setTranslationMode] = useState("translate");
   const [boxSize, setBoxSize] = useState([1, 1, 1]);
+  const bounds = useBounds();
 
   const halfWidth = boxSize[0] / 1.2;
   const halfHeight = boxSize[1] / 0.4;
@@ -93,7 +94,12 @@ const Furniture = ({
         visible={false}
         onClick={(e) => {
           e.stopPropagation();
-          isSelected ? onDeselect() : onSelect(primitiveRef.current);
+          if (!isSelected) {
+            bounds.refresh(e.object).fit();
+            onSelect(primitiveRef.current);
+          } else {
+            onDeselect();
+          }
         }}
         onPointerEnter={(e) => {
           e.stopPropagation();

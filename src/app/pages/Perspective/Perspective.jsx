@@ -1,8 +1,8 @@
 import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
-import React, { useEffect, useState } from "react";
-import { KeyboardControls, OrbitControls, Select, Wireframe } from "@react-three/drei";
+import React, { useEffect, useRef, useState } from "react";
+import { Bounds, KeyboardControls, OrbitControls, Select, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@core/modules/projects/api.projects";
@@ -34,6 +34,7 @@ const Perspective = () => {
   const { projectId } = useParams();
   const projectNumberId = Number(projectId);
   const saveRoom = useSaveRoom();
+  const orbitRef = useRef();
 
   const {
     data: project,
@@ -181,24 +182,25 @@ const Perspective = () => {
               wallThickness={0.2}
             />
           )}
-
-          {furniture.map((item) => (
-            <Select key={item.id} enabled={selectedObject === item.id}>
-              <Furniture
-                key={item.id}
-                furnitureId={item.id}
-                color={item.color ?? "rgba(240, 240, 240, 1)"}
-                position={item.position}
-                scale={item.scale}
-                rotation={item.rotation}
-                isSelected={selectedObject === item.id}
-                onSelect={(meshRef) => handleSelect(item.id, meshRef)}
-                onDeselect={handleDeselect}
-                onTransformChange={handleTransformChange}
-                onColorChange={handleColorChange}
-              />
-            </Select>
-          ))}
+          <Bounds margin={1.2}>
+            {furniture.map((item) => (
+              <Select key={item.id} enabled={selectedObject === item.id}>
+                <Furniture
+                  key={item.id}
+                  furnitureId={item.id}
+                  color={item.color ?? "rgba(240, 240, 240, 1)"}
+                  position={item.position}
+                  scale={item.scale}
+                  rotation={item.rotation}
+                  isSelected={selectedObject === item.id}
+                  onSelect={(meshRef) => handleSelect(item.id, meshRef)}
+                  onDeselect={handleDeselect}
+                  onTransformChange={handleTransformChange}
+                  onColorChange={handleColorChange}
+                />
+              </Select>
+            ))}
+          </Bounds>
 
           <OrbitControls target={[0, 0, 0]} maxPolarAngle={Math.PI / 2} makeDefault />
         </Canvas>
