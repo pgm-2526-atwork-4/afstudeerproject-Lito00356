@@ -173,6 +173,7 @@ const Perspective = () => {
                   onSelect={(meshRef) => handleSelect(item.id, meshRef)}
                   onDeselect={handleDeselect}
                   onTransformChange={handleTransformChange}
+                  onSave={handleSave}
                   onColorChange={handleColorChange}
                 />
               </Select>

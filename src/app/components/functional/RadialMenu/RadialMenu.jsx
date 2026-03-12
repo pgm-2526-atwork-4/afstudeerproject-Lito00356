@@ -33,7 +33,7 @@ const RadialMenu = ({ furnitureId, onColorChange, leftOffset = -1, rightOffset =
             className="radial-menu__toggle radial-menu__toggle--material"
             onClick={() => setMaterialOpen((prev) => !prev)}
           >
-            {materialOpen ? <X size={14} /> : <BrickWall size={14} />}
+            {materialOpen ? <X size={22} /> : <BrickWall size={22} />}
           </button>
 
           {MATERIALS.map((mat, i) => (
@@ -57,7 +57,7 @@ const RadialMenu = ({ furnitureId, onColorChange, leftOffset = -1, rightOffset =
       <Html position={[rightOffset, height, 0]} wrapperClass="radial-menu" distanceFactor={6}>
         <div className={`radial-menu__group ${colorOpen ? "radial-menu__group--open" : ""}`}>
           <button className="radial-menu__toggle" onClick={() => setColorOpen((prev) => !prev)}>
-            {colorOpen ? <X size={14} /> : <Palette size={14} />}
+            {colorOpen ? <X size={22} /> : <Palette size={22} />}
           </button>
 
           {COLORS.map((color, i) => (

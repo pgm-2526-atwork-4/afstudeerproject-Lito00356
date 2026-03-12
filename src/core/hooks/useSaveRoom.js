@@ -6,9 +6,10 @@ export const useSaveRoom = () => {
 
   return useMutation({
     mutationFn: uploadProject,
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["user-room"] });
       queryClient.invalidateQueries({ queryKey: ["project"] });
+      localStorage.removeItem(`furniture_${variables.id}`);
     },
   });
 };
