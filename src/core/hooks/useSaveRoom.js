@@ -8,6 +8,7 @@ export const useSaveRoom = () => {
     mutationFn: uploadProject,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user-room"] });
+      queryClient.invalidateQueries({ queryKey: ["project"] });
     },
   });
 };

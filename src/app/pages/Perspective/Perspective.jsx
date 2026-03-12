@@ -1,7 +1,7 @@
 import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Bounds, KeyboardControls, OrbitControls, Select, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
@@ -106,24 +106,6 @@ const Perspective = () => {
   const handleResetRotation = (id) => {
     handleTransformChange(id, { rotation: [0, 0, 0] });
   };
-
-  useEffect(() => {
-    if (!furniture.length || !project) return;
-
-    const timer = setTimeout(() => {
-      const body = {
-        id: project?.id,
-        user_id: user.id,
-        scene_name: project?.scene_name,
-        room_data: project?.room_data,
-        objects: { furniture },
-      };
-
-      saveRoom.mutate(body);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [furniture]);
 
   // Onboarding
   const onboardingSteps = ONBOARDING_STEPS.perspective;

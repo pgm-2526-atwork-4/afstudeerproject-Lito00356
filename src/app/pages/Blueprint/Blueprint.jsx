@@ -110,8 +110,10 @@ const Blueprint = () => {
       context.lineWidth = 2;
 
       points.forEach((p) => {
+        const isDragging = p.id === draggingPoint;
         context.beginPath();
-        context.arc(p.x, p.y, 6, 0, Math.PI * 2);
+        context.arc(p.x, p.y, isDragging ? 9 : 6, 0, Math.PI * 2);
+        context.fillStyle = isDragging ? "#ff4444" : "#007bff";
         context.fill();
         context.stroke();
       });
@@ -327,9 +329,11 @@ const Blueprint = () => {
       },
     };
 
-    saveRoom.mutate(body);
-
-    navigate(`/perspective/${projectId}`);
+    saveRoom.mutate(body, {
+      onSuccess: () => {
+        navigate(`/perspective/${projectId}`);
+      },
+    });
   };
 
   const getCanvasCoords = (e) => {
@@ -343,23 +347,27 @@ const Blueprint = () => {
 
   const handleMouseUp = () => {
     if (draggingPoint) {
-      setWalls((prev) =>
-        prev.map((wall) => {
-          const start = points.find((p) => p.id === wall.start);
-          const end = points.find((p) => p.id === wall.end);
+      setPoints((prevPoints) => {
+        setWalls((prev) =>
+          prev.map((wall) => {
+            const start = prevPoints.find((p) => p.id === wall.start);
+            const end = prevPoints.find((p) => p.id === wall.end);
 
-          if (!start || !end) {
-            return wall;
-          }
+            if (!start || !end) {
+              return wall;
+            }
 
-          return {
-            ...wall,
-            startPosition: start,
-            endPosition: end,
-            distance: getDistance(start, end).meter,
-          };
-        }),
-      );
+            return {
+              ...wall,
+              startPosition: start,
+              endPosition: end,
+              distance: getDistance(start, end).meter,
+            };
+          }),
+        );
+
+        return prevPoints;
+      });
     }
     setDraggingPoint(null);
   };
