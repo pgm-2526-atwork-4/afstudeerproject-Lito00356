@@ -1,7 +1,7 @@
 import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Bounds, KeyboardControls, OrbitControls, Select, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
@@ -47,6 +47,13 @@ const Perspective = () => {
   const [selectedObject, setSelectedObject] = useState(null);
   const [outlineSelection, setOutlineSelection] = useState([]);
   const [furniture, setFurniture] = useLocalFurniture(projectId) ?? [];
+
+  useEffect(() => {
+    if (!project?.objects?.furniture?.length) return;
+    if (furniture.length === 0) {
+      setFurniture(project.objects.furniture);
+    }
+  }, [project]);
 
   async function handleSave() {
     const body = {
