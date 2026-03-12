@@ -1,7 +1,7 @@
 import RadialMenu from "@functional/RadialMenu/RadialMenu";
 import "./Furniture.css";
-import { meshBounds, TransformControls, useBounds, useGLTF } from "@react-three/drei";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { TransformControls, useBounds, useGLTF } from "@react-three/drei";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 useGLTF.preload("/models/sofa.gltf");
@@ -27,7 +27,7 @@ const Furniture = ({
   const bounds = useBounds();
 
   const halfWidth = boxSize[0] / 1.2;
-  const halfHeight = boxSize[1] / 0.4;
+  const halfHeight = boxSize[1] / 0.8;
 
   useEffect(() => {
     if (primitiveRef.current) {
@@ -35,13 +35,13 @@ const Furniture = ({
     }
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!scene) return;
 
     const box = new THREE.Box3().setFromObject(scene);
-    const size = new THREE.Vector3();
+    const size = new THREE.Vector2();
     box.getSize(size);
-    setBoxSize([size.x, size.y, size.z]);
+    setBoxSize([size.x, size.y * 2, size.z]);
   }, [scene]);
 
   useEffect(() => {
@@ -67,17 +67,7 @@ const Furniture = ({
 
   return (
     <group>
-      <primitive
-        ref={primitiveRef}
-        object={scene}
-        position={position}
-        scale={scale}
-        rotation={rotation}
-        onClick={(e) => {
-          e.stopPropagation();
-          isSelected ? onDeselect() : onSelect(primitiveRef.current);
-        }}
-      >
+      <primitive ref={primitiveRef} object={scene} position={position} scale={scale} rotation={rotation}>
         {isSelected && (
           <RadialMenu
             furnitureId={furnitureId}
@@ -91,6 +81,7 @@ const Furniture = ({
       </primitive>
       <mesh
         position={position}
+        rotation={rotation}
         visible={false}
         onClick={(e) => {
           e.stopPropagation();

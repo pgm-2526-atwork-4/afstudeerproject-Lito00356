@@ -1,7 +1,7 @@
 import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Bounds, KeyboardControls, OrbitControls, Select, Wireframe } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
@@ -34,7 +34,6 @@ const Perspective = () => {
   const { projectId } = useParams();
   const projectNumberId = Number(projectId);
   const saveRoom = useSaveRoom();
-  const orbitRef = useRef();
 
   const {
     data: project,
@@ -100,15 +99,11 @@ const Perspective = () => {
   };
 
   const handleFurnitureDelete = (id) => {
-    console.log("Delete");
-
     setFurniture((prev) => prev.filter((item) => item.id !== id));
     handleDeselect();
   };
 
   const handleResetRotation = (id) => {
-    console.log("rotation");
-
     handleTransformChange(id, { rotation: [0, 0, 0] });
   };
 
@@ -182,7 +177,7 @@ const Perspective = () => {
               wallThickness={0.2}
             />
           )}
-          <Bounds margin={1.2}>
+          <Bounds margin={2}>
             {furniture.map((item) => (
               <Select key={item.id} enabled={selectedObject === item.id}>
                 <Furniture

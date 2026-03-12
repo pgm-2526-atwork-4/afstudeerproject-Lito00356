@@ -1,8 +1,29 @@
 import React from "react";
 import "./TitleBadge.css";
+import { useNavigate, useParams, useLocation } from "react-router";
 
 const TitleBadge = ({ title }) => {
-  return <strong className="title-badge">{title}</strong>;
+  const navigate = useNavigate();
+  const { projectId } = useParams();
+  const { pathname } = useLocation();
+
+  const isCurrentPageActive = pathname.includes(title.toLowerCase());
+
+  const handleNavigateToBlueprint = () => {
+    navigate(`/project/${projectId}/blueprint`);
+  };
+
+  return (
+    <div className="title-badge-container">
+      <strong className={`title-badge ${isCurrentPageActive ? "title-badge--active" : ""}`}>{title}</strong>
+      <button
+        className={`title-badge__button ${pathname.includes("blueprint") ? "title-badge__button--active" : ""}`}
+        onClick={handleNavigateToBlueprint}
+      >
+        Blueprint
+      </button>
+    </div>
+  );
 };
 
 export default TitleBadge;

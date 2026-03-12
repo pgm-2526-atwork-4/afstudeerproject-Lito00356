@@ -44,8 +44,16 @@ const Blueprint = () => {
   });
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    if (!project.room_data) return;
 
+    const { points, walls } = project.room_data;
+    if (points?.length) setPoints(points);
+    if (walls?.length) setWalls(walls);
+    if (walls?.length) setIsRoomClosed(true);
+  }, [project]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
     if (!canvas) return;
 
     const context = canvas.getContext("2d");
