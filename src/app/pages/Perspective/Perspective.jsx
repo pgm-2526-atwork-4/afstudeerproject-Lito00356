@@ -65,7 +65,7 @@ const Perspective = () => {
       id: `sofa-${Date.now()}`,
       type: "sofa",
       position: [5, 0, 5],
-      scale: [0.5, 0.5, 0.5],
+      scale: [0.8, 0.8, 0.8],
       rotation: [0, 0, 0],
       color: "rgba(240, 240, 240, 1)",
     };

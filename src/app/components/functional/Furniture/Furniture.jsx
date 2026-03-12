@@ -26,8 +26,8 @@ const Furniture = ({
   const [boxSize, setBoxSize] = useState([1, 1, 1]);
   const bounds = useBounds();
 
-  const halfWidth = boxSize[0] / 1.2;
-  const halfHeight = boxSize[1] / 0.8;
+  const halfWidth = boxSize[0] / 1.4;
+  const halfHeight = boxSize[1];
 
   useEffect(() => {
     if (primitiveRef.current) {
@@ -73,8 +73,8 @@ const Furniture = ({
           <RadialMenu
             furnitureId={furnitureId}
             position={position}
-            leftOffset={-halfWidth - 0.2}
-            rightOffset={halfWidth + 0.2}
+            leftOffset={-halfWidth}
+            rightOffset={halfWidth - 0.5}
             height={halfHeight}
             onColorChange={onColorChange}
           />
