@@ -10,7 +10,7 @@ const TitleBadge = ({ title }) => {
   const isCurrentPageActive = pathname.includes(title.toLowerCase());
 
   const handleNavigateToBlueprint = () => {
-    navigate(`/project/${projectId}/blueprint`);
+    navigate(`/blueprint/${projectId}`);
   };
 
   return (

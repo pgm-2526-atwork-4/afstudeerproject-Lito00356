@@ -31,6 +31,9 @@ const Blueprint = () => {
   // Calculate distnace
   const [liveDistance, setLiveDistance] = useState(null);
 
+  // Voor de punten terug te verzetten
+  const [draggingPoint, setDraggingPoint] = useState("");
+
   const gridSize = 20;
 
   const {
@@ -44,7 +47,7 @@ const Blueprint = () => {
   });
 
   useEffect(() => {
-    if (!project.room_data) return;
+    if (!project?.room_data) return;
 
     const { points, walls } = project.room_data;
     if (points?.length) setPoints(points);
@@ -280,8 +283,6 @@ const Blueprint = () => {
   };
 
   const handleMouseMove = (e) => {
-    if (isRoomClosed) return;
-
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -291,8 +292,14 @@ const Blueprint = () => {
 
     const snappedPointX = Math.round(x / gridSize) * gridSize;
     const snappedPointY = Math.round(y / gridSize) * gridSize;
-
     const existingPoint = points.some((p) => Math.abs(p.x - snappedPointX) < 10 && Math.abs(p.y - snappedPointY) < 10);
+
+    if (draggingPoint) {
+      setPoints((prev) => prev.map((p) => (p.id === draggingPoint ? { ...p, x: snappedPointX, y: snappedPointY } : p)));
+      return;
+    }
+
+    if (isRoomClosed) return;
 
     setPreviewPoint(existingPoint ? null : { x: snappedPointX, y: snappedPointY });
 
@@ -325,6 +332,48 @@ const Blueprint = () => {
     navigate(`/perspective/${projectId}`);
   };
 
+  const getCanvasCoords = (e) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.round((e.clientX - rect.left) / gridSize) * gridSize;
+    const y = Math.round((e.clientY - rect.top) / gridSize) * gridSize;
+
+    return { x, y };
+  };
+
+  const handleMouseUp = () => {
+    if (draggingPoint) {
+      setWalls((prev) =>
+        prev.map((wall) => {
+          const start = points.find((p) => p.id === wall.start);
+          const end = points.find((p) => p.id === wall.end);
+
+          if (!start || !end) {
+            return wall;
+          }
+
+          return {
+            ...wall,
+            startPosition: start,
+            endPosition: end,
+            distance: getDistance(start, end).meter,
+          };
+        }),
+      );
+    }
+    setDraggingPoint(null);
+  };
+
+  const handleMouseDown = (e) => {
+    const { x, y } = getCanvasCoords(e);
+
+    const hit = points.find((p) => Math.abs(p.x - x) < 10 && Math.abs(p.y - y) < 10);
+
+    if (hit) {
+      setDraggingPoint(hit.id);
+    }
+  };
+
   // Onboarding
   const onboardingSteps = ONBOARDING_STEPS.blueprint;
   const [skipChecked, setSkipChecked] = useState(false);
@@ -355,9 +404,12 @@ const Blueprint = () => {
           ref={canvasRef}
           onClick={handleCanvasClick}
           onMouseMove={handleMouseMove}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
           onMouseLeave={() => {
             setPreviewPoint(null);
             setLiveDistance(null);
+            setDraggingPoint(null);
           }}
           style={{
             width: "100%",
