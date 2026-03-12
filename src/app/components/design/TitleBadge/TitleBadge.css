@@ -11,7 +11,7 @@
 
 .title-badge {
   margin: 0;
-  background-color: var(--main-color);
+  background-color: color-mix(in srgb, var(--main-color) 70%, black);
   color: var(--text-black);
   text-transform: uppercase;
   padding: var(--spacing-2xs) var(--spacing-base);
@@ -21,17 +21,16 @@
   transition:
     background-color 0.2s ease,
     box-shadow 0.2s ease;
-}
 
-.title-badge--active {
-  background-color: var(--main-color-light);
-  box-shadow: 0 0 12px rgba(183, 195, 193, 0.6);
+  &.title-badge--active {
+    background-color: var(--main-color-light);
+  }
 }
 
 .title-badge__button {
   all: unset;
   cursor: pointer;
-  background-color: var(--main-color);
+  background-color: color-mix(in srgb, var(--main-color) 70%, black);
   color: var(--text-black);
   padding: var(--spacing-2xs) var(--spacing-base);
   border-radius: var(--radius-base);
@@ -42,18 +41,17 @@
     background-color 0.2s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease;
-}
 
-.title-badge__button:hover {
-  background-color: var(--main-color-light);
-  transform: translateY(-2px);
-}
+  &:hover {
+    background-color: var(--main-color-light);
+    transform: translateY(-2px);
+  }
 
-.title-badge__button:active {
-  transform: translateY(0);
-}
+  &:active {
+    transform: translateY(0);
+  }
 
-.title-badge__button--active {
-  background-color: var(--main-color-light);
-  box-shadow: 0 0 12px rgba(183, 195, 193, 0.6);
+  &.title-badge__button--active {
+    background-color: var(--main-color-light);
+  }
 }

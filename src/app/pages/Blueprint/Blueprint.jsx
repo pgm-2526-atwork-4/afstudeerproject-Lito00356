@@ -50,6 +50,7 @@ const Blueprint = () => {
     if (!project?.room_data) return;
 
     const { points, walls } = project.room_data;
+    // eslint-disable-next-line
     if (points?.length) setPoints(points);
     if (walls?.length) setWalls(walls);
     if (walls?.length) setIsRoomClosed(true);
@@ -127,14 +128,13 @@ const Blueprint = () => {
       walls.forEach((wall) => {
         const startPoint = points.find((p) => p.id === wall.start);
         const endPoint = points.find((p) => p.id === wall.end);
-        const isHovered = selectedWall == wall.id;
 
         if (startPoint && endPoint) {
           context.beginPath();
           context.moveTo(startPoint.x, startPoint.y);
           context.lineTo(endPoint.x, endPoint.y);
-          context.lineWidth = isHovered ? 6 : 4;
-          context.strokeStyle = isHovered ? "#ff4444" : "#007bff";
+          context.lineWidth = 4;
+          context.strokeStyle = "#007bff";
           context.stroke();
         }
       });
@@ -205,7 +205,7 @@ const Blueprint = () => {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [points, walls, previewPoint, isRoomClosed, liveDistance, isPending]);
+  }, [points, walls, previewPoint, isRoomClosed, liveDistance, isPending, draggingPoint]);
 
   const handleCanvasClick = (e) => {
     if (isRoomClosed) {
