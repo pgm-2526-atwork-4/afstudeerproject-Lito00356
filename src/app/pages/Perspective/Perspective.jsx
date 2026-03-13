@@ -199,7 +199,8 @@ const Perspective = () => {
           totalSteps={onboardingSteps.length}
           onNext={() => nextStep(onboardingSteps.length)}
           onPrev={prevStep}
-          onClose={() => (skipChecked ? skip(true) : close())}
+          onClose={close}
+          onSkipDone={() => skip(true)}
           skipChecked={skipChecked}
           onSkipChange={setSkipChecked}
         />

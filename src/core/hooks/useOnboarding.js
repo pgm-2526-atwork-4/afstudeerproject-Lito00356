@@ -66,7 +66,7 @@ export const useOnboarding = (page) => {
       skipped: false,
       progress: {
         ...onboarding?.progress,
-        [page]: { seen: false, currentStep, completed: false },
+        [page]: { seen: false, currentStep: progress.completed ? 0 : currentStep, completed: false },
       },
     });
   };

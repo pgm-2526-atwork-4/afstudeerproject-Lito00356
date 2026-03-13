@@ -12,6 +12,7 @@ import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 import { useOnboarding } from "@core/hooks/useOnboarding";
 import { getDistance } from "@core/utils/geometry";
+import TutorialBtn from "@design/Button/TutorialBtn/TutorialBtn";
 
 const Blueprint = () => {
   const { auth } = useAuth();
@@ -23,8 +24,7 @@ const Blueprint = () => {
   const saveRoom = useSaveRoom();
   const [points, setPoints] = useState([]);
   const [walls, setWalls] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [selectedWall, setSelectedWall] = useState(null);
+
   const [isRoomClosed, setIsRoomClosed] = useState(false);
   const [previewPoint, setPreviewPoint] = useState(null);
 
@@ -385,7 +385,7 @@ const Blueprint = () => {
   // Onboarding
   const onboardingSteps = ONBOARDING_STEPS.blueprint;
   const [skipChecked, setSkipChecked] = useState(false);
-  const { isVisible, currentStep, nextStep, prevStep, skip } = useOnboarding("blueprint");
+  const { isVisible, currentStep, nextStep, prevStep, skip, close, reopen } = useOnboarding("blueprint");
 
   if (isPending) return <p>Laden...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -394,7 +394,7 @@ const Blueprint = () => {
   return (
     <div className="blueprint-fullscreen">
       <TitleBadge title="blueprint" />
-      <MenuProfile colorClass="dark" />
+
       <OnboardingModal
         isVisible={isVisible}
         title={onboardingSteps[currentStep]?.title}
@@ -403,7 +403,8 @@ const Blueprint = () => {
         totalSteps={onboardingSteps.length}
         onNext={() => nextStep(onboardingSteps.length)}
         onPrev={prevStep}
-        onClose={() => skip(skipChecked)}
+        onClose={close}
+        onSkipDone={() => skip(true)}
         skipChecked={skipChecked}
         onSkipChange={setSkipChecked}
       />
@@ -428,6 +429,8 @@ const Blueprint = () => {
           }}
         />
       </div>
+      <TutorialBtn onReset={reopen} colorClass="dark" />
+      <MenuProfile colorClass="dark" />
       <button
         className="reset-blueprint-btn"
         onClick={() => {

@@ -10,6 +10,7 @@ const OnboardingModal = ({
   onNext,
   onPrev,
   onClose,
+  onSkipDone,
   skipChecked,
   onSkipChange,
 }) => {
@@ -45,14 +46,20 @@ const OnboardingModal = ({
           </label>
 
           <div className="onboarding-actions">
-            {!isFirstStep && (
+            {!isFirstStep && !skipChecked && (
               <button className="onboarding-btn onboarding-btn--prev" onClick={onPrev}>
                 Back
               </button>
             )}
-            <button className="onboarding-btn onboarding-btn--next" onClick={onNext}>
-              {isLastStep ? "Done" : "Next"}
-            </button>
+            {skipChecked ? (
+              <button className="onboarding-btn onboarding-btn--next" onClick={onSkipDone}>
+                Done
+              </button>
+            ) : (
+              <button className="onboarding-btn onboarding-btn--next" onClick={onNext}>
+                {isLastStep ? "Done" : "Next"}
+              </button>
+            )}
           </div>
         </div>
       </div>

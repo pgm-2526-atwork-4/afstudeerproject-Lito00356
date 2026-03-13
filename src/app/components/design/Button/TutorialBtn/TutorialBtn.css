@@ -17,25 +17,21 @@
     transform 0.2s ease,
     box-shadow 0.2s ease;
   z-index: 15;
-}
-
-.tutorial-btn:hover {
-  background-color: var(--accent-muted);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.tutorial-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-}
-
-.tutorial-btn--dark {
-  background-color: var(--dark);
-  color: var(--text-white);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    background-color: var(--main-color);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &.dark {
+    background-color: var(--dark);
+    color: var(--text-white);
+
+    &:hover {
+      background-color: var(--main-color);
+    }
   }
 }
