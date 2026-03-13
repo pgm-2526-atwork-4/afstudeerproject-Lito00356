@@ -17,12 +17,14 @@ const TitleBadge = ({ title }) => {
     <div className="title-badge-container">
       <strong className={`title-badge ${isCurrentPageActive ? "title-badge--active" : ""}`}>{title}</strong>
 
-      <button
-        className={`title-badge__button ${pathname.includes("blueprint") ? "title-badge__button--active" : ""}`}
-        onClick={handleNavigateToBlueprint}
-      >
-        Blueprint
-      </button>
+      {!pathname.includes("blueprint") && (
+        <button
+          className={`title-badge__button ${pathname.includes("blueprint") ? "title-badge__button--active" : ""}`}
+          onClick={handleNavigateToBlueprint}
+        >
+          Blueprint
+        </button>
+      )}
     </div>
   );
 };
