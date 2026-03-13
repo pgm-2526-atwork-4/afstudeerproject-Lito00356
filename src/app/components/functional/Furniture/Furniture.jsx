@@ -29,6 +29,7 @@ const Furniture = ({
   const [boxSize, setBoxSize] = useState([1, 1, 1]);
   const bounds = useBounds();
   const [hasMoved, setHasMoved] = useState(false);
+  const isDragging = useRef(false);
 
   const halfWidth = boxSize[0] / 1.4;
   const halfHeight = boxSize[1] / 1.5;
@@ -106,6 +107,7 @@ const Furniture = ({
           visible={false}
           onClick={(e) => {
             e.stopPropagation();
+            if (isDragging.current) return;
             if (!isSelected) {
               bounds.refresh(e.object).fit();
               onSelect(primitiveRef.current);
@@ -133,6 +135,8 @@ const Furniture = ({
           object={groupReady}
           mode={translationMode}
           size={0.5}
+          onMouseDown={() => { isDragging.current = true; }}
+          onMouseUp={() => { setTimeout(() => { isDragging.current = false; }, 50); }}
           onObjectChange={() => {
             setHasMoved(true);
             const pos = groupRef.current?.position;

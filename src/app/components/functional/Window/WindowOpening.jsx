@@ -18,6 +18,7 @@ const WindowOpening = ({
   const hitRef = useRef();
   const bounds = useBounds();
   const [groupReady, setGroupReady] = useState(null);
+  const isDragging = useRef(false);
 
   useEffect(() => {
     if (groupRef.current) {
@@ -38,6 +39,7 @@ const WindowOpening = ({
           visible={false}
           onClick={(e) => {
             e.stopPropagation();
+            if (isDragging.current) return;
             if (!isSelected) {
               bounds.refresh(e.object).fit();
               onSelect(groupRef.current);
@@ -67,6 +69,8 @@ const WindowOpening = ({
           space="local"
           size={0.55}
           showZ={true}
+          onMouseDown={() => { isDragging.current = true; }}
+          onMouseUp={() => { setTimeout(() => { isDragging.current = false; }, 50); }}
           onObjectChange={() => {
             const pos = groupRef.current?.position;
             if (!pos) return;
