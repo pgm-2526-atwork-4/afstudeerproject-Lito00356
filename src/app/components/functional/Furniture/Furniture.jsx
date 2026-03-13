@@ -46,7 +46,7 @@ const Furniture = ({
     const size = new THREE.Vector3();
     box.getSize(size);
     // eslint-disable-next-line
-    setBoxSize([size.x * 1.4, size.y * 2.5, size.z * 1.4]);
+    setBoxSize([size.x * 1.5, size.y * 2.5, size.z * 0.8]);
   }, [scene]);
 
   useEffect(() => {

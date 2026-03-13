@@ -79,7 +79,7 @@ const CATALOGUE = {
   ],
 };
 
-const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture }) => {
+const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddWindow }) => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -133,6 +133,12 @@ const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture }) => {
               <ImageWithFallback />
             </div>
             <span className="furniture-card__title">Sofa</span>
+          </button>
+          <button className="furniture-card" onClick={() => handleAddWindow?.()}>
+            <div className="furniture-card__thumb">
+              <ImageWithFallback />
+            </div>
+            <span className="furniture-card__title">Window</span>
           </button>
           {items.map((item) => (
             <button key={item.id} className="furniture-card" onClick={() => onFurnitureSelect && onFurnitureSelect(item)}>
