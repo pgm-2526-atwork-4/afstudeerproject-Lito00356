@@ -30,11 +30,14 @@ const Wall = ({ start, end, height, thickness, openings = [] }) => {
         const maxOffset = Math.max(0, wallLength / 2 - halfOpeningWidth - 0.05);
         const clampedOffset = THREE.MathUtils.clamp(opening.offset ?? 0, -maxOffset, maxOffset);
         const openingHeight = opening.height ?? 1;
-        const centerY = THREE.MathUtils.clamp(
-          opening.centerY ?? height / 2,
-          openingHeight / 2 + 0.05,
-          height - openingHeight / 2 - 0.05,
-        );
+        const grounded = opening.type === "door";
+        const centerY = grounded
+          ? openingHeight / 2
+          : THREE.MathUtils.clamp(
+              opening.centerY ?? height / 2,
+              openingHeight / 2 + 0.05,
+              height - openingHeight / 2 - 0.05,
+            );
 
         return {
           id: opening.id,

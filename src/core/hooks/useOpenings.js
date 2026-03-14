@@ -61,6 +61,11 @@ export const useOpenings = (projectId, project, walls) => {
       return;
     }
 
+    const yRot = model.rotationOffset?.[1] ?? 0;
+    const isRotated90 = Math.abs(Math.abs(yRot) - Math.PI / 2) < 0.01;
+    const width = isRotated90 ? dimensions.depth : dimensions.width;
+    const depth = isRotated90 ? dimensions.width : dimensions.depth;
+
     const centerY = model.grounded ? dimensions.height / 2 : 1.35;
     const center = [(firstWall.start[0] + firstWall.end[0]) / 2, centerY, (firstWall.start[2] + firstWall.end[2]) / 2];
     const wallAngle = getWallAngle(firstWall);
@@ -74,9 +79,9 @@ export const useOpenings = (projectId, project, walls) => {
         wallId: firstWall.id,
         offset: 0,
         centerY,
-        width: dimensions.width,
+        width,
         height: dimensions.height,
-        depth: dimensions.depth,
+        depth,
         position: center,
         rotation: [0, -wallAngle, 0],
       },
