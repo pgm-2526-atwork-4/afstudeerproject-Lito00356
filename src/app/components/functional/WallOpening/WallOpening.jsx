@@ -1,9 +1,9 @@
 import { TransformControls, useBounds, useGLTF } from "@react-three/drei";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { WINDOW_MODELS } from "@core/utils/windowModels";
+import { OPENING_MODELS } from "@core/utils/openingModels";
 
-const WindowOpening = ({
+const WallOpening = ({
   id,
   position = [0, 1.2, 0],
   rotation = [0, 0, 0],
@@ -22,9 +22,17 @@ const WindowOpening = ({
   const [groupReady, setGroupReady] = useState(null);
   const isDragging = useRef(false);
 
-  const modelPath = WINDOW_MODELS[modelType]?.path;
-  const { scene } = useGLTF(modelPath);
-  const windowModel = useMemo(() => scene.clone(), [scene]);
+  const modelConfig = OPENING_MODELS[modelType];
+  const { scene } = useGLTF(modelConfig?.path);
+  const model = useMemo(() => {
+    const cloned = scene.clone();
+    cloned.traverse((child) => {
+      if (!child.isMesh) return;
+      child.material = child.material.clone();
+      child.material.side = THREE.DoubleSide;
+    });
+    return cloned;
+  }, [scene]);
 
   const modelOffset = useMemo(() => {
     const box = new THREE.Box3().setFromObject(scene);
@@ -42,7 +50,7 @@ const WindowOpening = ({
   return (
     <group>
       <group ref={groupRef} position={position} rotation={rotation}>
-        <primitive object={windowModel} position={modelOffset} />
+        <primitive object={model} position={modelOffset} rotation={modelConfig?.rotationOffset ?? [0, 0, 0]} />
 
         <mesh
           visible={false}
@@ -78,18 +86,11 @@ const WindowOpening = ({
           space="local"
           size={0.55}
           showZ={true}
-          onMouseDown={() => {
-            isDragging.current = true;
-          }}
-          onMouseUp={() => {
-            setTimeout(() => {
-              isDragging.current = false;
-            }, 50);
-          }}
+          onMouseDown={() => { isDragging.current = true; }}
+          onMouseUp={() => { setTimeout(() => { isDragging.current = false; }, 50); }}
           onObjectChange={() => {
             const pos = groupRef.current?.position;
             if (!pos) return;
-
             onTransform(id, [pos.x, pos.y, pos.z]);
           }}
         />
@@ -98,4 +99,4 @@ const WindowOpening = ({
   );
 };
 
-export default WindowOpening;
+export default WallOpening;

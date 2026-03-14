@@ -1,16 +1,18 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three-stdlib";
 
-export const WINDOW_MODELS = {
+export const OPENING_MODELS = {
   standard_single: {
     path: "/models/windows/standard_single/scene.gltf",
     label: "Standard window",
     grounded: false,
+    rotationOffset: [0, 0, 0],
   },
   standard_brown_single: {
     path: "/models/doors/standard_brown_single/scene.gltf",
     label: "Standard door",
     grounded: true,
+    rotationOffset: [0, Math.PI / 2, 0],
   },
 };
 

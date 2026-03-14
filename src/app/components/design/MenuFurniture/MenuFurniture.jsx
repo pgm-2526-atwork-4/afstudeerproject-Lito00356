@@ -2,7 +2,7 @@ import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import "./MenuFurniture.css";
 import { Armchair, X } from "lucide-react";
 import React, { useState } from "react";
-import { WINDOW_MODELS } from "@core/utils/windowModels";
+import { OPENING_MODELS } from "@core/utils/openingModels";
 
 const CATEGORIES = ["Zetels", "Tafels", "Bedden", "Stoelen", "Kasten", "Lampen"];
 
@@ -80,7 +80,7 @@ const CATALOGUE = {
   ],
 };
 
-const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddWindow }) => {
+const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddOpening }) => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -135,8 +135,8 @@ const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddWindow 
             </div>
             <span className="furniture-card__title">Sofa</span>
           </button>
-          {Object.entries(WINDOW_MODELS).map(([key, model]) => (
-            <button key={key} className="furniture-card" onClick={() => handleAddWindow?.(key)}>
+          {Object.entries(OPENING_MODELS).map(([key, model]) => (
+            <button key={key} className="furniture-card" onClick={() => handleAddOpening?.(key)}>
               <div className="furniture-card__thumb">
                 <ImageWithFallback />
               </div>

@@ -21,11 +21,12 @@ import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 import MenuSave from "@design/MenuSave/MenuSave";
 import TutorialBtn from "@design/Button/TutorialBtn/TutorialBtn";
 import ObjectOptions from "@design/Button/ObjectOptions/ObjectOptions";
-import WindowOpening from "@functional/Window/WindowOpening";
+import WallOpening from "@functional/WallOpening/WallOpening";
 import { buildWallsFromProject, ROOM_HEIGHT } from "@core/utils/wallGeometry";
-import { useWindows } from "@core/hooks/useWindows";
+import { useOpenings } from "@core/hooks/useOpenings";
 import { useFurnitureManager } from "@core/hooks/useFurnitureManager";
 import { useSelection } from "@core/hooks/useSelection";
+
 const keyMap = [
   { name: "translate", keys: ["w"] },
   { name: "rotate", keys: ["r"] },
@@ -52,7 +53,7 @@ const Perspective = () => {
   const { selectedObject, outlineSelection, handleSelect, handleDeselect } = useSelection();
   const { furniture, addFurniture, handleTransformChange, handleColorChange, handleFurnitureDelete, handleResetRotation } =
     useFurnitureManager(projectId, project);
-  const { windows, addWindow, handleWindowTransform, handleWindowDelete } = useWindows(projectId, project, walls);
+  const { openings, addOpening, handleOpeningTransform, handleOpeningDelete } = useOpenings(projectId, project, walls);
 
   const handleSave = () => {
     saveRoom.mutate({
@@ -60,14 +61,14 @@ const Perspective = () => {
       user_id: user.id,
       scene_name: project?.scene_name,
       room_data: project?.room_data,
-      objects: { furniture, windows },
+      objects: { furniture, openings },
     });
   };
 
   const handleObjectDelete = (id) => {
-    const isWindow = windows.some((item) => item.id === id);
-    if (isWindow) {
-      handleWindowDelete(id);
+    const isOpening = openings.some((item) => item.id === id);
+    if (isOpening) {
+      handleOpeningDelete(id);
     } else {
       handleFurnitureDelete(id);
     }
@@ -75,8 +76,8 @@ const Perspective = () => {
   };
 
   const handleObjectResetRotation = (id) => {
-    const isWindow = windows.some((item) => item.id === id);
-    if (!isWindow) {
+    const isOpening = openings.some((item) => item.id === id);
+    if (!isOpening) {
       handleResetRotation(id);
     }
   };
@@ -116,23 +117,23 @@ const Perspective = () => {
             <Ground onPointerMissed={handleDeselect} />
           </mesh>
 
-          {project?.room_data && <Room3D walls={walls} wallThickness={0.1} height={ROOM_HEIGHT} openings={windows} />}
+          {project?.room_data && <Room3D walls={walls} wallThickness={0.1} height={ROOM_HEIGHT} openings={openings} />}
 
           <Bounds margin={2}>
-            {windows.map((windowItem) => (
-              <Select key={windowItem.id} enabled={selectedObject === windowItem.id}>
-                <WindowOpening
-                  id={windowItem.id}
-                  position={windowItem.position}
-                  rotation={windowItem.rotation}
-                  width={windowItem.width}
-                  height={windowItem.height}
-                  depth={windowItem.depth}
-                  modelType={windowItem.modelType}
-                  isSelected={selectedObject === windowItem.id}
-                  onSelect={(meshRef) => handleSelect(windowItem.id, meshRef)}
+            {openings.map((item) => (
+              <Select key={item.id} enabled={selectedObject === item.id}>
+                <WallOpening
+                  id={item.id}
+                  position={item.position}
+                  rotation={item.rotation}
+                  width={item.width}
+                  height={item.height}
+                  depth={item.depth}
+                  modelType={item.modelType}
+                  isSelected={selectedObject === item.id}
+                  onSelect={(meshRef) => handleSelect(item.id, meshRef)}
                   onDeselect={handleDeselect}
-                  onTransform={handleWindowTransform}
+                  onTransform={handleOpeningTransform}
                 />
               </Select>
             ))}
@@ -175,7 +176,7 @@ const Perspective = () => {
         />
         <TutorialBtn onReset={reopen} />
         <MenuProfile />
-        <MenuFurniture handleAddFurniture={addFurniture} handleAddWindow={addWindow} />
+        <MenuFurniture handleAddFurniture={addFurniture} handleAddOpening={addOpening} />
         <MenuSave onSave={handleSave} />
         <ObjectOptions
           isVisible={!!selectedObject}

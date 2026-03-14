@@ -76,11 +76,14 @@ export const snapWindowToWall = (walls, windowItem, worldPosition) => {
 
   const width = windowItem.width ?? WINDOW_DEFAULT.width;
   const height = windowItem.height ?? WINDOW_DEFAULT.height;
+  const grounded = windowItem.type === "door";
   const halfWidth = width / 2;
   const maxOffset = Math.max(0, closest.wallLength / 2 - halfWidth - 0.05);
   const rawOffset = (closest.t - 0.5) * closest.wallLength;
   const offset = clamp(rawOffset, -maxOffset, maxOffset);
-  const centerY = clamp(worldPosition[1], height / 2 + 0.05, ROOM_HEIGHT - height / 2 - 0.05);
+  const centerY = grounded
+    ? height / 2
+    : clamp(worldPosition[1], height / 2 + 0.05, ROOM_HEIGHT - height / 2 - 0.05);
   const tFromOffset = closest.wallLength === 0 ? 0.5 : offset / closest.wallLength + 0.5;
   const snappedX = closest.wall.start[0] + (closest.wall.end[0] - closest.wall.start[0]) * tFromOffset;
   const snappedZ = closest.wall.start[2] + (closest.wall.end[2] - closest.wall.start[2]) * tFromOffset;
