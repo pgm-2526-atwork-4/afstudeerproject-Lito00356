@@ -26,7 +26,6 @@ import { buildWallsFromProject, ROOM_HEIGHT } from "@core/utils/wallGeometry";
 import { useWindows } from "@core/hooks/useWindows";
 import { useFurnitureManager } from "@core/hooks/useFurnitureManager";
 import { useSelection } from "@core/hooks/useSelection";
-
 const keyMap = [
   { name: "translate", keys: ["w"] },
   { name: "rotate", keys: ["r"] },
@@ -117,7 +116,7 @@ const Perspective = () => {
             <Ground onPointerMissed={handleDeselect} />
           </mesh>
 
-          {project?.room_data && <Room3D walls={walls} wallThickness={0.2} height={ROOM_HEIGHT} openings={windows} />}
+          {project?.room_data && <Room3D walls={walls} wallThickness={0.1} height={ROOM_HEIGHT} openings={windows} />}
 
           <Bounds margin={2}>
             {windows.map((windowItem) => (
@@ -129,6 +128,7 @@ const Perspective = () => {
                   width={windowItem.width}
                   height={windowItem.height}
                   depth={windowItem.depth}
+                  modelType={windowItem.modelType}
                   isSelected={selectedObject === windowItem.id}
                   onSelect={(meshRef) => handleSelect(windowItem.id, meshRef)}
                   onDeselect={handleDeselect}

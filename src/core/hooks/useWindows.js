@@ -1,11 +1,7 @@
 import { useEffect } from "react";
 import { useLocalWindows } from "./useLocalWindows";
-import {
-  WINDOW_DEFAULT,
-  getWallAngle,
-  snapWindowToWall,
-  hasWindowChanged,
-} from "@core/utils/wallGeometry";
+import { getWallAngle, snapWindowToWall, hasWindowChanged } from "@core/utils/wallGeometry";
+import { getModelDimensions, WINDOW_MODELS } from "@core/utils/windowModels";
 
 export const useWindows = (projectId, project, walls) => {
   const [windows, setWindows] = useLocalWindows(projectId);
@@ -45,15 +41,27 @@ export const useWindows = (projectId, project, walls) => {
     });
   }, [walls, setWindows]);
 
-  const addWindow = () => {
+  const addWindow = async (modelType = "standard_single") => {
     const firstWall = walls[0];
     if (!firstWall) return;
 
-    const center = [
-      (firstWall.start[0] + firstWall.end[0]) / 2,
-      1.35,
-      (firstWall.start[2] + firstWall.end[2]) / 2,
-    ];
+    const model = WINDOW_MODELS[modelType];
+    if (!model) return;
+
+    let dimensions;
+    try {
+      dimensions = await getModelDimensions(model.path);
+    } catch (err) {
+      console.error("Failed to load window model:", err);
+      return;
+    }
+
+    if (!dimensions.width || !dimensions.height) {
+      console.error("Invalid model dimensions:", dimensions);
+      return;
+    }
+
+    const center = [(firstWall.start[0] + firstWall.end[0]) / 2, 1.35, (firstWall.start[2] + firstWall.end[2]) / 2];
     const wallAngle = getWallAngle(firstWall);
 
     setWindows((prev) => [
@@ -61,12 +69,13 @@ export const useWindows = (projectId, project, walls) => {
       {
         id: `window-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
         type: "window",
+        modelType,
         wallId: firstWall.id,
         offset: 0,
         centerY: center[1],
-        width: WINDOW_DEFAULT.width,
-        height: WINDOW_DEFAULT.height,
-        depth: WINDOW_DEFAULT.depth,
+        width: dimensions.width,
+        height: dimensions.height,
+        depth: dimensions.depth,
         position: center,
         rotation: [0, -wallAngle, 0],
       },

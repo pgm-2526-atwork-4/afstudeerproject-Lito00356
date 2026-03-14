@@ -1,5 +1,6 @@
-import { TransformControls, useBounds } from "@react-three/drei";
-import React, { useEffect, useRef, useState } from "react";
+import { TransformControls, useBounds, useGLTF } from "@react-three/drei";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { WINDOW_MODELS } from "@core/utils/windowModels";
 
 const WindowOpening = ({
   id,
@@ -8,6 +9,7 @@ const WindowOpening = ({
   width = 1,
   height = 1,
   depth = 0.3,
+  modelType = "standard_single",
   isSelected,
   onSelect,
   onDeselect,
@@ -15,10 +17,13 @@ const WindowOpening = ({
 }) => {
   const groupRef = useRef();
   const transformRef = useRef();
-  const hitRef = useRef();
   const bounds = useBounds();
   const [groupReady, setGroupReady] = useState(null);
   const isDragging = useRef(false);
+
+  const modelPath = WINDOW_MODELS[modelType]?.path;
+  const { scene } = useGLTF(modelPath);
+  const windowModel = useMemo(() => scene.clone(), [scene]);
 
   useEffect(() => {
     if (groupRef.current) {
@@ -29,13 +34,9 @@ const WindowOpening = ({
   return (
     <group>
       <group ref={groupRef} position={position} rotation={rotation}>
-        <mesh>
-          <boxGeometry args={[width, height, depth]} />
-          <meshStandardMaterial color="#59c3c3" visible={false} />
-        </mesh>
+        <primitive object={windowModel} />
 
         <mesh
-          ref={hitRef}
           visible={false}
           onClick={(e) => {
             e.stopPropagation();

@@ -2,6 +2,7 @@ import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import "./MenuFurniture.css";
 import { Armchair, X } from "lucide-react";
 import React, { useState } from "react";
+import { WINDOW_MODELS } from "@core/utils/windowModels";
 
 const CATEGORIES = ["Zetels", "Tafels", "Bedden", "Stoelen", "Kasten", "Lampen"];
 
@@ -134,12 +135,14 @@ const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddWindow 
             </div>
             <span className="furniture-card__title">Sofa</span>
           </button>
-          <button className="furniture-card" onClick={() => handleAddWindow?.()}>
-            <div className="furniture-card__thumb">
-              <ImageWithFallback />
-            </div>
-            <span className="furniture-card__title">Window</span>
-          </button>
+          {Object.entries(WINDOW_MODELS).map(([key, model]) => (
+            <button key={key} className="furniture-card" onClick={() => handleAddWindow?.(key)}>
+              <div className="furniture-card__thumb">
+                <ImageWithFallback />
+              </div>
+              <span className="furniture-card__title">{model.label ?? key}</span>
+            </button>
+          ))}
           {items.map((item) => (
             <button key={item.id} className="furniture-card" onClick={() => onFurnitureSelect && onFurnitureSelect(item)}>
               <div className="furniture-card__thumb">
