@@ -3,10 +3,8 @@ import "./ObjectOptions.css";
 import React from "react";
 
 const ObjectOptions = ({ isVisible, onDelete, onResetRotation }) => {
-  if (!isVisible) return null;
-
   return (
-    <div className={`object-options ${isVisible ? "object-options--visible" : ""}`}>
+    <div className={`object-options${isVisible ? " object-options--visible" : ""}`}>
       <div className="object-options__item">
         <small>Delete object</small>
         <button className="object-options__btn object-options__btn--delete" onClick={onDelete}>
