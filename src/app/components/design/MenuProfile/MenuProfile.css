@@ -1,7 +1,5 @@
 .menu-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  position: relative;
 }
 
 .menu-profile__header {
@@ -105,13 +103,16 @@
 
 /* Dropdown */
 .menu-profile__dropdown {
+  position: absolute;
+  top: 3rem;
+  right: 0;
+  min-width: 100%;
   background-color: var(--main-bg);
   border-radius: 0 0 0.75rem 0.75rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   max-height: 0;
-  width: 100%;
   transition: max-height 0.3s ease;
 }
 
