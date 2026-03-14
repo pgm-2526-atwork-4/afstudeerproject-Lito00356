@@ -4,7 +4,13 @@ import { GLTFLoader } from "three-stdlib";
 export const WINDOW_MODELS = {
   standard_single: {
     path: "/models/windows/standard_single/scene.gltf",
-    label: "Standard Window",
+    label: "Standard window",
+    grounded: false,
+  },
+  standard_brown_single: {
+    path: "/models/doors/standard_brown_single/scene.gltf",
+    label: "Standard door",
+    grounded: true,
   },
 };
 

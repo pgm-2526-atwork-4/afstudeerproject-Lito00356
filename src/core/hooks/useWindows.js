@@ -60,8 +60,9 @@ export const useWindows = (projectId, project, walls) => {
       console.error("Invalid model dimensions:", dimensions);
       return;
     }
+    const centerY = model.ground ? dimensions.height / 2 : 1.35;
 
-    const center = [(firstWall.start[0] + firstWall.end[0]) / 2, 1.35, (firstWall.start[2] + firstWall.end[2]) / 2];
+    const center = [(firstWall.start[0] + firstWall.end[0]) / 2, centerY, (firstWall.start[2] + firstWall.end[2]) / 2];
     const wallAngle = getWallAngle(firstWall);
 
     setWindows((prev) => [
@@ -72,7 +73,7 @@ export const useWindows = (projectId, project, walls) => {
         modelType,
         wallId: firstWall.id,
         offset: 0,
-        centerY: center[1],
+        centerY,
         width: dimensions.width,
         height: dimensions.height,
         depth: dimensions.depth,
