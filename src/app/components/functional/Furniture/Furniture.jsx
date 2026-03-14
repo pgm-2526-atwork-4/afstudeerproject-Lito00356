@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import SaveTransform from "@design/Button/SaveTransform/SaveTransform";
 
-useGLTF.preload("/models/sofa.gltf");
+useGLTF.preload("/models/couches/sofa/sofa.gltf");
 
 const Furniture = ({
   position = [0, 0, 0],
@@ -20,7 +20,7 @@ const Furniture = ({
   color,
   onColorChange,
 }) => {
-  const { scene } = useGLTF("/models/sofa.gltf");
+  const { scene } = useGLTF("/models/couches/sofa/sofa.gltf");
   const transformRef = useRef();
   const primitiveRef = useRef();
   const groupRef = useRef();
@@ -135,8 +135,14 @@ const Furniture = ({
           object={groupReady}
           mode={translationMode}
           size={0.5}
-          onMouseDown={() => { isDragging.current = true; }}
-          onMouseUp={() => { setTimeout(() => { isDragging.current = false; }, 50); }}
+          onMouseDown={() => {
+            isDragging.current = true;
+          }}
+          onMouseUp={() => {
+            setTimeout(() => {
+              isDragging.current = false;
+            }, 50);
+          }}
           onObjectChange={() => {
             setHasMoved(true);
             const pos = groupRef.current?.position;

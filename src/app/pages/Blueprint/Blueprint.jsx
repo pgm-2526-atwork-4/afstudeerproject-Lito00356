@@ -218,7 +218,6 @@ const Blueprint = () => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const gridSize = 20;
     const snappedPointX = Math.round(x / gridSize) * gridSize;
     const snappedPointY = Math.round(y / gridSize) * gridSize;
 
