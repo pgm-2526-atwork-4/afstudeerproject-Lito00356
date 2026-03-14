@@ -53,8 +53,7 @@ const Perspective = () => {
   const { selectedObject, outlineSelection, handleSelect, handleDeselect } = useSelection();
   const { furniture, addFurniture, handleTransformChange, handleColorChange, handleFurnitureDelete, handleResetRotation } =
     useFurnitureManager(projectId, project);
-  const { windows, addWindow, handleWindowTransform, handleWindowDelete } =
-    useWindows(projectId, project, walls);
+  const { windows, addWindow, handleWindowTransform, handleWindowDelete } = useWindows(projectId, project, walls);
 
   const handleSave = () => {
     saveRoom.mutate({

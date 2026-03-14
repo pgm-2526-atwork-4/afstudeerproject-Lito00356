@@ -31,7 +31,7 @@ const WindowOpening = ({
       <group ref={groupRef} position={position} rotation={rotation}>
         <mesh>
           <boxGeometry args={[width, height, depth]} />
-          <meshStandardMaterial color="#59c3c3" transparent opacity={0.45} visible={false} />
+          <meshStandardMaterial color="#59c3c3" visible={false} />
         </mesh>
 
         <mesh
@@ -69,8 +69,14 @@ const WindowOpening = ({
           space="local"
           size={0.55}
           showZ={true}
-          onMouseDown={() => { isDragging.current = true; }}
-          onMouseUp={() => { setTimeout(() => { isDragging.current = false; }, 50); }}
+          onMouseDown={() => {
+            isDragging.current = true;
+          }}
+          onMouseUp={() => {
+            setTimeout(() => {
+              isDragging.current = false;
+            }, 50);
+          }}
           onObjectChange={() => {
             const pos = groupRef.current?.position;
             if (!pos) return;
