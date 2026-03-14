@@ -1,7 +1,7 @@
 import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import "./MenuFurniture.css";
 import { Armchair, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { OPENING_MODELS } from "@core/utils/openingModels";
 
 const CATEGORIES = ["Zetels", "Tafels", "Bedden", "Stoelen", "Kasten", "Lampen"];
@@ -83,6 +83,7 @@ const CATALOGUE = {
 const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddOpening }) => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const menuRef = useRef(null);
 
   const items = selectedCategory ? (CATALOGUE[selectedCategory] ?? []) : [];
 
@@ -90,8 +91,22 @@ const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddOpening
     handleAddFurniture();
   };
 
+  useEffect(() => {
+    if (!panelOpen) return;
+
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setPanelOpen(false);
+        setSelectedCategory("");
+      }
+    };
+
+    document.addEventListener("pointerdown", handleClickOutside);
+    return () => document.removeEventListener("pointerdown", handleClickOutside);
+  }, [panelOpen]);
+
   return (
-    <div className={`furniture-menu${panelOpen ? " furniture-menu--open" : ""}`}>
+    <div ref={menuRef} className={`furniture-menu${panelOpen ? " furniture-menu--open" : ""}`}>
       <div className="furniture-menu__bar">
         <button
           className="furniture-menu__toggle"
@@ -127,32 +142,30 @@ const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddOpening
         </div>
       </div>
 
-      {panelOpen && items.length > 0 && (
-        <div className="furniture-menu__items">
-          <button className="furniture-card" onClick={() => handleLoadFurniture()}>
+      <div className={`furniture-menu__items${panelOpen && items.length > 0 ? " furniture-menu__items--visible" : ""}`}>
+        <button className="furniture-card" onClick={() => handleLoadFurniture()}>
+          <div className="furniture-card__thumb">
+            <ImageWithFallback />
+          </div>
+          <span className="furniture-card__title">Sofa</span>
+        </button>
+        {Object.entries(OPENING_MODELS).map(([key, model]) => (
+          <button key={key} className="furniture-card" onClick={() => handleAddOpening?.(key)}>
             <div className="furniture-card__thumb">
               <ImageWithFallback />
             </div>
-            <span className="furniture-card__title">Sofa</span>
+            <span className="furniture-card__title">{model.label ?? key}</span>
           </button>
-          {Object.entries(OPENING_MODELS).map(([key, model]) => (
-            <button key={key} className="furniture-card" onClick={() => handleAddOpening?.(key)}>
-              <div className="furniture-card__thumb">
-                <ImageWithFallback />
-              </div>
-              <span className="furniture-card__title">{model.label ?? key}</span>
-            </button>
-          ))}
-          {items.map((item) => (
-            <button key={item.id} className="furniture-card" onClick={() => onFurnitureSelect && onFurnitureSelect(item)}>
-              <div className="furniture-card__thumb">
-                <ImageWithFallback src={item.image} alt={item.title} />
-              </div>
-              <span className="furniture-card__title">{item.title}</span>
-            </button>
-          ))}
-        </div>
-      )}
+        ))}
+        {items.map((item) => (
+          <button key={item.id} className="furniture-card" onClick={() => onFurnitureSelect && onFurnitureSelect(item)}>
+            <div className="furniture-card__thumb">
+              <ImageWithFallback src={item.image} alt={item.title} />
+            </div>
+            <span className="furniture-card__title">{item.title}</span>
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
