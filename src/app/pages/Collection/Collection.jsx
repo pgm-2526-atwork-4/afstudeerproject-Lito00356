@@ -14,6 +14,7 @@ import Pagination from "@functional/Pagination/Pagination";
 import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 import { useOnboarding } from "@core/hooks/useOnboarding";
+import PageStatus from "@design/PageStatus/PageStatus";
 
 const Collection = () => {
   const { auth } = useAuth();
@@ -94,8 +95,8 @@ const Collection = () => {
   const endIndex = startIndex + pageSize;
   const projectsToDisplay = projects?.slice(startIndex, endIndex);
 
-  if (isPending) return <p>Loading...</p>;
-  if (error || !projects) return <p>Could not load profiles</p>;
+  if (isPending) return <PageStatus.Loading />;
+  if (error || !projects) return <PageStatus.Error message="Projects could not be loaded." />;
 
   return (
     <main className="collection">

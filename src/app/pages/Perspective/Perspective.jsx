@@ -21,6 +21,7 @@ import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 import MenuSave from "@design/MenuSave/MenuSave";
 import TutorialBtn from "@design/Button/TutorialBtn/TutorialBtn";
 import ObjectOptions from "@design/Button/ObjectOptions/ObjectOptions";
+import PageStatus from "@design/PageStatus/PageStatus";
 import WallOpening from "@functional/WallOpening/WallOpening";
 import { buildWallsFromProject, ROOM_HEIGHT } from "@core/utils/wallGeometry";
 import { useOpenings } from "@core/hooks/useOpenings";
@@ -87,9 +88,9 @@ const Perspective = () => {
   const [skipChecked, setSkipChecked] = useState(false);
   const { isVisible, currentStep, nextStep, prevStep, skip, close, reopen } = useOnboarding("perspective");
 
-  if (isPending) return <p>Laden...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-  if (!project) return <p>Project {projectId} not found</p>;
+  if (isPending) return <PageStatus.Loading />;
+  if (error) return <PageStatus.Error message={error.message} />;
+  if (!project) return <PageStatus.NotFound message={`Project ${projectId} could not be found.`} />;
 
   return (
     <div className="canvas-page">

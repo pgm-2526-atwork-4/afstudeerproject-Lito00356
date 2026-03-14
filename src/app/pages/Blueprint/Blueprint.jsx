@@ -13,6 +13,7 @@ import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 import { useOnboarding } from "@core/hooks/useOnboarding";
 import { getDistance } from "@core/utils/geometry";
 import TutorialBtn from "@design/Button/TutorialBtn/TutorialBtn";
+import PageStatus from "@design/PageStatus/PageStatus";
 
 const Blueprint = () => {
   const { auth } = useAuth();
@@ -386,9 +387,9 @@ const Blueprint = () => {
   const [skipChecked, setSkipChecked] = useState(false);
   const { isVisible, currentStep, nextStep, prevStep, skip, close, reopen } = useOnboarding("blueprint");
 
-  if (isPending) return <p>Laden...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-  if (!project) return <p>Project {projectId} niet gevonden</p>;
+  if (isPending) return <PageStatus.Loading />;
+  if (error) return <PageStatus.Error message={error.message} />;
+  if (!project) return <PageStatus.NotFound message={`Project ${projectId} could not be found.`} />;
 
   return (
     <div className="blueprint-fullscreen">
