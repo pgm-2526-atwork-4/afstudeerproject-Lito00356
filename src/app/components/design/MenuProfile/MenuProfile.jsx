@@ -19,24 +19,27 @@ const MenuProfile = ({ colorClass }) => {
   };
 
   return (
-    <div className={`menu-profile ${colorClass} ${open ? " menu-profile--open" : ""}`}>
+    <div className={`menu-profile ${colorClass ?? ""} ${open ? "menu-profile--open" : ""}`}>
       <div className="menu-profile__header">
-        {!open ? (
-          <button
-            className="menu-profile__trigger"
-            onClick={() => setOpen((prev) => !prev)}
-            aria-label="Profiel menu openen"
-          >
-            {ExtractFirstLetter(user)}
-          </button>
-        ) : (
-          <span className="menu-profile__email">{user.email}</span>
-        )}
+        <button
+          className="menu-profile__trigger"
+          onClick={() => setOpen(true)}
+          aria-label="Profiel menu openen"
+        >
+          {ExtractFirstLetter(user)}
+        </button>
 
-        <button className="menu-profile__close" onClick={() => setOpen(false)} aria-label="Profiel menu sluiten">
+        <span className="menu-profile__email">{user.email}</span>
+
+        <button
+          className="menu-profile__close"
+          onClick={() => setOpen(false)}
+          aria-label="Profiel menu sluiten"
+        >
           <X size={18} />
         </button>
       </div>
+
       <div className="menu-profile__dropdown">
         <Link className="menu-profile__dropdown-item" to="/collection" onClick={() => setOpen(false)}>
           Collection

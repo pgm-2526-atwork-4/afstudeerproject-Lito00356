@@ -428,8 +428,10 @@ const Blueprint = () => {
           }}
         />
       </div>
-      <TutorialBtn onReset={reopen} colorClass="dark" />
-      <MenuProfile colorClass="dark" />
+      <div className="top-actions">
+        <MenuProfile colorClass="dark" />
+        <TutorialBtn onReset={reopen} colorClass="dark" />
+      </div>
       <button
         className="reset-blueprint-btn"
         onClick={() => {

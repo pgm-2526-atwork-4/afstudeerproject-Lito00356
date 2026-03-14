@@ -174,8 +174,10 @@ const Perspective = () => {
           skipChecked={skipChecked}
           onSkipChange={setSkipChecked}
         />
-        <TutorialBtn onReset={reopen} />
-        <MenuProfile />
+        <div className="top-actions">
+          <MenuProfile />
+          <TutorialBtn onReset={reopen} />
+        </div>
         <MenuFurniture handleAddFurniture={addFurniture} handleAddOpening={addOpening} />
         <MenuSave onSave={handleSave} />
         <ObjectOptions

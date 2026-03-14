@@ -78,3 +78,14 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.top-actions {
+  position: absolute;
+  top: var(--spacing-2xl);
+  right: var(--spacing-2xl);
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+  z-index: 10;
+}

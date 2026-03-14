@@ -1,7 +1,4 @@
 .tutorial-btn {
-  position: absolute;
-  top: var(--spacing-2xl);
-  right: var(--spacing-6xl);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -12,11 +9,10 @@
   border: none;
   background-color: var(--main-bg);
   color: var(--text-black);
+  flex-shrink: 0;
   transition:
     background-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-  z-index: 15;
+    transform 0.2s ease;
 
   &:hover {
     background-color: var(--main-color);
