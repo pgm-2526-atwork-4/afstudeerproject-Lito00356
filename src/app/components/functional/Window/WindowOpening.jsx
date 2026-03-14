@@ -1,5 +1,6 @@
 import { TransformControls, useBounds, useGLTF } from "@react-three/drei";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import * as THREE from "three";
 import { WINDOW_MODELS } from "@core/utils/windowModels";
 
 const WindowOpening = ({
@@ -25,6 +26,13 @@ const WindowOpening = ({
   const { scene } = useGLTF(modelPath);
   const windowModel = useMemo(() => scene.clone(), [scene]);
 
+  const modelOffset = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(scene);
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+    return [-center.x, -center.y, -center.z];
+  }, [scene]);
+
   useEffect(() => {
     if (groupRef.current) {
       setGroupReady(groupRef.current);
@@ -34,7 +42,7 @@ const WindowOpening = ({
   return (
     <group>
       <group ref={groupRef} position={position} rotation={rotation}>
-        <primitive object={windowModel} />
+        <primitive object={windowModel} position={modelOffset} />
 
         <mesh
           visible={false}
