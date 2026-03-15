@@ -14,16 +14,21 @@ const WallOpening = ({
   isSelected,
   onSelect,
   onDeselect,
-  onTransform,
+  onTransformChange,
+  onSave,
+  furnitureId,
 }) => {
   const groupRef = useRef();
   const transformRef = useRef();
   const bounds = useBounds();
   const [groupReady, setGroupReady] = useState(null);
   const isDragging = useRef(false);
+  const [hasMoved, setHasMoved] = useState(false);
+  const initialTransform = useRef({ position, rotation });
 
   const modelConfig = OPENING_MODELS[modelType];
   const { scene } = useGLTF(modelConfig?.path);
+
   const model = useMemo(() => {
     const cloned = scene.clone();
     cloned.traverse((child) => {
@@ -46,6 +51,32 @@ const WallOpening = ({
       setGroupReady(groupRef.current);
     }
   }, []);
+
+  const handleOnReset = () => {
+    const { position: initPos, rotation: initRot } = initialTransform.current;
+    if (groupRef.current) {
+      groupRef.current.position.set(...initPos);
+      groupRef.current.rotation.set(...initRot);
+    }
+    onTransformChange(furnitureId, {
+      position: initPos,
+      rotation: initRot,
+    });
+  };
+
+  const handleOnSave = () => {
+    const pos = groupRef.current?.position;
+    const rot = groupRef.current?.rotation;
+    if (pos && rot) {
+      const newPos = [pos.x, Math.max(0, pos.y), pos.z];
+      const newRot = [rot.x, rot.y, rot.z];
+      onTransformChange(furnitureId, {
+        position: newPos,
+        rotation: newRot,
+      });
+      initialTransform.current = { position: newPos, rotation: newRot };
+    }
+  };
 
   return (
     <group>
@@ -78,6 +109,21 @@ const WallOpening = ({
         </mesh>
       </group>
 
+      {isSelected && hasMoved && (
+        <ConfirmTransform
+          position={[0, height / 2 + 0.3, -0.5]}
+          onReset={() => {
+            handleOnReset();
+            setHasMoved(false);
+          }}
+          onSave={() => {
+            handleOnSave();
+            onSave?.();
+            setHasMoved(false);
+          }}
+        />
+      )}
+
       {isSelected && groupReady && (
         <TransformControls
           ref={transformRef}
@@ -86,12 +132,18 @@ const WallOpening = ({
           space="local"
           size={0.55}
           showZ={true}
-          onMouseDown={() => { isDragging.current = true; }}
-          onMouseUp={() => { setTimeout(() => { isDragging.current = false; }, 50); }}
+          onMouseDown={() => {
+            isDragging.current = true;
+          }}
+          onMouseUp={() => {
+            setTimeout(() => {
+              isDragging.current = false;
+            }, 50);
+          }}
           onObjectChange={() => {
             const pos = groupRef.current?.position;
             if (!pos) return;
-            onTransform(id, [pos.x, pos.y, pos.z]);
+            onTransformChange(id, [pos.x, pos.y, pos.z]);
           }}
         />
       )}
