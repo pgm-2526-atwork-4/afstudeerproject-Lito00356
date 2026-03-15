@@ -27,6 +27,7 @@ import { buildWallsFromProject, ROOM_HEIGHT } from "@core/utils/wallGeometry";
 import { useOpenings } from "@core/hooks/useOpenings";
 import { useFurnitureManager } from "@core/hooks/useFurnitureManager";
 import { useSelection } from "@core/hooks/useSelection";
+import CameraViewChanger from "@design/Button/CameraViewChanger/CameraViewChanger";
 
 const keyMap = [
   { name: "translate", keys: ["w"] },
@@ -180,6 +181,7 @@ const Perspective = () => {
           <MenuProfile />
           <TutorialBtn onReset={reopen} />
         </div>
+        <CameraViewChanger isTopView={false} />
         <MenuFurniture handleAddFurniture={addFurniture} handleAddOpening={addOpening} />
         <MenuSave onSave={handleSave} />
         <ObjectOptions
