@@ -1,5 +1,7 @@
 .save-prompt {
   pointer-events: all;
+  display: flex;
+  gap: 0.4rem;
 }
 
 .save-prompt__btn {
@@ -20,11 +22,8 @@
     color 0.2s ease,
     transform 0.2s ease;
   pointer-events: auto;
-  color: var(--dark);
 
   &:hover {
-    background: var(--accent);
-    color: var(--dark);
     transform: scale(1.1);
   }
 
@@ -35,5 +34,23 @@
   svg {
     width: 1rem;
     height: 1rem;
+  }
+}
+
+.save-prompt__btn--save {
+  color: #22a654;
+
+  &:hover {
+    background: #22a654;
+    color: white;
+  }
+}
+
+.save-prompt__btn--reset {
+  color: #d64545;
+
+  &:hover {
+    background: #d64545;
+    color: white;
   }
 }
