@@ -1,17 +1,17 @@
 .topview-btn {
   all: unset;
   cursor: pointer;
-  width: 3rem;
-  height: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  perspective: 10rem;
+  perspective: 12rem;
 }
 
 .topview-btn__cube {
-  width: 1.4rem;
-  height: 1.4rem;
+  width: 2rem;
+  height: 2rem;
   position: relative;
   transform-style: preserve-3d;
   transform: rotateX(-25deg) rotateY(35deg);
@@ -20,44 +20,53 @@
 
 .topview-btn__face {
   position: absolute;
-  width: 1.4rem;
-  height: 1.4rem;
+  width: 2rem;
+  height: 2rem;
   border: 1.5px solid rgba(255, 255, 255, 0.7);
   background: rgba(255, 255, 255, 0.08);
   backface-visibility: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  user-select: none;
 }
 
 .topview-btn__face--front {
-  transform: translateZ(0.7rem);
+  transform: translateZ(1rem);
 }
 
 .topview-btn__face--back {
-  transform: translateZ(-0.7rem) rotateY(180deg);
+  transform: translateZ(-1rem) rotateY(180deg);
 }
 
 .topview-btn__face--left {
-  transform: translateX(-0.7rem) rotateY(-90deg);
+  transform: translateX(-1rem) rotateY(-90deg);
 }
 
 .topview-btn__face--right {
-  transform: translateX(0.7rem) rotateY(90deg);
+  transform: translateX(1rem) rotateY(90deg);
 }
 
 .topview-btn__face--top {
-  transform: translateY(-0.7rem) rotateX(90deg);
+  transform: translateY(-1rem) rotateX(90deg);
   background: rgba(255, 255, 255, 0.18);
 }
 
 .topview-btn__face--bottom {
-  transform: translateY(0.7rem) rotateX(-90deg);
+  transform: translateY(1rem) rotateX(-90deg);
 }
 
-/* Hover: lichte rotatie */
+/* Hover */
 .topview-btn:hover .topview-btn__cube {
   transform: rotateX(-30deg) rotateY(45deg);
 }
 
-/* Active state: top-down view */
+/* Active: top-down view */
 .topview-btn--active .topview-btn__cube {
   transform: rotateX(-90deg) rotateY(0deg);
 }
@@ -66,7 +75,6 @@
   transform: rotateX(-80deg) rotateY(10deg);
 }
 
-/* Top face highlight in active state */
 .topview-btn--active .topview-btn__face--top {
   background: rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.9);
