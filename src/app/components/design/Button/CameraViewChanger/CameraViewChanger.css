@@ -1,48 +1,73 @@
+.topview-btn {
+  all: unset;
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 10rem;
+}
+
 .topview-btn__cube {
-  width: 20px;
-  height: 20px;
-  transform-style: preserve-3d;
-  animation: rotateCube 4s infinite linear;
+  width: 1.4rem;
+  height: 1.4rem;
   position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(-25deg) rotateY(35deg);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .topview-btn__face {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  background: rgba(255, 255, 255, 0.1);
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+  backface-visibility: visible;
 }
 
 .topview-btn__face--front {
-  transform: translateZ(10px);
+  transform: translateZ(0.7rem);
 }
+
 .topview-btn__face--back {
-  transform: translateZ(-10px) rotateY(180deg);
+  transform: translateZ(-0.7rem) rotateY(180deg);
 }
+
 .topview-btn__face--left {
-  transform: translateX(-10px) rotateY(-90deg);
+  transform: translateX(-0.7rem) rotateY(-90deg);
 }
+
 .topview-btn__face--right {
-  transform: translateX(10px) rotateY(90deg);
+  transform: translateX(0.7rem) rotateY(90deg);
 }
+
 .topview-btn__face--top {
-  transform: translateY(-10px) rotateX(90deg);
+  transform: translateY(-0.7rem) rotateX(90deg);
+  background: rgba(255, 255, 255, 0.18);
 }
+
 .topview-btn__face--bottom {
-  transform: translateY(10px) rotateX(-90deg);
+  transform: translateY(0.7rem) rotateX(-90deg);
 }
 
-@keyframes rotateCube {
-  from {
-    transform: rotateX(0deg) rotateY(0deg);
-  }
-  to {
-    transform: rotateX(360deg) rotateY(360deg);
-  }
+/* Hover: lichte rotatie */
+.topview-btn:hover .topview-btn__cube {
+  transform: rotateX(-30deg) rotateY(45deg);
 }
 
+/* Active state: top-down view */
 .topview-btn--active .topview-btn__cube {
-  animation-play-state: paused;
-  transform: rotateX(90deg);
+  transform: rotateX(-90deg) rotateY(0deg);
+}
+
+.topview-btn--active:hover .topview-btn__cube {
+  transform: rotateX(-80deg) rotateY(10deg);
+}
+
+/* Top face highlight in active state */
+.topview-btn--active .topview-btn__face--top {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.9);
 }

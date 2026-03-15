@@ -12,7 +12,7 @@ const CameraViewChanger = ({ isTopView, onEnable, onDisable }) => {
         <div className="topview-btn__face topview-btn__face--top" />
         <div className="topview-btn__face topview-btn__face--bottom" />
       </div>
-      <span>{isTopView ? "3D View" : "Top View"}</span>
+      {/* <span>{isTopView ? "3D View" : "Top View"}</span> */}
     </button>
   );
 };
