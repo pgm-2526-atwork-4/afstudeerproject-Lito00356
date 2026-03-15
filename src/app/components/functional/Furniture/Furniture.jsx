@@ -1,7 +1,7 @@
 import RadialMenu from "@functional/RadialMenu/RadialMenu";
 import "./Furniture.css";
 import { TransformControls, useBounds, useGLTF } from "@react-three/drei";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import ConfirmTransform from "@design/Button/SaveTransform/ConfirmTransform";
 
@@ -20,36 +20,38 @@ const Furniture = ({
   color,
   onColorChange,
 }) => {
-  const { scene } = useGLTF("/models/couches/sofa/sofa.gltf");
+  const { scene: originalScene } = useGLTF("/models/couches/sofa/sofa.gltf");
+  const scene = useMemo(() => originalScene.clone(), [originalScene]);
   const transformRef = useRef();
   const primitiveRef = useRef();
   const groupRef = useRef();
   const [groupReady, setGroupReady] = useState(null);
   const [translationMode, setTranslationMode] = useState("translate");
-  const [boxSize, setBoxSize] = useState([1, 1, 1]);
   const bounds = useBounds();
   const [hasMoved, setHasMoved] = useState(false);
   const isDragging = useRef(false);
   const initialTransform = useRef({ position, rotation });
 
-  const halfWidth = boxSize[0] / 1.4;
-  const halfHeight = boxSize[1] / 1.5;
+  const { boxSize, boxOffset } = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(originalScene);
+    const size = new THREE.Vector3();
+    const center = new THREE.Vector3();
+    box.getSize(size);
+    box.getCenter(center);
+    return {
+      boxSize: [size.x, size.y, size.z],
+      boxOffset: [center.x, center.y, center.z],
+    };
+  }, [originalScene]);
+
+  const halfWidth = boxSize[0] / 1.3;
+  const halfHeight = boxSize[1];
 
   useEffect(() => {
     if (groupRef.current) {
       setGroupReady(groupRef.current);
     }
   }, []);
-
-  useEffect(() => {
-    if (!scene) return;
-
-    const box = new THREE.Box3().setFromObject(scene);
-    const size = new THREE.Vector3();
-    box.getSize(size);
-    // eslint-disable-next-line
-    setBoxSize([size.x * 1.5, size.y * 2.5, size.z * 0.8]);
-  }, [scene]);
 
   useEffect(() => {
     const handleKey = (e) => {
@@ -72,6 +74,32 @@ const Furniture = ({
     });
   }, [color, scene]);
 
+  const handleOnReset = () => {
+    const { position: initPos, rotation: initRot } = initialTransform.current;
+    if (groupRef.current) {
+      groupRef.current.position.set(...initPos);
+      groupRef.current.rotation.set(...initRot);
+    }
+    onTransformChange(furnitureId, {
+      position: initPos,
+      rotation: initRot,
+    });
+  };
+
+  const handleOnSave = () => {
+    const pos = groupRef.current?.position;
+    const rot = groupRef.current?.rotation;
+    if (pos && rot) {
+      const newPos = [pos.x, Math.max(0, pos.y), pos.z];
+      const newRot = [rot.x, rot.y, rot.z];
+      onTransformChange(furnitureId, {
+        position: newPos,
+        rotation: newRot,
+      });
+      initialTransform.current = { position: newPos, rotation: newRot };
+    }
+  };
+
   return (
     <group>
       <group ref={groupRef} position={position} scale={scale} rotation={rotation}>
@@ -88,31 +116,13 @@ const Furniture = ({
           )}
           {isSelected && hasMoved && (
             <ConfirmTransform
-              position={[0, boxSize[1] - 1, -1]}
+              position={[0, boxSize[1], -1]}
               onReset={() => {
-                const { position: initPos, rotation: initRot } = initialTransform.current;
-                if (groupRef.current) {
-                  groupRef.current.position.set(...initPos);
-                  groupRef.current.rotation.set(...initRot);
-                }
-                onTransformChange(furnitureId, {
-                  position: initPos,
-                  rotation: initRot,
-                });
+                handleOnReset();
                 setHasMoved(false);
               }}
               onSave={() => {
-                const pos = groupRef.current?.position;
-                const rot = groupRef.current?.rotation;
-                if (pos && rot) {
-                  const newPos = [pos.x, Math.max(0, pos.y), pos.z];
-                  const newRot = [rot.x, rot.y, rot.z];
-                  onTransformChange(furnitureId, {
-                    position: newPos,
-                    rotation: newRot,
-                  });
-                  initialTransform.current = { position: newPos, rotation: newRot };
-                }
+                handleOnSave();
                 onSave?.();
                 setHasMoved(false);
               }}
@@ -120,6 +130,7 @@ const Furniture = ({
           )}
         </primitive>
         <mesh
+          position={boxOffset}
           visible={false}
           onClick={(e) => {
             e.stopPropagation();
