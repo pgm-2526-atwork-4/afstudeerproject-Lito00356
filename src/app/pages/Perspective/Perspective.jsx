@@ -124,7 +124,7 @@ const Perspective = () => {
             {openings.map((item) => (
               <Select key={item.id} enabled={selectedObject === item.id}>
                 <WallOpening
-                  id={item.id}
+                  furnitureId={item.id}
                   position={item.position}
                   rotation={item.rotation}
                   width={item.width}
@@ -134,7 +134,8 @@ const Perspective = () => {
                   isSelected={selectedObject === item.id}
                   onSelect={(meshRef) => handleSelect(item.id, meshRef)}
                   onDeselect={handleDeselect}
-                  onTransform={handleOpeningTransform}
+                  onTransformChange={handleOpeningTransform}
+                  onSave={handleSave}
                 />
               </Select>
             ))}

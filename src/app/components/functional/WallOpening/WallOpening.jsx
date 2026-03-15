@@ -2,9 +2,9 @@ import { TransformControls, useBounds, useGLTF } from "@react-three/drei";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { OPENING_MODELS } from "@core/utils/openingModels";
+import ConfirmTransform from "@design/Button/SaveTransform/ConfirmTransform";
 
 const WallOpening = ({
-  id,
   position = [0, 1.2, 0],
   rotation = [0, 0, 0],
   width = 1,
@@ -58,10 +58,7 @@ const WallOpening = ({
       groupRef.current.position.set(...initPos);
       groupRef.current.rotation.set(...initRot);
     }
-    onTransformChange(furnitureId, {
-      position: initPos,
-      rotation: initRot,
-    });
+    onTransformChange(furnitureId, initPos);
   };
 
   const handleOnSave = () => {
@@ -69,12 +66,8 @@ const WallOpening = ({
     const rot = groupRef.current?.rotation;
     if (pos && rot) {
       const newPos = [pos.x, Math.max(0, pos.y), pos.z];
-      const newRot = [rot.x, rot.y, rot.z];
-      onTransformChange(furnitureId, {
-        position: newPos,
-        rotation: newRot,
-      });
-      initialTransform.current = { position: newPos, rotation: newRot };
+      onTransformChange(furnitureId, newPos);
+      initialTransform.current = { position: newPos, rotation: rotation };
     }
   };
 
@@ -111,7 +104,7 @@ const WallOpening = ({
 
       {isSelected && hasMoved && (
         <ConfirmTransform
-          position={[0, height / 2 + 0.3, -0.5]}
+          position={[position[0], position[1] + 0.8, position[2]]}
           onReset={() => {
             handleOnReset();
             setHasMoved(false);
@@ -141,9 +134,10 @@ const WallOpening = ({
             }, 50);
           }}
           onObjectChange={() => {
+            setHasMoved(true);
             const pos = groupRef.current?.position;
             if (!pos) return;
-            onTransformChange(id, [pos.x, pos.y, pos.z]);
+            onTransformChange(furnitureId, [pos.x, pos.y, pos.z]);
           }}
         />
       )}
