@@ -40,6 +40,7 @@ const Perspective = () => {
   const { projectId } = useParams();
   const projectNumberId = Number(projectId);
   const saveRoom = useSaveRoom();
+  const [isTopView, setIsTopView] = useState(false);
 
   const {
     data: project,
@@ -181,7 +182,7 @@ const Perspective = () => {
           <MenuProfile />
           <TutorialBtn onReset={reopen} />
         </div>
-        <CameraViewChanger isTopView={false} />
+        <CameraViewChanger isTopView={isTopView} onEnable={() => setIsTopView(true)} onDisable={() => setIsTopView(false)} />
         <MenuFurniture handleAddFurniture={addFurniture} handleAddOpening={addOpening} />
         <MenuSave onSave={handleSave} />
         <ObjectOptions

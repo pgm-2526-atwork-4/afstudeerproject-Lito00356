@@ -7,6 +7,10 @@
   align-items: center;
   justify-content: center;
   perspective: 12rem;
+  position: absolute;
+  top: 1.2rem;
+  right: 32%;
+  pointer-events: auto;
 }
 
 .topview-btn__cube {
@@ -34,6 +38,7 @@
   letter-spacing: 0.03em;
   text-transform: uppercase;
   user-select: none;
+  pointer-events: none;
 }
 
 .topview-btn__face--front {
@@ -54,7 +59,6 @@
 
 .topview-btn__face--top {
   transform: translateY(-1rem) rotateX(90deg);
-  background: rgba(255, 255, 255, 0.18);
 }
 
 .topview-btn__face--bottom {
@@ -63,7 +67,7 @@
 
 /* Hover */
 .topview-btn:hover .topview-btn__cube {
-  transform: rotateX(-30deg) rotateY(45deg);
+  transform: rotateX(-40deg) rotateY(30deg);
 }
 
 /* Active: top-down view */
@@ -72,10 +76,17 @@
 }
 
 .topview-btn--active:hover .topview-btn__cube {
-  transform: rotateX(-80deg) rotateY(10deg);
+  transform: rotateX(-85deg) rotateY(5deg);
 }
 
 .topview-btn--active .topview-btn__face--top {
-  background: rgba(255, 255, 255, 0.3);
+  background: lightblue;
   border-color: rgba(255, 255, 255, 0.9);
+  color: black;
+}
+
+.topview-btn:not(.topview-btn--active) .topview-btn__face--front {
+  background: lightblue;
+  border-color: rgba(255, 255, 255, 0.9);
+  color: black;
 }
