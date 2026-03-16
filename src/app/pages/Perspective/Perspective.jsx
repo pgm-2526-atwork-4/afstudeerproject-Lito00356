@@ -28,6 +28,7 @@ import { useOpenings } from "@core/hooks/useOpenings";
 import { useFurnitureManager } from "@core/hooks/useFurnitureManager";
 import { useSelection } from "@core/hooks/useSelection";
 import CameraViewChanger from "@design/Button/CameraViewChanger/CameraViewChanger";
+import CameraController from "@functional/CameraController/CameraController";
 
 const keyMap = [
   { name: "translate", keys: ["w"] },
@@ -160,7 +161,15 @@ const Perspective = () => {
               </Select>
             ))}
           </Bounds>
-          <OrbitControls target={[0, 0, 0]} maxPolarAngle={Math.PI / 2} makeDefault />
+
+          <CameraController isTopView={isTopView} />
+          <OrbitControls
+            target={[0, 0, 0]}
+            maxPolarAngle={isTopView ? 0 : Math.PI / 2}
+            minPolarAngle={isTopView ? 0 : 0}
+            enableRotate={!isTopView}
+            makeDefault
+          />
         </Canvas>
       </KeyboardControls>
 
