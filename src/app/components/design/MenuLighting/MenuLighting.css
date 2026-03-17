@@ -1,0 +1,192 @@
+.lighting-menu {
+  position: fixed;
+  top: 19rem;
+  right: -320px;
+  transform: translateY(-50%);
+  z-index: 200;
+  width: calc(320px + 2.75rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lighting-menu--open {
+  right: 0;
+}
+
+.lighting-menu__bar {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+
+.lighting-menu__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  min-height: 2.75rem;
+  background: var(--dark);
+  color: var(--text-white);
+  border: none;
+  border-radius: var(--radius-xs) 0 0 var(--radius-xs);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.lighting-menu__toggle:hover {
+  background: var(--accent);
+  color: var(--dark);
+}
+
+.lighting-menu__panel {
+  flex: 1;
+  overflow: hidden;
+  background: var(--background);
+  border: 1px solid var(--accent-muted);
+  border-left: none;
+  border-radius: 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  white-space: nowrap;
+}
+
+.lighting-menu__label {
+  padding: 0 var(--spacing-xs) 0 var(--spacing-base);
+  font-size: var(--text-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.lighting-menu__mode-toggle {
+  display: flex;
+  gap: 2px;
+  background: var(--accent-muted);
+  border-radius: var(--radius-2xs);
+  padding: 2px;
+  margin-right: var(--spacing-sm);
+}
+
+.lighting-menu__mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  border: none;
+  border-radius: var(--radius-2xs);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--text-size-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.lighting-menu__mode-btn:hover {
+  color: var(--text-black);
+}
+
+.lighting-menu__mode-btn--active {
+  background: var(--dark);
+  color: var(--text-white);
+}
+
+.lighting-menu__options {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs);
+  width: 100%;
+  background: var(--background);
+  border: 1px solid var(--accent-muted);
+  border-top: none;
+  border-radius: 0 0 0 var(--radius-xs);
+  box-shadow: -4px 4px 20px rgba(0, 0, 0, 0.1);
+  max-height: calc(5 * (2.75rem + var(--spacing-xs)));
+  overflow-y: auto;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition:
+    opacity 0.3s ease 0.1s,
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+}
+
+.lighting-menu__options--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.lighting-menu__options::-webkit-scrollbar {
+  width: 4px;
+}
+
+.lighting-menu__options::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lighting-menu__options::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.lighting-menu__section-title {
+  font-size: var(--text-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: var(--spacing-2xs) var(--spacing-2xs) 0;
+}
+
+.lighting-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs);
+  background: var(--background);
+  border: 1px solid var(--accent-muted);
+  border-radius: var(--radius-2xs);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.lighting-card:hover {
+  border-color: var(--dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lighting-card--active {
+  border-color: var(--dark);
+  background: var(--accent-muted);
+}
+
+.lighting-card__title {
+  font-size: var(--text-size-xs);
+  font-weight: 500;
+  color: var(--text-black);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

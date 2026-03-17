@@ -39,6 +39,7 @@ import { useSelection } from "@core/hooks/useSelection";
 import CameraViewChanger from "@design/Button/CameraViewChanger/CameraViewChanger";
 import CameraController from "@functional/CameraController/CameraController";
 import { Perf } from "r3f-perf";
+import MenuLighting from "@design/MenuLighting/MenuLighting";
 
 const keyMap = [
   { name: "translate", keys: ["w"] },
@@ -224,8 +225,9 @@ const Perspective = () => {
           <TutorialBtn onReset={reopen} />
         </div>
         <CameraViewChanger isTopView={isTopView} onEnable={() => setIsTopView(true)} onDisable={() => setIsTopView(false)} />
-        <MenuFurniture handleAddFurniture={addFurniture} handleAddOpening={addOpening} />
         <MenuSave onSave={handleSave} />
+        <MenuFurniture handleAddFurniture={addFurniture} handleAddOpening={addOpening} />
+        <MenuLighting />
         <ObjectOptions
           isVisible={!!selectedObject}
           onDelete={() => handleObjectDelete(selectedObject)}
