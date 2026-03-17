@@ -73,8 +73,8 @@ export const updateProject = async (id, project) => {
   return data;
 };
 
-export const updateProjectImages = async (id, image) => {
-  const fileName = `${id}_${Date.now()}.jpg`;
+export const updateProjectImages = async (userId, id, image) => {
+  const fileName = `${userId}/${id}_${Date.now()}.jpg`;
   await uploadImage(Bucket.Renders, image, fileName);
   const data = await updateProject(id, { images: fileName });
   return data;

@@ -1,21 +1,11 @@
 import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
-import React, { useMemo, useState } from "react";
-import {
-  SoftShadows,
-  Bounds,
-  Environment,
-  KeyboardControls,
-  OrbitControls,
-  Select,
-  BakeShadows,
-  Sky,
-  Lightformer,
-} from "@react-three/drei";
+import React, { useMemo, useRef, useState } from "react";
+import { Bounds, Environment, KeyboardControls, OrbitControls, Select, Sky } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
-import { getProjectById } from "@core/modules/projects/api.projects";
+import { getProjectById, updateProjectImages } from "@core/modules/projects/api.projects";
 import useAuth from "@functional/auth/useAuth";
 import { useParams } from "react-router";
 import Ground from "@design/Ground/Ground";
@@ -58,6 +48,7 @@ const Perspective = () => {
   const [lightingMode, setLightingMode] = useState("none");
   const [activeSkyPreset, setActiveSkyPreset] = useState(null);
   const [activeHdri, setActiveHdri] = useState(null);
+  const canvasStateRef = useRef(null);
 
   const {
     data: project,
@@ -111,6 +102,23 @@ const Perspective = () => {
     return new THREE.Vector3().setFromSphericalCoords(1, phi, theta).multiplyScalar(10).toArray();
   }, [activeSkyPreset]);
 
+  const takeScreenshot = () => {
+    const state = canvasStateRef.current;
+    if (!state) return;
+
+    const { gl, scene, camera } = state;
+    gl.render(scene, camera);
+    const dataUrl = gl.domElement.toDataURL("image/jpeg", 0.9);
+    return dataUrl.split(",")[1];
+  };
+
+  const handleScreenshot = async () => {
+    const base64 = takeScreenshot();
+    if (!base64) return;
+
+    await updateProjectImages(user.id, project.id, base64);
+  };
+
   // Onboarding
   const onboardingSteps = ONBOARDING_STEPS.perspective;
   const [skipChecked, setSkipChecked] = useState(false);
@@ -131,6 +139,10 @@ const Perspective = () => {
           camera={{ position: [10, 6, 10], fov: 50 }}
           style={{ width: "100vw", height: "100vh" }}
           shadows
+          gl={{ preserveDrawingBuffer: true }}
+          onCreated={(state) => {
+            canvasStateRef.current = state;
+          }}
         >
           <Perf position="top-left" />
           {lightingMode === "sky" && (
@@ -265,7 +277,7 @@ const Perspective = () => {
           onSkipChange={setSkipChecked}
         />
         <div className="top-actions">
-          <MenuProfile />
+          <MenuProfile handleScreenshot={handleScreenshot} />
           <TutorialBtn onReset={reopen} />
         </div>
         <CameraViewChanger isTopView={isTopView} onEnable={() => setIsTopView(true)} onDisable={() => setIsTopView(false)} />

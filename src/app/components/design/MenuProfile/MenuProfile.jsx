@@ -7,7 +7,7 @@ import { X } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { logout } from "@core/modules/auth/api.auth";
 
-const MenuProfile = ({ colorClass }) => {
+const MenuProfile = ({ colorClass, handleScreenshot }) => {
   const { auth } = useAuth();
   const user = auth.user;
   const [open, setOpen] = useState(false);
@@ -21,21 +21,13 @@ const MenuProfile = ({ colorClass }) => {
   return (
     <div className={`menu-profile ${colorClass ?? ""} ${open ? "menu-profile--open" : ""}`}>
       <div className="menu-profile__header">
-        <button
-          className="menu-profile__trigger"
-          onClick={() => setOpen(true)}
-          aria-label="Profiel menu openen"
-        >
+        <button className="menu-profile__trigger" onClick={() => setOpen(true)} aria-label="Profiel menu openen">
           {ExtractFirstLetter(user)}
         </button>
 
         <span className="menu-profile__email">{user.email}</span>
 
-        <button
-          className="menu-profile__close"
-          onClick={() => setOpen(false)}
-          aria-label="Profiel menu sluiten"
-        >
+        <button className="menu-profile__close" onClick={() => setOpen(false)} aria-label="Profiel menu sluiten">
           <X size={18} />
         </button>
       </div>
@@ -44,7 +36,9 @@ const MenuProfile = ({ colorClass }) => {
         <Link className="menu-profile__dropdown-item" to="/collection" onClick={() => setOpen(false)}>
           Collection
         </Link>
-        <button className="menu-profile__dropdown-item">Render</button>
+        <button className="menu-profile__dropdown-item" onClick={handleScreenshot}>
+          Render
+        </button>
         <button className="menu-profile__dropdown-item logout" onClick={handleLogout}>
           Logout
         </button>
