@@ -11,6 +11,12 @@ const SKY_PRESETS = [
 
 const HDRI_OPTIONS = [
   { id: "suburban_garden", label: "Suburban Garden", file: "/environments/hdri/suburban_garden_1k.hdr" },
+  { id: "dry_orchard", label: "Dry Orchard", file: "/environments/hdri/dry_orchard_meadow_1k.hdr" },
+  { id: "farm_road", label: "Farm Road", file: "/environments/hdri/farm_road_1k.hdr" },
+  { id: "citrus_orchard", label: "Citrus Orchard", file: "/environments/hdri/citrus_orchard_road_puresky_1k.hdr" },
+  { id: "plains_sunset", label: "Plains Sunset", file: "/environments/hdri/plains_sunset_1k.hdr" },
+  { id: "moonless_golf", label: "Moonless Golf", file: "/environments/hdri/moonless_golf_1k.hdr" },
+  { id: "dikhololo_night", label: "Dikhololo Night", file: "/environments/hdri/dikhololo_night_1k.hdr" },
 ];
 
 const MenuLighting = ({ lightingMode, onModeChange, onSkyPresetChange, onHdriChange, activeSkyPreset, activeHdri }) => {
@@ -74,7 +80,9 @@ const MenuLighting = ({ lightingMode, onModeChange, onSkyPresetChange, onHdriCha
         </div>
       </div>
 
-      <div className={`lighting-menu__options${panelOpen && lightingMode !== "none" ? " lighting-menu__options--visible" : ""}`}>
+      <div
+        className={`lighting-menu__options${panelOpen && lightingMode !== "none" ? " lighting-menu__options--visible" : ""}`}
+      >
         {lightingMode === "sky" && (
           <>
             <span className="lighting-menu__section-title">Sky presets</span>

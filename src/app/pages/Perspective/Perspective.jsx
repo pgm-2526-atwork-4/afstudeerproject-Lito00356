@@ -11,6 +11,7 @@ import {
   Select,
   BakeShadows,
   Sky,
+  Lightformer,
 } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
@@ -40,6 +41,7 @@ import CameraViewChanger from "@design/Button/CameraViewChanger/CameraViewChange
 import CameraController from "@functional/CameraController/CameraController";
 import { Perf } from "r3f-perf";
 import MenuLighting from "@design/MenuLighting/MenuLighting";
+import * as THREE from "three";
 
 const keyMap = [
   { name: "translate", keys: ["w"] },
@@ -53,6 +55,9 @@ const Perspective = () => {
   const projectNumberId = Number(projectId);
   const saveRoom = useSaveRoom();
   const [isTopView, setIsTopView] = useState(false);
+  const [lightingMode, setLightingMode] = useState("none");
+  const [activeSkyPreset, setActiveSkyPreset] = useState(null);
+  const [activeHdri, setActiveHdri] = useState(null);
 
   const {
     data: project,
@@ -97,6 +102,15 @@ const Perspective = () => {
     }
   };
 
+  const skyPosition = useMemo(() => {
+    if (!activeSkyPreset) return [5, 10, 5];
+
+    const phi = THREE.MathUtils.degToRad(90 - activeSkyPreset.elevation);
+    const theta = THREE.MathUtils.degToRad(activeSkyPreset.azimuth);
+
+    return new THREE.Vector3().setFromSphericalCoords(1, phi, theta).multiplyScalar(10).toArray();
+  }, [activeSkyPreset]);
+
   // Onboarding
   const onboardingSteps = ONBOARDING_STEPS.perspective;
   const [skipChecked, setSkipChecked] = useState(false);
@@ -119,12 +133,57 @@ const Perspective = () => {
           shadows
         >
           <Perf position="top-left" />
-          <Environment
-            background
-            files={"/environments/hdri/suburban_garden_1k.hdr"}
-            backgroundRotation={[0, Math.PI / 2, 0]}
-          />
-          <SoftShadows size={25} samples={16} focus={1} />
+          {lightingMode === "sky" && (
+            <>
+              <Sky skyPosition={skyPosition} />
+              <directionalLight
+                position={skyPosition}
+                castShadow
+                intensity={2}
+                shadow-mapSize={[2048, 2048]}
+                shadow-camera-left={-15}
+                shadow-camera-right={15}
+                shadow-camera-top={15}
+                shadow-camera-bottom={-15}
+                shadow-camera-near={0.1}
+                shadow-camera-far={50}
+                shadow-bias={-0.002}
+                shadow-normalBias={0.02}
+              />
+            </>
+          )}
+          {lightingMode === "hdri" && activeHdri && (
+            <>
+              <Environment
+                background
+                backgroundRotation={[0, Math.PI / 2, 0]}
+                files={activeHdri.file}
+                ground={{
+                  height: 7,
+                  radius: 25,
+                  scale: 100,
+                }}
+              />
+              <directionalLight
+                position={skyPosition}
+                castShadow
+                intensity={2}
+                shadow-mapSize={[2048, 2048]}
+                shadow-camera-left={-15}
+                shadow-camera-right={15}
+                shadow-camera-top={15}
+                shadow-camera-bottom={-15}
+                shadow-camera-near={0.1}
+                shadow-camera-far={50}
+                shadow-bias={-0.002}
+                shadow-normalBias={0.02}
+              />
+            </>
+          )}
+
+          <directionalLight />
+          <ambientLight intensity={1} />
+
           <EffectComposer multisampling={8} autoClear={false}>
             <Outline
               selection={outlineSelection}
@@ -134,21 +193,6 @@ const Perspective = () => {
               width={1000}
             />
           </EffectComposer>
-          {/* <directionalLight
-            position={[10, 10, -25]}
-            castShadow
-            intensity={2}
-            shadow-mapSize={[2048, 2048]}
-            shadow-camera-left={-15}
-            shadow-camera-right={15}
-            shadow-camera-top={15}
-            shadow-camera-bottom={-15}
-            shadow-camera-near={0.1}
-            shadow-camera-far={50}
-            shadow-bias={-0.002}
-            shadow-normalBias={0.02}
-          /> */}
-          <Sky />
 
           <mesh>
             <Ground onPointerMissed={handleDeselect} />
@@ -227,7 +271,14 @@ const Perspective = () => {
         <CameraViewChanger isTopView={isTopView} onEnable={() => setIsTopView(true)} onDisable={() => setIsTopView(false)} />
         <MenuSave onSave={handleSave} />
         <MenuFurniture handleAddFurniture={addFurniture} handleAddOpening={addOpening} />
-        <MenuLighting />
+        <MenuLighting
+          lightingMode={lightingMode}
+          onModeChange={setLightingMode}
+          onSkyPresetChange={(preset) => setActiveSkyPreset(preset)}
+          onHdriChange={(hdri) => setActiveHdri(hdri)}
+          activeSkyPreset={activeSkyPreset?.id}
+          activeHdri={activeHdri?.id}
+        />
         <ObjectOptions
           isVisible={!!selectedObject}
           onDelete={() => handleObjectDelete(selectedObject)}
