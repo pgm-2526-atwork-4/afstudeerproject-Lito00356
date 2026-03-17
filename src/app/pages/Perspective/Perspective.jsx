@@ -2,7 +2,7 @@ import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
 import React, { useMemo, useState } from "react";
-import { Bounds, KeyboardControls, OrbitControls, Select } from "@react-three/drei";
+import { Bounds, Environment, KeyboardControls, OrbitControls, Select } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@core/modules/projects/api.projects";
@@ -29,6 +29,7 @@ import { useFurnitureManager } from "@core/hooks/useFurnitureManager";
 import { useSelection } from "@core/hooks/useSelection";
 import CameraViewChanger from "@design/Button/CameraViewChanger/CameraViewChanger";
 import CameraController from "@functional/CameraController/CameraController";
+import { Perf } from "r3f-perf";
 
 const keyMap = [
   { name: "translate", keys: ["w"] },
@@ -105,7 +106,9 @@ const Perspective = () => {
           className="canvas"
           camera={{ position: [10, 6, 10], fov: 50 }}
           style={{ width: "100vw", height: "100vh" }}
+          shadows
         >
+          <Perf position="top-left" />
           <EffectComposer multisampling={8} autoClear={false}>
             <Outline
               selection={outlineSelection}
@@ -115,8 +118,26 @@ const Perspective = () => {
               width={1000}
             />
           </EffectComposer>
-          <directionalLight position={[3.3, 1.0, 4.4]} castShadow intensity={2} />
-          <pointLight position={[0, 8, 0]} color="#ffff00" intensity={1} />
+          <Environment
+            background
+            files={"/environments/hdri/suburban_garden_1k.hdr"}
+            backgroundRotation={[0, Math.PI / 2, 0]}
+          />
+          <directionalLight
+            position={[5, 10, 5]}
+            castShadow
+            intensity={2}
+            shadow-mapSize={[2048, 2048]}
+            shadow-camera-left={-15}
+            shadow-camera-right={15}
+            shadow-camera-top={15}
+            shadow-camera-bottom={-15}
+            shadow-camera-near={0.1}
+            shadow-camera-far={50}
+            shadow-bias={-0.002}
+            shadow-normalBias={0.02}
+          />
+
           <mesh>
             <Ground onPointerMissed={handleDeselect} />
           </mesh>

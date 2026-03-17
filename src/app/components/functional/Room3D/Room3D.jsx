@@ -51,7 +51,7 @@ const Wall = ({ start, end, height, thickness, openings = [] }) => {
   );
 
   return (
-    <mesh position={position} rotation={rotation}>
+    <mesh position={position} rotation={rotation} castShadow receiveShadow>
       <Geometry>
         <Base>
           <boxGeometry args={[length, height, thickness]} />
@@ -84,7 +84,7 @@ const Floor = ({ walls }) => {
   if (!geometry) return null;
 
   return (
-    <mesh geometry={geometry} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
+    <mesh geometry={geometry} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
       <meshStandardMaterial color="#e0d5c1" side={THREE.DoubleSide} />
     </mesh>
   );

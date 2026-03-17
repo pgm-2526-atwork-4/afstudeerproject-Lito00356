@@ -65,6 +65,16 @@ const Furniture = ({
 
   useEffect(() => {
     if (!scene) return;
+    scene.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [scene]);
+
+  useEffect(() => {
+    if (!scene) return;
 
     scene.traverse((child) => {
       if (child.isMesh) {

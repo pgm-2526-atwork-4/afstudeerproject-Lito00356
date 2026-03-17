@@ -47,6 +47,16 @@ const WallOpening = ({
   }, [scene]);
 
   useEffect(() => {
+    if (!model) return;
+    model.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+  }, [model]);
+
+  useEffect(() => {
     if (groupRef.current) {
       setGroupReady(groupRef.current);
     }

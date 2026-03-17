@@ -8,6 +8,7 @@ const CameraController = ({ isTopView }) => {
     if (isTopView) {
       camera.position.set(0, 30, 0);
       camera.rotation.set(Math.PI / 2, 0, 0);
+      // eslint-disable-next-line
       camera.fov = 10;
       camera.updateProjectionMatrix();
     } else {
