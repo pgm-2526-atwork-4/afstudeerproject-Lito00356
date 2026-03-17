@@ -3,7 +3,7 @@ import { uploadImage } from "../storage/api.storage";
 import { Bucket } from "../storage/type";
 
 export const getUserProjects = async (userId) => {
-  const data = await API.from("projects").select("*").eq("user_id", userId).order("created_at").throwOnError();
+  const { data } = await API.from("projects").select("*").eq("user_id", userId).order("created_at").throwOnError();
 
   return data;
 };
@@ -73,9 +73,11 @@ export const updateProject = async (id, project) => {
   return data;
 };
 
-export const updateProjectImages = async (userId, id, image) => {
+export const updateProjectImages = async (userId, id, image, existingImages = []) => {
   const fileName = `${userId}/${id}_${Date.now()}.jpg`;
   await uploadImage(Bucket.Renders, image, fileName);
-  const data = await updateProject(id, { images: fileName });
+
+  const updatedImages = [...existingImages, fileName];
+  const data = await updateProject(id, { images: updatedImages });
   return data;
 };

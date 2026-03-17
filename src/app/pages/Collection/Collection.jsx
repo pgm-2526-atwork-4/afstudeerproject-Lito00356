@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import ConfirmModal from "@design/Modal/ConfirmModal";
+import RenderGalleryModal from "@design/Modal/RenderGalleryModal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createNewProject, deleteProject, getUserProjects } from "@core/modules/projects/api.projects";
 import { useNavigate } from "react-router";
@@ -15,6 +16,8 @@ import { ONBOARDING_STEPS } from "@core/config/onboardingSteps";
 import OnboardingModal from "@design/OnboardingModal/OnboardingModal";
 import { useOnboarding } from "@core/hooks/useOnboarding";
 import PageStatus from "@design/PageStatus/PageStatus";
+import { getPublicImageUrl } from "@core/modules/storage/api.storage";
+import { Bucket } from "@core/modules/storage/type";
 
 const Collection = () => {
   const { auth } = useAuth();
@@ -25,6 +28,7 @@ const Collection = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [galleryProject, setGalleryProject] = useState(null);
 
   // Pagination state:
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,51 +132,58 @@ const Collection = () => {
               <span className="collection__col collection__col--roomdata">Creation date</span>
               <span className="collection__col collection__col--actions">Actions</span>
             </div>
-            {projectsToDisplay.map((project) => (
-              <div key={project.id} className="collection__grid">
-                <div className="collection__col collection__col--preview">
-                  <div className="collection-project__thumb">
-                    <ImageWithFallback
-                      src={project.thumbnail}
-                      alt={project.scene_name}
-                      className="collection-project__thumb-img"
-                    />
+            {projectsToDisplay.map((project) => {
+              const images = project.images ?? [];
+              const hasImages = images.length > 0;
+              const thumbnailUrl = hasImages ? getPublicImageUrl(Bucket.Renders, images[0]) : null;
+
+              return (
+                <div key={project.id} className="collection__grid">
+                  <div className="collection__col collection__col--preview">
+                    <div className="collection-project__thumb">
+                      <ImageWithFallback
+                        src={thumbnailUrl ?? project.thumbnail}
+                        alt={project.scene_name}
+                        className="collection-project__thumb-img"
+                      />
+                    </div>
+                  </div>
+                  <div className="collection__col collection__col--name">
+                    <h3 className="collection-project__name">{project.scene_name}</h3>
+                  </div>
+
+                  <div className="collection__col collection__col--roomdata">
+                    <p className="collection-project__data-row">{formatDate(project.created_at)}</p>
+                  </div>
+
+                  <div className="collection__col collection__col--actions">
+                    <button
+                      className="collection-project__btn collection-project__btn--load"
+                      onClick={() => setSelectedProject(project)}
+                    >
+                      <Upload size={16} />
+                      Load
+                    </button>
+                    <button
+                      className={`collection-project__btn collection-project__btn--view${!hasImages ? " collection-project__btn--disabled" : ""}`}
+                      onClick={() => hasImages && setGalleryProject(project)}
+                      disabled={!hasImages}
+                    >
+                      <Eye size={16} />
+                      {hasImages ? "View Renders" : "No images"}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsDeleteModalOpen(true);
+                        setSelectedProject(project);
+                      }}
+                    >
+                      <Trash2 />
+                    </button>
                   </div>
                 </div>
-                <div className="collection__col collection__col--name">
-                  <h3 className="collection-project__name">{project.scene_name}</h3>
-                </div>
-
-                <div className="collection__col collection__col--roomdata">
-                  <p className="collection-project__data-row">{formatDate(project.created_at)}</p>
-                </div>
-
-                <div className="collection__col collection__col--actions">
-                  <button
-                    className="collection-project__btn collection-project__btn--load"
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    <Upload size={16} />
-                    Load
-                  </button>
-                  <button
-                    className="collection-project__btn collection-project__btn--view"
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    <Eye size={16} />
-                    View Renders
-                  </button>
-                  <button
-                    onClick={() => {
-                      setIsDeleteModalOpen(true);
-                      setSelectedProject(project);
-                    }}
-                  >
-                    <Trash2 />
-                  </button>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="collection__empty">
@@ -229,6 +240,14 @@ const Collection = () => {
           setIsDeleteModalOpen(false);
           setSelectedProject(null);
         }}
+      />
+
+      {/* Modal for viewing renders */}
+      <RenderGalleryModal
+        isOpen={!!galleryProject}
+        onClose={() => setGalleryProject(null)}
+        projectName={galleryProject?.scene_name}
+        images={galleryProject?.images ?? []}
       />
 
       {/* Modal for creating new project */}

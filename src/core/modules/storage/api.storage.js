@@ -10,3 +10,8 @@ export const uploadImage = async (bucket, base64, filename) => {
   }
   return Promise.resolve(data);
 };
+
+export const getPublicImageUrl = (bucket, path) => {
+  const { data } = API.storage.from(bucket).getPublicUrl(path);
+  return data?.publicUrl ?? null;
+};

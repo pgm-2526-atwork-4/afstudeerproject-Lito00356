@@ -125,10 +125,15 @@
   color: var(--text-black);
   border: 1px solid var(--accent);
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: var(--accent);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   }
+}
+
+.collection-project__btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .collection__empty {

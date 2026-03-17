@@ -116,7 +116,7 @@ const Perspective = () => {
     const base64 = takeScreenshot();
     if (!base64) return;
 
-    await updateProjectImages(user.id, project.id, base64);
+    await updateProjectImages(user.id, project.id, base64, project.images ?? []);
   };
 
   // Onboarding
