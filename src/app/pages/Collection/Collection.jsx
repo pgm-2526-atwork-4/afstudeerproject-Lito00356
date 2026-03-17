@@ -104,7 +104,9 @@ const Collection = () => {
 
   return (
     <main className="collection">
-      <MenuProfile colorClass="dark" />
+      <div className="top-actions">
+        <MenuProfile colorClass="dark" />
+      </div>
       <OnboardingModal
         isVisible={isVisible}
         title={onboardingSteps[currentStep]?.title}
@@ -173,12 +175,13 @@ const Collection = () => {
                       {hasImages ? "View Renders" : "No images"}
                     </button>
                     <button
+                      className="collection-project__btn collection-project__btn--delete"
                       onClick={() => {
                         setIsDeleteModalOpen(true);
                         setSelectedProject(project);
                       }}
                     >
-                      <Trash2 />
+                      <Trash2 size={16} />
                     </button>
                   </div>
                 </div>

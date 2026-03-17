@@ -1,7 +1,17 @@
 .collection {
+  position: relative;
   padding: var(--spacing-2xl) var(--spacing-2xl) var(--spacing-5xl);
   min-height: 100vh;
   background-color: var(--main-bg);
+}
+
+.collection .top-actions {
+  position: absolute;
+  top: var(--spacing-2xl);
+  right: var(--spacing-2xl);
+  display: flex;
+  gap: var(--spacing-xs);
+  z-index: 10;
 }
 
 .collection__container {
@@ -52,7 +62,7 @@
     border-bottom: none;
   }
 
-  &:hover {
+  &:not(.collection__labels):hover {
     background-color: var(--accent-muted);
     box-shadow: inset 0 0 0 1px var(--accent);
   }
@@ -61,6 +71,7 @@
 .collection__col--actions {
   display: flex;
   gap: var(--spacing-sm);
+  align-items: stretch;
 }
 
 .collection-project__thumb {
@@ -101,12 +112,18 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
+  padding: 0 0.75rem;
+  min-height: 2.75rem;
   border: 1px solid transparent;
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
+  white-space: nowrap;
   transition: all 0.15s ease;
+}
+
+.collection-project__btn svg {
+  flex-shrink: 0;
 }
 
 .collection-project__btn--load {
@@ -128,6 +145,22 @@
   &:hover:not(:disabled) {
     background-color: var(--accent);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.collection-project__btn--delete {
+  flex: none;
+  width: 2.75rem;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--text-muted);
+  padding: 0;
+  border-radius: var(--radius-2xs);
+
+  &:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+    color: #fff;
   }
 }
 
