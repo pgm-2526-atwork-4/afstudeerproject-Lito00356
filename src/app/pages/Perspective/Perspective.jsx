@@ -2,7 +2,16 @@ import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
 import React, { useMemo, useState } from "react";
-import { Bounds, Environment, KeyboardControls, OrbitControls, Select } from "@react-three/drei";
+import {
+  SoftShadows,
+  Bounds,
+  Environment,
+  KeyboardControls,
+  OrbitControls,
+  Select,
+  BakeShadows,
+  Sky,
+} from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@core/modules/projects/api.projects";
@@ -109,6 +118,12 @@ const Perspective = () => {
           shadows
         >
           <Perf position="top-left" />
+          <Environment
+            background
+            files={"/environments/hdri/suburban_garden_1k.hdr"}
+            backgroundRotation={[0, Math.PI / 2, 0]}
+          />
+          <SoftShadows size={25} samples={16} focus={1} />
           <EffectComposer multisampling={8} autoClear={false}>
             <Outline
               selection={outlineSelection}
@@ -118,13 +133,8 @@ const Perspective = () => {
               width={1000}
             />
           </EffectComposer>
-          <Environment
-            background
-            files={"/environments/hdri/suburban_garden_1k.hdr"}
-            backgroundRotation={[0, Math.PI / 2, 0]}
-          />
-          <directionalLight
-            position={[5, 10, 5]}
+          {/* <directionalLight
+            position={[10, 10, -25]}
             castShadow
             intensity={2}
             shadow-mapSize={[2048, 2048]}
@@ -136,7 +146,8 @@ const Perspective = () => {
             shadow-camera-far={50}
             shadow-bias={-0.002}
             shadow-normalBias={0.02}
-          />
+          /> */}
+          <Sky />
 
           <mesh>
             <Ground onPointerMissed={handleDeselect} />

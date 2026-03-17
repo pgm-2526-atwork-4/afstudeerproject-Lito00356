@@ -107,7 +107,7 @@ const WallOpening = ({
             document.body.style.cursor = "default";
           }}
         >
-          <boxGeometry args={[Math.max(0.6, width), Math.max(0.6, height), Math.max(0.6, depth)]} />
+          <boxGeometry castShadow args={[Math.max(0.6, width), Math.max(0.6, height), Math.max(0.6, depth)]} />
           <meshBasicMaterial />
         </mesh>
       </group>
