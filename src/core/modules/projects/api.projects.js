@@ -1,9 +1,9 @@
 import { API } from "@core/network/supabase/api";
+import { uploadImage } from "../storage/api.storage";
+import { Bucket } from "../storage/type";
 
 export const getUserProjects = async (userId) => {
-  const { data, error } = await API.from("projects").select("*").eq("user_id", userId).order("created_at").throwOnError();
-
-  if (error) throw error;
+  const data = await API.from("projects").select("*").eq("user_id", userId).order("created_at").throwOnError();
 
   return data;
 };
@@ -17,9 +17,7 @@ export const createNewProject = async (body) => {
 };
 
 export const getUserProject = async (userId) => {
-  const { data, error } = await API.from("projects").select("scene").eq("user_id", userId).throwOnError().single();
-
-  if (error) throw error;
+  const data = await API.from("projects").select("scene").eq("user_id", userId).throwOnError().single();
 
   return data;
 };
@@ -67,4 +65,17 @@ export const saveOpenings = async (projectId, openings) => {
   if (error) throw error;
 
   return data.openings;
+};
+
+export const updateProject = async (id, project) => {
+  const { data, error } = await API.from("projects").update(project).eq("id", id).select().single();
+  if (error) throw error;
+  return data;
+};
+
+export const updateProjectImages = async (id, image) => {
+  const fileName = `${id}_${Date.now()}.jpg`;
+  await uploadImage(Bucket.Renders, image, fileName);
+  const data = await updateProject(id, { images: fileName });
+  return data;
 };
