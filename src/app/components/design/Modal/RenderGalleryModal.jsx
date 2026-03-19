@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { X, ImageOff } from "lucide-react";
 import "./RenderGalleryModal.css";
 import { getPublicImageUrl } from "@core/modules/storage/api.storage";
 import { Bucket } from "@core/modules/storage/type";
 
 const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
+  const [selectedImages, setSelectedImages] = useState([]);
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -35,6 +37,15 @@ const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
         <div className="render-gallery__grid">
           {images.map((imagePath, index) => (
             <div key={index} className="render-gallery__item">
+              <input
+                type="checkbox"
+                checked={selectedImages.includes(imagePath)}
+                onChange={() => {
+                  setSelectedImages((prev) => {
+                    prev.includes(imagePath) ? prev.filter((p) => p !== imagePath) : [...prev, imagePath];
+                  });
+                }}
+              />
               <img
                 src={getPublicImageUrl(Bucket.Renders, imagePath)}
                 alt={`Render ${index + 1}`}
@@ -44,6 +55,10 @@ const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
             </div>
           ))}
         </div>
+      </div>
+      <div>
+        <button>Delete</button>
+        <button>Send email</button>
       </div>
     </div>
   );
