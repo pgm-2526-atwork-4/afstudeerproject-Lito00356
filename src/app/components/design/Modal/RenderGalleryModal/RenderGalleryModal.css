@@ -1,0 +1,206 @@
+/* Wrapper to keep panel + actions together */
+.render-gallery__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 884px;
+}
+
+.render-gallery__panel {
+  background: var(--background);
+  border-radius: var(--radius-base);
+  box-shadow: 0 8px 32px rgba(17, 18, 18, 0.18);
+  width: 100%;
+  max-height: 85vh;
+  padding: var(--spacing-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-base);
+  outline: none;
+  animation: modal-in 0.18s ease;
+  overflow: hidden;
+}
+
+.render-gallery__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm);
+  overflow-y: auto;
+  padding-right: var(--spacing-2xs);
+}
+
+.render-gallery__grid::-webkit-scrollbar {
+  width: 4px;
+}
+
+.render-gallery__grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.render-gallery__grid::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* Gallery item with checkbox on hover */
+.render-gallery__item {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--radius-xs);
+  border: 2px solid var(--accent-muted);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.render-gallery__item:hover {
+  border-color: var(--dark);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+.render-gallery__item--selected {
+  border-color: var(--dark);
+  box-shadow: 0 0 0 1px var(--dark);
+}
+
+/* Custom checkbox */
+.render-gallery__checkbox {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-2xs);
+  background: rgba(245, 245, 245, 0.85);
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+  pointer-events: none;
+}
+
+.render-gallery__checkbox svg {
+  width: 12px;
+  height: 12px;
+  color: transparent;
+  transition: color 0.15s ease;
+}
+
+.render-gallery__item:hover .render-gallery__checkbox,
+.render-gallery__checkbox--checked {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.render-gallery__checkbox--checked {
+  background: var(--dark);
+  border-color: var(--dark);
+}
+
+.render-gallery__checkbox--checked svg {
+  color: var(--background);
+}
+
+.render-gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Actions bar that slides out below the modal */
+.render-gallery__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - var(--spacing-2xl) * 2);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--dark);
+  border-radius: 0 0 var(--radius-base) var(--radius-base);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.25s ease,
+    padding 0.3s ease;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.render-gallery__actions--visible {
+  max-height: 60px;
+  opacity: 1;
+  padding: var(--spacing-sm) var(--spacing-lg);
+}
+
+.render-gallery__actions-count {
+  font-size: var(--text-size-sm);
+  color: var(--text-white);
+  font-weight: 500;
+}
+
+.render-gallery__actions-buttons {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.render-gallery__action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  padding: var(--spacing-2xs) var(--spacing-sm);
+  border: none;
+  border-radius: var(--radius-xs);
+  font-size: var(--text-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.render-gallery__action-btn:hover {
+  opacity: 0.85;
+}
+
+.render-gallery__action-btn--delete {
+  background: rgba(245, 245, 245, 0.12);
+  color: var(--text-white);
+}
+
+.render-gallery__action-btn--delete:hover {
+  background: rgba(220, 80, 80, 0.8);
+}
+
+.render-gallery__action-btn--send {
+  background: var(--background);
+  color: var(--dark);
+}
+
+/* Empty state */
+.render-gallery__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-3xl) 0;
+  color: var(--text-muted);
+}
+
+.render-gallery__empty p {
+  font-size: var(--text-size-sm);
+  margin: 0;
+}
