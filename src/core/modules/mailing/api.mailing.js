@@ -14,8 +14,13 @@ export const sendEmail = async ({ to, cc, subject, html, imagePaths = [] }) => {
     }),
   );
 
+  //   const { data, error } = await API.functions.invoke("send-email", {
+  //     body: { to, cc, subject, html, attachments },
+  //   });
+
   const { data, error } = await API.functions.invoke("send-email", {
     body: { to, cc, subject, html, attachments },
+    headers: { Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_KEY}` },
   });
 
   if (error) throw error;

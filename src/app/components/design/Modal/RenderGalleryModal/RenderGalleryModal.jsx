@@ -3,9 +3,11 @@ import { X, Trash2, Mail } from "lucide-react";
 import "./RenderGalleryModal.css";
 import { getPublicImageUrl } from "@core/modules/storage/api.storage";
 import { Bucket } from "@core/modules/storage/type";
+import SendEmailModal from "@design/Modal/SendEmailModal/SendEmailModal";
 
 const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
   const [selectedImages, setSelectedImages] = useState([]);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -80,13 +82,19 @@ const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
               <Trash2 size={15} />
               Delete
             </button>
-            <button className="render-gallery__action-btn render-gallery__action-btn--send">
+            <button className="render-gallery__action-btn render-gallery__action-btn--send" onClick={() => setIsEmailModalOpen(true)}>
               <Mail size={15} />
               Send email
             </button>
           </div>
         </div>
       </div>
+
+      <SendEmailModal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        selectedImages={selectedImages}
+      />
     </div>
   );
 };

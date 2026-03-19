@@ -1,27 +1,26 @@
 import "./SendEmailModal.css";
 import * as yup from "yup";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { sendEmail } from "@core/modules/mailing/api.mailing";
-import ErrorMessage from "@design/Alert/ErrorMessage";
+import { X, Send, Paperclip } from "lucide-react";
 
 const schema = yup.object().shape({
-  to: yup.string().email().required(),
-  cc: yup.string().email("Invalid email").nullable(),
-  subject: yup.string().required("Required"),
+  to: yup.string().email("Invalid email address").required("Recipient is required"),
+  cc: yup.string().email("Invalid email address").nullable(),
+  subject: yup.string().required("Subject is required"),
   message: yup.string(),
 });
 
-const SendEmailModal = () => {
-  const { mutate, error, isPending } = useMutation({
-    mutationFn: sendEmail,
-    onSuccess: () => console.log("mail send"),
-  });
+const SendEmailModal = ({ isOpen, onClose, selectedImages = [] }) => {
+  const dialogRef = useRef(null);
+
   const {
     control,
-    handleMail,
+    handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -33,104 +32,166 @@ const SendEmailModal = () => {
     resolver: yupResolver(schema),
   });
 
-  const handleSendMail = (data) => {
-    mutate(data);
+  const { mutate, error, isPending } = useMutation({
+    mutationFn: sendEmail,
+    onSuccess: () => {
+      reset();
+      onClose();
+    },
+  });
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    dialogRef.current?.focus();
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) onClose();
+  };
+
+  const onSubmit = (data) => {
+    mutate({
+      to: data.to,
+      cc: data.cc || undefined,
+      subject: data.subject,
+      html: data.message ? `<p>${data.message.replace(/\n/g, "<br/>")}</p>` : "<p>See attached renders.</p>",
+      imagePaths: selectedImages,
+    });
   };
 
   return (
-    <form onSubmit={handleSendMail(handleMail)}>
-      {!!error && <ErrorMessage error={error} />}
-      <Controller
-        control={control}
-        name="to"
-        render={({ field: { onChange, value, onBlur } }) => (
-          <div className="form-field">
-            <label className="form-field__label" htmlFor="to">
-              To
-            </label>
-            <input
-              className={`form-field__input${errors.to ? " form-field__input--error" : ""}`}
-              id="to"
-              type="email"
-              onChange={onChange}
-              value={value}
-              onBlur={onBlur}
-              disabled={isPending}
-              placeholder="johanna@doe.com"
-              required
-            />
-            {errors.email && <span className="form-field__error">{errors.email.message}</span>}
+    <div className="modal__backdrop send-email__backdrop" onClick={handleBackdropClick} role="dialog" aria-modal="true">
+      <div className="send-email__panel" ref={dialogRef} tabIndex={-1}>
+        <div className="modal__header">
+          <h2 className="modal__title">Send renders via email</h2>
+          <button className="modal__close" onClick={onClose} aria-label="Close modal">
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="send-email__attachments-info">
+          <Paperclip size={14} />
+          <span>
+            {selectedImages.length} render{selectedImages.length !== 1 ? "s" : ""} attached
+          </span>
+        </div>
+
+        {!!error && <p className="send-email__error">{error instanceof Error ? error.message : "Something went wrong"}</p>}
+
+        <form className="send-email__form" onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            control={control}
+            name="to"
+            render={({ field: { onChange, value, onBlur } }) => (
+              <div className="send-email__field">
+                <label className="send-email__label" htmlFor="send-to">
+                  To <span className="send-email__required">*</span>
+                </label>
+                <input
+                  className={`send-email__input${errors.to ? " send-email__input--error" : ""}`}
+                  id="send-to"
+                  type="email"
+                  onChange={onChange}
+                  value={value}
+                  onBlur={onBlur}
+                  disabled={isPending}
+                  placeholder="johanna@doe.com"
+                />
+                {errors.to && <span className="send-email__field-error">{errors.to.message}</span>}
+              </div>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="cc"
+            render={({ field: { onChange, value, onBlur } }) => (
+              <div className="send-email__field">
+                <label className="send-email__label" htmlFor="send-cc">
+                  CC
+                </label>
+                <input
+                  className={`send-email__input${errors.cc ? " send-email__input--error" : ""}`}
+                  id="send-cc"
+                  type="email"
+                  onChange={onChange}
+                  value={value}
+                  onBlur={onBlur}
+                  disabled={isPending}
+                  placeholder="john@doe.com"
+                />
+                {errors.cc && <span className="send-email__field-error">{errors.cc.message}</span>}
+              </div>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="subject"
+            render={({ field: { onChange, value, onBlur } }) => (
+              <div className="send-email__field">
+                <label className="send-email__label" htmlFor="send-subject">
+                  Subject <span className="send-email__required">*</span>
+                </label>
+                <input
+                  className={`send-email__input${errors.subject ? " send-email__input--error" : ""}`}
+                  id="send-subject"
+                  type="text"
+                  onChange={onChange}
+                  value={value}
+                  onBlur={onBlur}
+                  disabled={isPending}
+                  placeholder="Room design renders"
+                />
+                {errors.subject && <span className="send-email__field-error">{errors.subject.message}</span>}
+              </div>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="message"
+            render={({ field: { onChange, value, onBlur } }) => (
+              <div className="send-email__field">
+                <label className="send-email__label" htmlFor="send-message">
+                  Message
+                </label>
+                <textarea
+                  className={`send-email__input send-email__textarea${errors.message ? " send-email__input--error" : ""}`}
+                  id="send-message"
+                  onChange={onChange}
+                  value={value}
+                  onBlur={onBlur}
+                  disabled={isPending}
+                  placeholder="Write a message..."
+                  rows={3}
+                />
+              </div>
+            )}
+          />
+
+          <div className="send-email__footer">
+            <button type="button" className="modal__btn modal__btn--cancel" onClick={onClose} disabled={isPending}>
+              Cancel
+            </button>
+            <button type="submit" className="send-email__btn-send" disabled={isPending}>
+              <Send size={14} />
+              {isPending ? "Sending..." : "Send email"}
+            </button>
           </div>
-        )}
-      />
-      <Controller
-        control={control}
-        name="cc"
-        render={({ field: { onChange, value, onBlur } }) => (
-          <div className="form-field">
-            <label className="form-field__label" htmlFor="cc">
-              Cc
-            </label>
-            <input
-              className={`form-field__input${errors.cc ? " form-field__input--error" : ""}`}
-              id="cc"
-              type="email"
-              onChange={onChange}
-              value={value}
-              onBlur={onBlur}
-              disabled={isPending}
-              placeholder="john@doe.com"
-            />
-            {errors.email && <span className="form-field__error">{errors.email.message}</span>}
-          </div>
-        )}
-      />
-      <Controller
-        control={control}
-        name="subject"
-        render={({ field: { onChange, value, onBlur } }) => (
-          <div className="form-field">
-            <label className="form-field__label" htmlFor="subject">
-              Subject
-            </label>
-            <input
-              className={`form-field__input${errors.subject ? " form-field__input--error" : ""}`}
-              id="subject"
-              type="text"
-              onChange={onChange}
-              value={value}
-              onBlur={onBlur}
-              disabled={isPending}
-              placeholder="Add subject"
-              required
-            />
-            {errors.email && <span className="form-field__error">{errors.email.message}</span>}
-          </div>
-        )}
-      />
-      <Controller
-        control={control}
-        name="message"
-        render={({ field: { onChange, value, onBlur } }) => (
-          <div className="form-field">
-            <label className="form-field__label" htmlFor="description">
-              Message
-            </label>
-            <textarea
-              className={`form-field__input${errors.message ? " form-field__input--error" : ""}`}
-              id="message"
-              type="textarea"
-              onChange={onChange}
-              value={value}
-              onBlur={onBlur}
-              disabled={isPending}
-              placeholder="Write a small message.."
-            />
-            {errors.email && <span className="form-field__error">{errors.email.message}</span>}
-          </div>
-        )}
-      />
-    </form>
+        </form>
+      </div>
+    </div>
   );
 };
 
