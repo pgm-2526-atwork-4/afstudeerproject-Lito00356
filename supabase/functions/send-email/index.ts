@@ -30,7 +30,7 @@ const res = await fetch(EMAILS, {
     Authorization: `Bearer ${RESEND_API_KEY}`,
   },
   body: JSON.stringify({
-    from: "RoomCraft <noreply@mydomain.com>",
+    from: "RoomCraft <onboarding@resend.dev>",
     to,
     cc: cc || undefined,
     subject,
