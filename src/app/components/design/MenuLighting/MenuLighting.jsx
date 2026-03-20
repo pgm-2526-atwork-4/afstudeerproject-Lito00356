@@ -19,7 +19,16 @@ const HDRI_OPTIONS = [
   { id: "dikhololo_night", label: "Dikhololo Night", file: "/environments/hdri/dikhololo_night_1k.hdr" },
 ];
 
-const MenuLighting = ({ lightingMode, onModeChange, onSkyPresetChange, onHdriChange, activeSkyPreset, activeHdri }) => {
+const MenuLighting = ({
+  lightingMode,
+  onModeChange,
+  onSkyPresetChange,
+  onHdriChange,
+  activeSkyPreset,
+  activeHdri,
+  lightIntensity,
+  onIntensityChange,
+}) => {
   const [panelOpen, setPanelOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -96,6 +105,48 @@ const MenuLighting = ({ lightingMode, onModeChange, onSkyPresetChange, onHdriCha
                 <span className="lighting-card__title">{preset.label}</span>
               </button>
             ))}
+
+            <div className="lighting-menu__controls">
+              <div className="lighting-menu__control-group">
+                <label className="lighting-menu__control-label">Sun Height</label>
+                <input
+                  type="range"
+                  min={0}
+                  max={90}
+                  value={activeSkyPreset?.elevation || 45}
+                  onChange={(e) => onSkyPresetChange({ ...activeSkyPreset, elevation: +e.target.value })}
+                  className="lighting-menu__slider"
+                />
+                <span className="lighting-menu__control-value">{activeSkyPreset?.elevation || 45}°</span>
+              </div>
+
+              <div className="lighting-menu__control-group">
+                <label className="lighting-menu__control-label">Sun Direction</label>
+                <input
+                  type="range"
+                  min={0}
+                  max={360}
+                  value={activeSkyPreset?.azimuth || 180}
+                  onChange={(e) => onSkyPresetChange({ ...activeSkyPreset, azimuth: +e.target.value })}
+                  className="lighting-menu__slider"
+                />
+                <span className="lighting-menu__control-value">{activeSkyPreset?.azimuth || 180}°</span>
+              </div>
+
+              <div className="lighting-menu__control-group">
+                <label className="lighting-menu__control-label">Brightness</label>
+                <input
+                  type="range"
+                  min={0}
+                  max={5}
+                  step={0.1}
+                  value={lightIntensity || 1}
+                  onChange={(e) => onIntensityChange(+e.target.value)}
+                  className="lighting-menu__slider"
+                />
+                <span className="lighting-menu__control-value">{(lightIntensity || 1).toFixed(1)}x</span>
+              </div>
+            </div>
           </>
         )}
 

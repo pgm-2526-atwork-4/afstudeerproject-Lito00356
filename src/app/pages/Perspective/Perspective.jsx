@@ -49,6 +49,7 @@ const Perspective = () => {
   const [activeSkyPreset, setActiveSkyPreset] = useState(null);
   const [activeHdri, setActiveHdri] = useState(null);
   const canvasStateRef = useRef(null);
+  const [lightIntensity, setLightIntensity] = useState(1);
 
   const {
     data: project,
@@ -151,7 +152,7 @@ const Perspective = () => {
               <directionalLight
                 position={skyPosition}
                 castShadow
-                intensity={2}
+                intensity={lightIntensity}
                 shadow-mapSize={[2048, 2048]}
                 shadow-camera-left={-15}
                 shadow-camera-right={15}
@@ -287,10 +288,12 @@ const Perspective = () => {
         <MenuLighting
           lightingMode={lightingMode}
           onModeChange={setLightingMode}
+          activeSkyPreset={activeSkyPreset}
           onSkyPresetChange={(preset) => setActiveSkyPreset(preset)}
           onHdriChange={(hdri) => setActiveHdri(hdri)}
-          activeSkyPreset={activeSkyPreset?.id}
           activeHdri={activeHdri?.id}
+          lightIntensity={lightIntensity}
+          onIntensityChange={setLightIntensity}
         />
         <ObjectOptions
           isVisible={!!selectedObject}
