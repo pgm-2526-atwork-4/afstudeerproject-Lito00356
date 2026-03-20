@@ -4,10 +4,21 @@ import "./RenderGalleryModal.css";
 import { getPublicImageUrl } from "@core/modules/storage/api.storage";
 import { Bucket } from "@core/modules/storage/type";
 import SendEmailModal from "@design/Modal/SendEmailModal/SendEmailModal";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteProjectImages } from "@core/modules/projects/api.projects";
 
-const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
+const RenderGalleryModal = ({ isOpen, onClose, projectName, projectId, images = [] }) => {
+  const queryClient = useQueryClient();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+
+  const { mutate: deleteImages, isPending } = useMutation({
+    mutationFn: () => deleteProjectImages(projectId, selectedImages),
+    onSuccess: () => {
+      setSelectedImages([]);
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+  });
 
   useEffect(() => {
     if (!isOpen) return;
@@ -35,7 +46,7 @@ const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
   };
 
   const handleDeleteImages = () => {
-    console.log("yeah boi");
+    deleteImages();
   };
 
   const hasSelection = selectedImages.length > 0;
@@ -102,6 +113,7 @@ const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
             <button
               className="render-gallery__action-btn render-gallery__action-btn--delete"
               onClick={() => handleDeleteImages()}
+              disabled={isPending}
             >
               <Trash2 size={15} />
               Delete
@@ -109,6 +121,7 @@ const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
             <button
               className="render-gallery__action-btn render-gallery__action-btn--send"
               onClick={() => setIsEmailModalOpen(true)}
+              disabled={isPending}
             >
               <Mail size={15} />
               Send email

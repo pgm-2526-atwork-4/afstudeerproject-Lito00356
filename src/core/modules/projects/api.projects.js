@@ -91,7 +91,7 @@ export const deleteProjectImages = async (projectId, imagePaths) => {
 
   if (fetchError) throw fetchError;
 
-  const remainingImages = (project.images ?? []).filter((img) => !imagePaths.include(img));
+  const remainingImages = (project.images ?? []).filter((img) => !imagePaths.includes(img));
 
   const data = await updateProject(projectId, { images: remainingImages });
   return data;

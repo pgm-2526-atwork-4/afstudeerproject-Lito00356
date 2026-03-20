@@ -28,7 +28,7 @@ const Collection = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [galleryProject, setGalleryProject] = useState(null);
+  const [galleryProjectId, setGalleryProjectId] = useState(null);
 
   // Pagination state:
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,6 +48,8 @@ const Collection = () => {
     queryKey: ["projects", user?.id],
     queryFn: () => getUserProjects(user?.id),
   });
+
+  const galleryProject = projects?.find((p) => p.id === galleryProjectId) ?? null;
 
   const formatDate = (dateString) => {
     if (!dateString) return "—";
@@ -168,7 +170,7 @@ const Collection = () => {
                     </button>
                     <button
                       className={`collection-project__btn collection-project__btn--view${!hasImages ? " collection-project__btn--disabled" : ""}`}
-                      onClick={() => hasImages && setGalleryProject(project)}
+                      onClick={() => hasImages && setGalleryProjectId(project.id)}
                       disabled={!hasImages}
                     >
                       <Eye size={16} />
@@ -248,8 +250,9 @@ const Collection = () => {
       {/* Modal for viewing renders */}
       <RenderGalleryModal
         isOpen={!!galleryProject}
-        onClose={() => setGalleryProject(null)}
+        onClose={() => setGalleryProjectId(null)}
         projectName={galleryProject?.scene_name}
+        projectId={galleryProject?.id}
         images={galleryProject?.images ?? []}
       />
 
