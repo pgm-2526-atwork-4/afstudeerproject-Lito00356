@@ -1,6 +1,10 @@
 import { Geometry, Subtraction, Base } from "@react-three/csg";
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+
+const _wallNormal = new THREE.Vector3();
+const _cameraDir = new THREE.Vector3();
 
 const Wall = ({ start, end, height, thickness, openings = [] }) => {
   const { position, rotation, length, wallLength } = useMemo(() => {
@@ -63,7 +67,7 @@ const Wall = ({ start, end, height, thickness, openings = [] }) => {
           </Subtraction>
         ))}
       </Geometry>
-      <meshStandardMaterial color="lightBlue" side={THREE.DoubleSide} />
+      <meshStandardMaterial color="lightBlue" side={THREE.DoubleSide} transparent opacity={1} />
     </mesh>
   );
 };
@@ -90,7 +94,12 @@ const Floor = ({ walls }) => {
   );
 };
 
+const FADE_SPEED = 6;
+const OCCLUDED_OPACITY = 0.15;
+
 const Room3D = ({ walls = [], wallThickness = 0.1, height = 2.5, openings = [] }) => {
+  const wallGroupRef = useRef();
+
   const openingsByWall = useMemo(() => {
     const grouped = {};
 
@@ -105,18 +114,36 @@ const Room3D = ({ walls = [], wallThickness = 0.1, height = 2.5, openings = [] }
     return grouped;
   }, [openings]);
 
+  useFrame(({ camera }, delta) => {
+    if (!wallGroupRef.current) return;
+
+    wallGroupRef.current.children.forEach((wallMesh) => {
+      if (!wallMesh.isMesh || !wallMesh.material) return;
+
+      _wallNormal.set(0, 0, 1).applyQuaternion(wallMesh.quaternion);
+      _cameraDir.copy(wallMesh.position).sub(camera.position).normalize();
+
+      const dot = _wallNormal.dot(_cameraDir);
+      const targetOpacity = dot < 0 ? OCCLUDED_OPACITY : 1;
+
+      wallMesh.material.opacity = THREE.MathUtils.lerp(wallMesh.material.opacity, targetOpacity, FADE_SPEED * delta);
+    });
+  });
+
   return (
     <group>
-      {walls.map((wall) => (
-        <Wall
-          key={wall.id}
-          start={wall.start}
-          end={wall.end}
-          height={height}
-          thickness={wallThickness}
-          openings={openingsByWall[wall.id] ?? []}
-        />
-      ))}
+      <group ref={wallGroupRef}>
+        {walls.map((wall) => (
+          <Wall
+            key={wall.id}
+            start={wall.start}
+            end={wall.end}
+            height={height}
+            thickness={wallThickness}
+            openings={openingsByWall[wall.id] ?? []}
+          />
+        ))}
+      </group>
       <Floor walls={walls} />
     </group>
   );
