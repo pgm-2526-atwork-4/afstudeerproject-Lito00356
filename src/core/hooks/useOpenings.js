@@ -3,7 +3,7 @@ import { useLocalOpenings } from "./useLocalOpenings";
 import { getWallAngle, snapWindowToWall, hasWindowChanged } from "@core/utils/wallGeometry";
 import { getModelDimensions, OPENING_MODELS } from "@core/utils/openingModels";
 
-export const useOpenings = (projectId, project, walls) => {
+export const useCreateOpenings = (projectId, project, walls) => {
   const [openings, setOpenings] = useLocalOpenings(projectId);
 
   useEffect(() => {

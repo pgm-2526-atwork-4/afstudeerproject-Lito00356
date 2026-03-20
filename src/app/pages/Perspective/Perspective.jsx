@@ -24,7 +24,7 @@ import ObjectOptions from "@design/Button/ObjectOptions/ObjectOptions";
 import PageStatus from "@design/PageStatus/PageStatus";
 import WallOpening from "@functional/WallOpening/WallOpening";
 import { buildWallsFromProject, ROOM_HEIGHT } from "@core/utils/wallGeometry";
-import { useOpenings } from "@core/hooks/useOpenings";
+import { useCreateOpenings } from "@core/hooks/useOpenings";
 import { useFurnitureManager } from "@core/hooks/useFurnitureManager";
 import { useSelection } from "@core/hooks/useSelection";
 import CameraViewChanger from "@design/Button/CameraViewChanger/CameraViewChanger";
@@ -64,7 +64,7 @@ const Perspective = () => {
   const { selectedObject, outlineSelection, handleSelect, handleDeselect } = useSelection();
   const { furniture, addFurniture, handleTransformChange, handleColorChange, handleFurnitureDelete, handleResetRotation } =
     useFurnitureManager(projectId, project);
-  const { openings, addOpening, handleOpeningTransform, handleOpeningDelete } = useOpenings(projectId, project, walls);
+  const { openings, addOpening, handleOpeningTransform, handleOpeningDelete } = useCreateOpenings(projectId, project, walls);
 
   const handleSave = () => {
     saveRoom.mutate({
