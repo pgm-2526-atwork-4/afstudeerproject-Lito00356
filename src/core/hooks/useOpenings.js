@@ -63,7 +63,7 @@ export const useCreateOpenings = (projectId, project, walls) => {
 
     const yRot = model.rotationOffset?.[1] ?? 0;
     const isRotated90 = Math.abs(Math.abs(yRot) - Math.PI / 2) < 0.01;
-    const width = isRotated90 ? dimensions.depth : dimensions.width;
+    const width = (isRotated90 ? dimensions.depth : dimensions.width) * 0.95;
     const depth = isRotated90 ? dimensions.width : dimensions.depth;
 
     const centerY = model.grounded ? dimensions.height / 2 : 1.35;
