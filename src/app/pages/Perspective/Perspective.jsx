@@ -146,13 +146,26 @@ const Perspective = () => {
           }}
         >
           <Perf position="top-left" />
+          {lightingMode === "none" && (
+            <>
+              <directionalLight />
+              <ambientLight intensity={1} />
+            </>
+          )}
           {lightingMode === "sky" && (
             <>
-              <Sky skyPosition={skyPosition} />
+              <Sky
+                sunPosition={skyPosition}
+                turbidity={activeSkyPreset?.turbidity ?? 3}
+                rayleigh={activeSkyPreset?.rayleigh ?? 0.4}
+                mieCoefficient={activeSkyPreset?.mieCoefficient ?? 0.005}
+                mieDirectionalG={activeSkyPreset?.mieDirectionalG ?? 0.7}
+              />
               <directionalLight
                 position={skyPosition}
                 castShadow
                 intensity={lightIntensity}
+                color={activeSkyPreset?.sunColor ?? "#ffffff"}
                 shadow-mapSize={[2048, 2048]}
                 shadow-camera-left={-15}
                 shadow-camera-right={15}
@@ -163,6 +176,7 @@ const Perspective = () => {
                 shadow-bias={-0.002}
                 shadow-normalBias={0.02}
               />
+              <ambientLight intensity={1} color={activeSkyPreset?.ambientColor ?? "#e8f0ff"} />
             </>
           )}
           {lightingMode === "hdri" && activeHdri && (
@@ -176,6 +190,7 @@ const Perspective = () => {
                   radius: 25,
                   scale: 100,
                 }}
+                intensity={20}
               />
               <directionalLight
                 position={skyPosition}
@@ -193,9 +208,6 @@ const Perspective = () => {
               />
             </>
           )}
-
-          <directionalLight />
-          <ambientLight intensity={1} />
 
           <EffectComposer multisampling={8} autoClear={false}>
             <Outline
