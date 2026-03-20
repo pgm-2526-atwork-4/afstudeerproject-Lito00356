@@ -5,7 +5,7 @@ import "./style/index.css";
 import App from "./App.jsx";
 import AuthProvider from "./app/components/functional/auth/AuthProvider";
 import LandingPage from "@pages/LandingPage/LandingPage.jsx";
-import Register from "@pages/Register/register.jsx";
+import Register from "@pages/Register/Register.jsx";
 import Login from "@pages/Login/Login.jsx";
 import Collection from "@pages/Collection/Collection.jsx";
 import Perspective from "@pages/Perspective/Perspective.jsx";

@@ -41,7 +41,7 @@ export const ONBOARDING_STEPS = {
     {
       id: 6,
       title: "What if I don't like them?",
-      description: "No worries! You can just selectem and press 'Delete', but you will never see them again! :(",
+      description: "No worries! You can just select them and press 'Delete', but you will never see them again! :(",
     },
   ],
   blueprint: [
