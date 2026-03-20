@@ -81,3 +81,18 @@ export const updateProjectImages = async (userId, id, image, existingImages = []
   const data = await updateProject(id, { images: updatedImages });
   return data;
 };
+
+export const deleteProjectImages = async (projectId, imagePaths) => {
+  const { error: storageError } = await API.storage.from(Bucket.Renders).remove(imagePaths);
+
+  if (storageError) throw storageError;
+
+  const { data: project, error: fetchError } = await API.from("projects").select("images").eq("id", projectId).single();
+
+  if (fetchError) throw fetchError;
+
+  const remainingImages = (project.images ?? []).filter((img) => !imagePaths.include(img));
+
+  const data = await updateProject(projectId, { images: remainingImages });
+  return data;
+};
