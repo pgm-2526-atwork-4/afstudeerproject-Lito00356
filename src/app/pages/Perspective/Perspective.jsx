@@ -140,7 +140,7 @@ const Perspective = () => {
           camera={{ position: [10, 6, 10], fov: 50 }}
           style={{ width: "100vw", height: "100vh" }}
           shadows
-          gl={{ preserveDrawingBuffer: true }}
+          gl={{ preserveDrawingBuffer: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 0.8 }}
           onCreated={(state) => {
             canvasStateRef.current = state;
           }}
