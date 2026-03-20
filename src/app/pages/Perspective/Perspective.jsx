@@ -236,6 +236,7 @@ const Perspective = () => {
                 <Furniture
                   key={item.id}
                   furnitureId={item.id}
+                  modelPath={item.modelPath}
                   color={item.color ?? "rgba(240, 240, 240, 1)"}
                   position={item.position}
                   scale={item.scale}

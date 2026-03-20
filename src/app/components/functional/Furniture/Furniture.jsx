@@ -5,12 +5,13 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import ConfirmTransform from "@design/Button/SaveTransform/ConfirmTransform";
 
-useGLTF.preload("/models/couches/sofa/sofa.gltf");
+const DEFAULT_MODEL = "/models/couches/gimbar_sofa/scene.gltf";
 
 const Furniture = ({
   position = [0, 0, 0],
   scale = [1, 1, 1],
   rotation = [0, 0, 0],
+  modelPath,
   furnitureId,
   isSelected,
   onSelect,
@@ -20,7 +21,8 @@ const Furniture = ({
   color,
   onColorChange,
 }) => {
-  const { scene: originalScene } = useGLTF("/models/couches/sofa/sofa.gltf");
+  const path = modelPath || DEFAULT_MODEL;
+  const { scene: originalScene } = useGLTF(path);
   const scene = useMemo(() => originalScene.clone(), [originalScene]);
   const transformRef = useRef();
   const primitiveRef = useRef();

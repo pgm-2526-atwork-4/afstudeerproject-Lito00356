@@ -4,13 +4,37 @@ import { GLTFLoader } from "three-stdlib";
 export const OPENING_MODELS = {
   standard_single: {
     path: "/models/windows/standard_single/scene.gltf",
-    label: "Standard window",
+    label: "Standard Window",
+    grounded: false,
+    rotationOffset: [0, 0, 0],
+  },
+  mat_window: {
+    path: "/models/windows/mat_window/scene.gltf",
+    label: "Mat Window",
+    grounded: false,
+    rotationOffset: [0, 0, 0],
+  },
+  vertical_window: {
+    path: "/models/windows/vertical_window/single_vertical_window.gltf",
+    label: "Vertical Window",
+    grounded: false,
+    rotationOffset: [0, 0, 0],
+  },
+  window_squared: {
+    path: "/models/windows/window_squared/squared_window.gltf",
+    label: "Squared Window",
     grounded: false,
     rotationOffset: [0, 0, 0],
   },
   standard_brown_single: {
     path: "/models/doors/standard_brown_single/scene.gltf",
-    label: "Standard door",
+    label: "Standard Door",
+    grounded: true,
+    rotationOffset: [0, Math.PI / 2, 0],
+  },
+  interior_door: {
+    path: "/models/doors/interior_door/door.gltf",
+    label: "Interior Door",
     grounded: true,
     rotationOffset: [0, Math.PI / 2, 0],
   },

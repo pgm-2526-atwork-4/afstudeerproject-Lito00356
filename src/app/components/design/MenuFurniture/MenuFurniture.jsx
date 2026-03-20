@@ -2,93 +2,22 @@ import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import "./MenuFurniture.css";
 import { Armchair, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
-import { OPENING_MODELS } from "@core/utils/openingModels";
+import { MODEL_CATEGORIES } from "@core/config/furnitureCatalogue";
 
-const CATEGORIES = ["Zetels", "Tafels", "Bedden", "Stoelen", "Kasten", "Lampen"];
-
-const CATALOGUE = {
-  Zetels: [
-    {
-      id: "s1",
-      title: "Comfort Sofa",
-      image: null,
-      fabrics: ["Leer", "Velvet", "Katoen", "Linnen"],
-      colors: ["#8B4513", "#2F4F4F", "#F5F5DC", "#1C1C1C", "#708090", "#D2691E"],
-    },
-    {
-      id: "s2",
-      title: "Lounge Chair",
-      image: null,
-      fabrics: ["Velvet", "Bouclé", "Katoen"],
-      colors: ["#4A4A4A", "#B5A99A", "#C8B8A2", "#7A6652"],
-    },
-    {
-      id: "s3",
-      title: "Chaise Longue",
-      image: null,
-      fabrics: ["Leer", "Microvezel", "Linnen"],
-      colors: ["#FFFFFF", "#E8E0D5", "#5C4B3A", "#2E2E2E"],
-    },
-    {
-      id: "s4",
-      title: "Hoekzetel",
-      image: null,
-      fabrics: ["Velvet", "Katoen", "Bouclé"],
-      colors: ["#6B8E6B", "#3D5A3D", "#A8C5A0", "#E8E0D5"],
-    },
-  ],
-  Tafels: [
-    {
-      id: "t1",
-      title: "Salontafel Rond",
-      image: null,
-      fabrics: ["Marmer", "Hout", "Glas"],
-      colors: ["#F0EDE8", "#3B2A1A", "#C0C0C0", "#1A1A1A"],
-    },
-    {
-      id: "t2",
-      title: "Eettafel",
-      image: null,
-      fabrics: ["Eiken", "Walnoot", "Betonlook"],
-      colors: ["#C8A97A", "#5C3A1E", "#9E9E9E", "#FAFAFA"],
-    },
-  ],
-  Bedden: [
-    {
-      id: "b1",
-      title: "Platform Bed",
-      image: null,
-      fabrics: ["Leer", "Velvet", "Linnen"],
-      colors: ["#2E2E2E", "#8B7355", "#C8C0B8", "#4A3728"],
-    },
-    {
-      id: "b2",
-      title: "Boxspring",
-      image: null,
-      fabrics: ["Katoen", "Velvet", "Microvezel"],
-      colors: ["#FFFFFF", "#E8E0D5", "#B0A898", "#6B6B6B"],
-    },
-  ],
-  Stoelen: [
-    {
-      id: "ch1",
-      title: "Eetstoel",
-      image: null,
-      fabrics: ["Leer", "Velvet", "Katoen"],
-      colors: ["#1C1C1C", "#8B7355", "#C8B8A2", "#4A90A4"],
-    },
-  ],
-};
-
-const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddOpening }) => {
+const MenuFurniture = ({ handleAddFurniture, handleAddOpening }) => {
   const [panelOpen, setPanelOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const menuRef = useRef(null);
 
-  const items = selectedCategory ? (CATALOGUE[selectedCategory] ?? []) : [];
+  const selectedCategory = MODEL_CATEGORIES.find((cat) => cat.id === selectedCategoryId);
+  const items = selectedCategory?.items ?? [];
 
-  const handleLoadFurniture = () => {
-    handleAddFurniture();
+  const handleItemClick = (item) => {
+    if (selectedCategory.type === "opening") {
+      handleAddOpening?.(item.openingKey);
+    } else {
+      handleAddFurniture?.({ id: item.id, path: item.path });
+    }
   };
 
   useEffect(() => {
@@ -97,7 +26,7 @@ const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddOpening
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setPanelOpen(false);
-        setSelectedCategory("");
+        setSelectedCategoryId("");
       }
     };
 
@@ -112,10 +41,10 @@ const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddOpening
           className="furniture-menu__toggle"
           onClick={() => {
             setPanelOpen((v) => !v);
-            if (panelOpen) setSelectedCategory("");
+            if (panelOpen) setSelectedCategoryId("");
           }}
-          aria-label={panelOpen ? "Sluit meubelmenu" : "Open meubelmenu"}
-          title={panelOpen ? "Sluit meubelmenu" : "Open meubelmenu"}
+          aria-label={panelOpen ? "Close furniture menu" : "Open furniture menu"}
+          title={panelOpen ? "Close furniture menu" : "Open furniture menu"}
         >
           {panelOpen ? <X size={20} /> : <Armchair size={20} />}
         </button>
@@ -127,15 +56,15 @@ const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddOpening
           <select
             id="furniture-category-select"
             className="furniture-menu__select"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+            value={selectedCategoryId}
+            onChange={(e) => setSelectedCategoryId(e.target.value)}
           >
             <option value="" disabled>
               Choose a category..
             </option>
-            {CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
+            {MODEL_CATEGORIES.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.label}
               </option>
             ))}
           </select>
@@ -143,26 +72,12 @@ const MenuFurniture = ({ onFurnitureSelect, handleAddFurniture, handleAddOpening
       </div>
 
       <div className={`furniture-menu__items${panelOpen && items.length > 0 ? " furniture-menu__items--visible" : ""}`}>
-        <button className="furniture-card" onClick={() => handleLoadFurniture()}>
-          <div className="furniture-card__thumb">
-            <ImageWithFallback />
-          </div>
-          <span className="furniture-card__title">Sofa</span>
-        </button>
-        {Object.entries(OPENING_MODELS).map(([key, model]) => (
-          <button key={key} className="furniture-card" onClick={() => handleAddOpening?.(key)}>
+        {items.map((item) => (
+          <button key={item.id} className="furniture-card" onClick={() => handleItemClick(item)}>
             <div className="furniture-card__thumb">
               <ImageWithFallback />
             </div>
-            <span className="furniture-card__title">{model.label ?? key}</span>
-          </button>
-        ))}
-        {items.map((item) => (
-          <button key={item.id} className="furniture-card" onClick={() => onFurnitureSelect && onFurnitureSelect(item)}>
-            <div className="furniture-card__thumb">
-              <ImageWithFallback src={item.image} alt={item.title} />
-            </div>
-            <span className="furniture-card__title">{item.title}</span>
+            <span className="furniture-card__title">{item.label}</span>
           </button>
         ))}
       </div>
