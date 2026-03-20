@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { X, Trash2, Mail } from "lucide-react";
+import { X, Trash2, Mail, ImagePlus } from "lucide-react";
 import "./RenderGalleryModal.css";
 import { getPublicImageUrl } from "@core/modules/storage/api.storage";
 import { Bucket } from "@core/modules/storage/type";
@@ -31,15 +31,24 @@ const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
   };
 
   const toggleImage = (imagePath) => {
-    setSelectedImages((prev) =>
-      prev.includes(imagePath) ? prev.filter((p) => p !== imagePath) : [...prev, imagePath]
-    );
+    setSelectedImages((prev) => (prev.includes(imagePath) ? prev.filter((p) => p !== imagePath) : [...prev, imagePath]));
+  };
+
+  const handleDeleteImages = () => {
+    console.log("yeah boi");
   };
 
   const hasSelection = selectedImages.length > 0;
 
   return (
-    <div className="modal__backdrop" onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }} role="dialog" aria-modal="true">
+    <div
+      className="modal__backdrop"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) handleClose();
+      }}
+      role="dialog"
+      aria-modal="true"
+    >
       <div className="render-gallery__wrapper" onClick={(e) => e.stopPropagation()}>
         <div className="render-gallery__panel">
           <div className="modal__header">
@@ -60,7 +69,13 @@ const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
                 >
                   <div className={`render-gallery__checkbox ${isSelected ? "render-gallery__checkbox--checked" : ""}`}>
                     <svg viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M1 5L4.5 8.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path
+                        d="M1 5L4.5 8.5L11 1.5"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </svg>
                   </div>
                   <img
@@ -72,17 +87,29 @@ const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
                 </div>
               );
             })}
+            {images.length === 1 && (
+              <div className="render-gallery__placeholder">
+                <ImagePlus size={24} strokeWidth={1.5} />
+                <span className="render-gallery__placeholder-text">More renders will appear here</span>
+              </div>
+            )}
           </div>
         </div>
 
         <div className={`render-gallery__actions ${hasSelection ? "render-gallery__actions--visible" : ""}`}>
           <span className="render-gallery__actions-count">{selectedImages.length} selected</span>
           <div className="render-gallery__actions-buttons">
-            <button className="render-gallery__action-btn render-gallery__action-btn--delete">
+            <button
+              className="render-gallery__action-btn render-gallery__action-btn--delete"
+              onClick={() => handleDeleteImages()}
+            >
               <Trash2 size={15} />
               Delete
             </button>
-            <button className="render-gallery__action-btn render-gallery__action-btn--send" onClick={() => setIsEmailModalOpen(true)}>
+            <button
+              className="render-gallery__action-btn render-gallery__action-btn--send"
+              onClick={() => setIsEmailModalOpen(true)}
+            >
               <Mail size={15} />
               Send email
             </button>
@@ -90,11 +117,7 @@ const RenderGalleryModal = ({ isOpen, onClose, projectName, images = [] }) => {
         </div>
       </div>
 
-      <SendEmailModal
-        isOpen={isEmailModalOpen}
-        onClose={() => setIsEmailModalOpen(false)}
-        selectedImages={selectedImages}
-      />
+      <SendEmailModal isOpen={isEmailModalOpen} onClose={() => setIsEmailModalOpen(false)} selectedImages={selectedImages} />
     </div>
   );
 };
