@@ -50,6 +50,9 @@ const Perspective = () => {
   const [activeHdri, setActiveHdri] = useState(null);
   const canvasStateRef = useRef(null);
   const [lightIntensity, setLightIntensity] = useState(1);
+  const [floorMaterialId, setFloorMaterialId] = useState("null");
+  const [wallMaterialId, setWallMaterialId] = useState(null);
+  const [wallColor, setWallColor] = useState("#d4e3f0");
 
   const {
     data: project,
@@ -217,7 +220,17 @@ const Perspective = () => {
               <Ground onPointerMissed={handleDeselect} />
             </mesh>
 
-            {project?.room_data && <Room3D walls={walls} wallThickness={0.1} height={ROOM_HEIGHT} openings={openings} />}
+            {project?.room_data && (
+              <Room3D
+                walls={walls}
+                wallThickness={0.1}
+                height={ROOM_HEIGHT}
+                openings={openings}
+                floorMaterialId={floorMaterialId}
+                wallMaterialId={wallMaterialId}
+                wallColor={wallColor}
+              />
+            )}
 
             <Bounds margin={2}>
               {openings.map((item) => (

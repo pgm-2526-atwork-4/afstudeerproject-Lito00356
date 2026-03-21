@@ -2,11 +2,13 @@ import { Geometry, Subtraction, Base } from "@react-three/csg";
 import React, { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { FLOOR_MATERIALS } from "@core/config/materialCatalogue";
+import { useTexture } from "@react-three/drei";
 
 const _wallNormal = new THREE.Vector3();
 const _cameraDir = new THREE.Vector3();
 
-const Wall = ({ start, end, height, thickness, openings = [] }) => {
+const Wall = ({ start, end, height, thickness, openings = [], wallMaterialId, wallColor }) => {
   const { position, rotation, length, wallLength } = useMemo(() => {
     const dx = end[0] - start[0];
     const dz = end[2] - start[2];
@@ -67,12 +69,29 @@ const Wall = ({ start, end, height, thickness, openings = [] }) => {
           </Subtraction>
         ))}
       </Geometry>
-      <meshStandardMaterial color="lightBlue" side={THREE.DoubleSide} transparent opacity={1} />
+      {wallMaterialId ? (
+        <WallTexturedMaterial wallMaterialId={wallMaterialId} />
+      ) : (
+        <meshStandardMaterial color={wallColor} side={THREE.DoubleSide} transparent opacity={1} />
+      )}
     </mesh>
   );
 };
 
-const Floor = ({ walls }) => {
+const Floor = ({ walls, floorMaterialId }) => {
+  const materialConfig = FLOOR_MATERIALS.find((material) => material.id === floorMaterialId) ?? FLOOR_MATERIALS[0];
+
+  const textures = useTexture({
+    diffuseMap: materialConfig.baseColor,
+    normalMap: materialConfig.normal,
+    roughnessMap: materialConfig.roughness,
+  });
+
+  Object.values(textures).forEach((texture) => {
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(...materialConfig.repeat);
+  });
+
   const geometry = useMemo(() => {
     if (!walls.length) return null;
 
@@ -89,7 +108,7 @@ const Floor = ({ walls }) => {
 
   return (
     <mesh geometry={geometry} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
-      <meshStandardMaterial color="#e0d5c1" side={THREE.DoubleSide} />
+      <meshStandardMaterial {...textures} color="#e0d5c1" side={THREE.DoubleSide} />
     </mesh>
   );
 };
