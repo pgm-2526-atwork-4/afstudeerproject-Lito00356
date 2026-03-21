@@ -134,6 +134,11 @@ export const ONBOARDING_STEPS = {
       title: "Only furniture?",
       description: "No, you can find doors as well as windows in this list.",
     },
+    {
+      id: 10,
+      title: "Color the concrete?",
+      description: "You can also add a texture / color to the walls and floor! But don't forget to confirm you selection.",
+    },
   ],
   MovingObjects: [
     {
