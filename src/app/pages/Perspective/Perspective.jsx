@@ -1,8 +1,8 @@
 import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
-import React, { useMemo, useRef, useState } from "react";
-import { Bounds, Environment, KeyboardControls, OrbitControls, Select, Sky } from "@react-three/drei";
+import React, { Suspense, useMemo, useRef, useState } from "react";
+import { Bounds, Environment, KeyboardControls, Loader, OrbitControls, Select, Sky } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById, updateProjectImages } from "@core/modules/projects/api.projects";
@@ -145,129 +145,132 @@ const Perspective = () => {
             canvasStateRef.current = state;
           }}
         >
-          <Perf position="top-left" />
-          {lightingMode === "none" && (
-            <>
-              <directionalLight />
-              <ambientLight intensity={1} />
-            </>
-          )}
-          {lightingMode === "sky" && (
-            <>
-              <Sky skyPosition={skyPosition} turbidity={3} rayleigh={0.2} mieCoefficient={0.007} mieDirectionalG={0.5} />
-              <directionalLight
-                position={skyPosition}
-                castShadow
-                intensity={lightIntensity}
-                shadow-mapSize={[2048, 2048]}
-                shadow-camera-left={-15}
-                shadow-camera-right={15}
-                shadow-camera-top={15}
-                shadow-camera-bottom={-15}
-                shadow-camera-near={0.1}
-                shadow-camera-far={50}
-                shadow-bias={-0.002}
-                shadow-normalBias={0.02}
-              />
-              <ambientLight intensity={1} />
-            </>
-          )}
-          {lightingMode === "hdri" && activeHdri && (
-            <>
-              <Environment
-                background
-                backgroundRotation={[0, Math.PI / 2, 0]}
-                files={activeHdri.file}
-                ground={{
-                  height: 7,
-                  radius: 25,
-                  scale: 100,
-                }}
-                intensity={20}
-              />
-              <directionalLight
-                position={skyPosition}
-                castShadow
-                intensity={2}
-                shadow-mapSize={[2048, 2048]}
-                shadow-camera-left={-15}
-                shadow-camera-right={15}
-                shadow-camera-top={15}
-                shadow-camera-bottom={-15}
-                shadow-camera-near={0.1}
-                shadow-camera-far={50}
-                shadow-bias={-0.002}
-                shadow-normalBias={0.02}
-              />
-            </>
-          )}
+          <Suspense fallback={null}>
+            <Perf position="top-left" />
+            {lightingMode === "none" && (
+              <>
+                <directionalLight />
+                <ambientLight intensity={1} />
+              </>
+            )}
+            {lightingMode === "sky" && (
+              <>
+                <Sky skyPosition={skyPosition} turbidity={3} rayleigh={0.2} mieCoefficient={0.007} mieDirectionalG={0.5} />
+                <directionalLight
+                  position={skyPosition}
+                  castShadow
+                  intensity={lightIntensity}
+                  shadow-mapSize={[2048, 2048]}
+                  shadow-camera-left={-15}
+                  shadow-camera-right={15}
+                  shadow-camera-top={15}
+                  shadow-camera-bottom={-15}
+                  shadow-camera-near={0.1}
+                  shadow-camera-far={50}
+                  shadow-bias={-0.002}
+                  shadow-normalBias={0.02}
+                />
+                <ambientLight intensity={1} />
+              </>
+            )}
+            {lightingMode === "hdri" && activeHdri && (
+              <>
+                <Environment
+                  background
+                  backgroundRotation={[0, Math.PI / 2, 0]}
+                  files={activeHdri.file}
+                  ground={{
+                    height: 7,
+                    radius: 25,
+                    scale: 100,
+                  }}
+                  intensity={20}
+                />
+                <directionalLight
+                  position={skyPosition}
+                  castShadow
+                  intensity={2}
+                  shadow-mapSize={[2048, 2048]}
+                  shadow-camera-left={-15}
+                  shadow-camera-right={15}
+                  shadow-camera-top={15}
+                  shadow-camera-bottom={-15}
+                  shadow-camera-near={0.1}
+                  shadow-camera-far={50}
+                  shadow-bias={-0.002}
+                  shadow-normalBias={0.02}
+                />
+              </>
+            )}
 
-          <EffectComposer multisampling={8} autoClear={false}>
-            <Outline
-              selection={outlineSelection}
-              visibleEdgeColor="orange"
-              hiddenEdgeColor="orange"
-              edgeStrength={3}
-              width={1000}
+            <EffectComposer multisampling={8} autoClear={false}>
+              <Outline
+                selection={outlineSelection}
+                visibleEdgeColor="orange"
+                hiddenEdgeColor="orange"
+                edgeStrength={3}
+                width={1000}
+              />
+            </EffectComposer>
+
+            <mesh>
+              <Ground onPointerMissed={handleDeselect} />
+            </mesh>
+
+            {project?.room_data && <Room3D walls={walls} wallThickness={0.1} height={ROOM_HEIGHT} openings={openings} />}
+
+            <Bounds margin={2}>
+              {openings.map((item) => (
+                <Select key={item.id} enabled={selectedObject === item.id}>
+                  <WallOpening
+                    furnitureId={item.id}
+                    position={item.position}
+                    rotation={item.rotation}
+                    width={item.width}
+                    height={item.height}
+                    depth={item.depth}
+                    modelType={item.modelType}
+                    isSelected={selectedObject === item.id}
+                    onSelect={(meshRef) => handleSelect(item.id, meshRef)}
+                    onDeselect={handleDeselect}
+                    onTransformChange={handleOpeningTransform}
+                    onSave={handleSave}
+                  />
+                </Select>
+              ))}
+              {furniture.map((item) => (
+                <Select key={item.id} enabled={selectedObject === item.id}>
+                  <Furniture
+                    key={item.id}
+                    furnitureId={item.id}
+                    modelPath={item.modelPath}
+                    color={item.color ?? "rgba(240, 240, 240, 1)"}
+                    position={item.position}
+                    scale={item.scale}
+                    rotation={item.rotation}
+                    isSelected={selectedObject === item.id}
+                    onSelect={(meshRef) => handleSelect(item.id, meshRef)}
+                    onDeselect={handleDeselect}
+                    onTransformChange={handleTransformChange}
+                    onSave={handleSave}
+                    onColorChange={handleColorChange}
+                    isTopView={isTopView}
+                  />
+                </Select>
+              ))}
+            </Bounds>
+
+            <CameraController isTopView={isTopView} />
+            <OrbitControls
+              target={[0, 0, 0]}
+              maxPolarAngle={isTopView ? 0 : Math.PI / 2}
+              minPolarAngle={isTopView ? 0 : 0}
+              enableRotate={!isTopView}
+              makeDefault
             />
-          </EffectComposer>
-
-          <mesh>
-            <Ground onPointerMissed={handleDeselect} />
-          </mesh>
-
-          {project?.room_data && <Room3D walls={walls} wallThickness={0.1} height={ROOM_HEIGHT} openings={openings} />}
-
-          <Bounds margin={2}>
-            {openings.map((item) => (
-              <Select key={item.id} enabled={selectedObject === item.id}>
-                <WallOpening
-                  furnitureId={item.id}
-                  position={item.position}
-                  rotation={item.rotation}
-                  width={item.width}
-                  height={item.height}
-                  depth={item.depth}
-                  modelType={item.modelType}
-                  isSelected={selectedObject === item.id}
-                  onSelect={(meshRef) => handleSelect(item.id, meshRef)}
-                  onDeselect={handleDeselect}
-                  onTransformChange={handleOpeningTransform}
-                  onSave={handleSave}
-                />
-              </Select>
-            ))}
-            {furniture.map((item) => (
-              <Select key={item.id} enabled={selectedObject === item.id}>
-                <Furniture
-                  key={item.id}
-                  furnitureId={item.id}
-                  modelPath={item.modelPath}
-                  color={item.color ?? "rgba(240, 240, 240, 1)"}
-                  position={item.position}
-                  scale={item.scale}
-                  rotation={item.rotation}
-                  isSelected={selectedObject === item.id}
-                  onSelect={(meshRef) => handleSelect(item.id, meshRef)}
-                  onDeselect={handleDeselect}
-                  onTransformChange={handleTransformChange}
-                  onSave={handleSave}
-                  onColorChange={handleColorChange}
-                  isTopView={isTopView}
-                />
-              </Select>
-            ))}
-          </Bounds>
-
-          <CameraController isTopView={isTopView} />
-          <OrbitControls
-            target={[0, 0, 0]}
-            maxPolarAngle={isTopView ? 0 : Math.PI / 2}
-            minPolarAngle={isTopView ? 0 : 0}
-            enableRotate={!isTopView}
-            makeDefault
-          />
+          </Suspense>
         </Canvas>
+        <Loader />
       </KeyboardControls>
 
       <div className="ui-overlay">
