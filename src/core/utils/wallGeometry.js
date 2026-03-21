@@ -15,12 +15,24 @@ export const nearlyEqual = (a, b, epsilon = EPSILON) => Math.abs(a - b) <= epsil
 export const vectorsNearlyEqual = (a = [], b = [], epsilon = EPSILON) =>
   a.length === b.length && a.every((value, index) => nearlyEqual(value, b[index], epsilon));
 
-export const buildWallsFromProject = (project) =>
-  project?.room_data?.walls?.map((w) => ({
-    id: w.id,
-    start: [w.startPosition.x / 100, 0, w.startPosition.y / 100],
-    end: [w.endPosition.x / 100, 0, w.endPosition.y / 100],
-  })) ?? [];
+export const buildWallsFromProject = (project) => {
+  const walls = project?.room_data?.walls;
+  if (!walls?.length) return [];
+
+  const points = walls.flatMap((w) => [
+    { x: w.startPosition.x / 100, z: w.startPosition.y / 100 },
+    { x: w.endPosition.x / 100, z: w.endPosition.y / 100 },
+  ]);
+
+  const centerX = points.reduce((sum, p) => sum + p.x, 0) / points.length;
+  const centerZ = points.reduce((sum, p) => sum + p.z, 0) / points.length;
+
+  return walls.map((wall) => ({
+    id: wall.id,
+    start: [wall.startPosition.x / 100 - centerX, 0, wall.startPosition.y / 100 - centerZ],
+    end: [wall.endPosition.x / 100 - centerX, 0, wall.endPosition.y / 100 - centerZ],
+  }));
+};
 
 export const getWallAngle = (wall) => {
   const dx = wall.end[0] - wall.start[0];
@@ -81,9 +93,7 @@ export const snapWindowToWall = (walls, windowItem, worldPosition) => {
   const maxOffset = Math.max(0, closest.wallLength / 2 - halfWidth - 0.05);
   const rawOffset = (closest.t - 0.5) * closest.wallLength;
   const offset = clamp(rawOffset, -maxOffset, maxOffset);
-  const centerY = grounded
-    ? height / 2
-    : clamp(worldPosition[1], height / 2 + 0.05, ROOM_HEIGHT - height / 2 - 0.05);
+  const centerY = grounded ? height / 2 : clamp(worldPosition[1], height / 2 + 0.05, ROOM_HEIGHT - height / 2 - 0.05);
   const tFromOffset = closest.wallLength === 0 ? 0.5 : offset / closest.wallLength + 0.5;
   const snappedX = closest.wall.start[0] + (closest.wall.end[0] - closest.wall.start[0]) * tFromOffset;
   const snappedZ = closest.wall.start[2] + (closest.wall.end[2] - closest.wall.start[2]) * tFromOffset;
