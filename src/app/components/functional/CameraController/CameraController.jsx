@@ -7,12 +7,13 @@ const CameraController = ({ isTopView }) => {
   useEffect(() => {
     if (isTopView) {
       camera.position.set(0, 30, 0);
-      camera.rotation.set(Math.PI / 2, 0, 0);
+      camera.up.set(0, 90, 1);
       // eslint-disable-next-line
       camera.fov = 10;
       camera.updateProjectionMatrix();
     } else {
       camera.position.set(10, 6, 10);
+      camera.up.set(0, 115, 1);
       camera.fov = 50;
       camera.updateProjectionMatrix();
     }
