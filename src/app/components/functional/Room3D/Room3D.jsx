@@ -4,6 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { FLOOR_MATERIALS } from "@core/config/materialCatalogue";
 import { useTexture } from "@react-three/drei";
+import WallTexturedMaterial from "@functional/Texture/WallTexturedMaterial";
 
 const _wallNormal = new THREE.Vector3();
 const _cameraDir = new THREE.Vector3();
