@@ -20,6 +20,7 @@ const Furniture = ({
   onSave,
   color,
   onColorChange,
+  isTopView,
 }) => {
   const path = modelPath || DEFAULT_MODEL;
   const { scene: originalScene } = useGLTF(path);
@@ -148,7 +149,7 @@ const Furniture = ({
             e.stopPropagation();
             if (isDragging.current) return;
             if (!isSelected) {
-              bounds.refresh(e.object).fit();
+              if (!isTopView) bounds.refresh(e.object).fit();
               onSelect(primitiveRef.current);
             } else {
               onDeselect();

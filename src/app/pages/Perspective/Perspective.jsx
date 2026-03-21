@@ -154,18 +154,11 @@ const Perspective = () => {
           )}
           {lightingMode === "sky" && (
             <>
-              <Sky
-                sunPosition={skyPosition}
-                turbidity={activeSkyPreset?.turbidity ?? 3}
-                rayleigh={activeSkyPreset?.rayleigh ?? 0.4}
-                mieCoefficient={activeSkyPreset?.mieCoefficient ?? 0.005}
-                mieDirectionalG={activeSkyPreset?.mieDirectionalG ?? 0.7}
-              />
+              <Sky skyPosition={skyPosition} turbidity={3} rayleigh={0.2} mieCoefficient={0.007} mieDirectionalG={0.5} />
               <directionalLight
                 position={skyPosition}
                 castShadow
                 intensity={lightIntensity}
-                color={activeSkyPreset?.sunColor ?? "#ffffff"}
                 shadow-mapSize={[2048, 2048]}
                 shadow-camera-left={-15}
                 shadow-camera-right={15}
@@ -176,7 +169,7 @@ const Perspective = () => {
                 shadow-bias={-0.002}
                 shadow-normalBias={0.02}
               />
-              <ambientLight intensity={1} color={activeSkyPreset?.ambientColor ?? "#e8f0ff"} />
+              <ambientLight intensity={1} />
             </>
           )}
           {lightingMode === "hdri" && activeHdri && (
@@ -260,6 +253,7 @@ const Perspective = () => {
                   onTransformChange={handleTransformChange}
                   onSave={handleSave}
                   onColorChange={handleColorChange}
+                  isTopView={isTopView}
                 />
               </Select>
             ))}
