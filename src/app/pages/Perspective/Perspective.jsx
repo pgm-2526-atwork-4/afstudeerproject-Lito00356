@@ -305,6 +305,7 @@ const Perspective = () => {
           isVisible={!!selectedObject}
           onDelete={() => handleObjectDelete(selectedObject)}
           onResetRotation={() => handleObjectResetRotation(selectedObject)}
+          onDeselect={handleDeselect}
         />
       </div>
     </div>
