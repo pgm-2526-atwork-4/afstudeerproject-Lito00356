@@ -31,6 +31,7 @@ import CameraViewChanger from "@design/Button/CameraViewChanger/CameraViewChange
 import CameraController from "@functional/CameraController/CameraController";
 import { Perf } from "r3f-perf";
 import MenuLighting from "@design/MenuLighting/MenuLighting";
+import MenuMaterials from "@design/MenuMaterials/MenuMaterials";
 import * as THREE from "three";
 
 const keyMap = [
@@ -50,7 +51,7 @@ const Perspective = () => {
   const [activeHdri, setActiveHdri] = useState(null);
   const canvasStateRef = useRef(null);
   const [lightIntensity, setLightIntensity] = useState(1);
-  const [floorMaterialId, setFloorMaterialId] = useState("null");
+  const [floorMaterialId, setFloorMaterialId] = useState(null);
   const [wallMaterialId, setWallMaterialId] = useState(null);
   const [wallColor, setWallColor] = useState("#d4e3f0");
 
@@ -316,6 +317,14 @@ const Perspective = () => {
           activeHdri={activeHdri?.id}
           lightIntensity={lightIntensity}
           onIntensityChange={setLightIntensity}
+        />
+        <MenuMaterials
+          floorMaterialId={floorMaterialId}
+          onFloorChange={setFloorMaterialId}
+          wallMaterialId={wallMaterialId}
+          onWallMaterialChange={setWallMaterialId}
+          wallColor={wallColor}
+          onWallColorChange={setWallColor}
         />
         <ObjectOptions
           isVisible={!!selectedObject}

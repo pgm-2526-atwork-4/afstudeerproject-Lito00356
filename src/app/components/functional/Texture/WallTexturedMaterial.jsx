@@ -6,7 +6,7 @@ export const WallTexturedMaterial = ({ wallMaterialId }) => {
   const config = WALL_MATERIALS.find((material) => material.id === wallMaterialId) ?? WALL_MATERIALS[0];
 
   const textures = useTexture({
-    diffuseMap: config.baseColor,
+    map: config.baseColor,
     normalMap: config.normal,
     roughnessMap: config.roughness,
   });

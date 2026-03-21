@@ -5,7 +5,7 @@ export const FLOOR_MATERIALS = [
     baseColor: "/textures/floors/Wood_Floor_Ash/Poliigon_WoodFloorAsh_4186_BaseColor.jpg",
     normal: "/textures/floors/Wood_Floor_Ash/Poliigon_WoodFloorAsh_4186_Normal.png",
     roughness: "/textures/floors/Wood_Floor_Ash/Poliigon_WoodFloorAsh_4186_Roughness.jpg",
-    repeat: [4, 4],
+    repeat: [0.75, 0.75],
   },
   {
     id: "tiles_ceramic",
@@ -13,7 +13,7 @@ export const FLOOR_MATERIALS = [
     baseColor: "/textures/floors/Tiles_Cermic/Poliigon_TilesCeramicWhite_6956_BaseColor.jpg",
     normal: "/textures/floors/Tiles_Cermic/Poliigon_TilesCeramicWhite_6956_Normal.png",
     roughness: "/textures/floors/Tiles_Cermic/Poliigon_TilesCeramicWhite_6956_Roughness.jpg",
-    repeat: [4, 4],
+    repeat: [0.5, 0.5],
   },
   {
     id: "tiles_slate",
@@ -21,7 +21,7 @@ export const FLOOR_MATERIALS = [
     baseColor: "/textures/floors/Tiles_Slate/Poliigon_SlateFloorTile_7657_BaseColor.jpg",
     normal: "/textures/floors/Tiles_Slate/Poliigon_SlateFloorTile_7657_Normal.png",
     roughness: "/textures/floors/Tiles_Slate/Poliigon_SlateFloorTile_7657_Roughness.jpg",
-    repeat: [4, 4],
+    repeat: [0.25, 0.25],
   },
   {
     id: "terrazzo",
@@ -29,9 +29,10 @@ export const FLOOR_MATERIALS = [
     baseColor: "/textures/floors/Terrazzo/TerrazzoSlab018_COL_2K_BaseColor.png",
     normal: "/textures/floors/Terrazzo/TerrazzoSlab018_NRM_2K_Normal.png",
     roughness: "/textures/floors/Terrazzo/TerrazzoSlab018_ROUGHNESS_2K_Roughness.png",
-    repeat: [4, 4],
+    repeat: [1, 1],
   },
 ];
+
 export const WALL_MATERIALS = [
   {
     id: "brick",
@@ -47,7 +48,7 @@ export const WALL_MATERIALS = [
     baseColor: "/textures/walls/Concrete/Poliigon_CeramicPotteryGlazed_10861_BaseColor.jpg",
     normal: "/textures/walls/Concrete/Poliigon_CeramicPotteryGlazed_10861_Normal.png",
     roughness: "/textures/walls/Concrete/Poliigon_CeramicPotteryGlazed_10861_Roughness.jpg",
-    repeat: [2, 2],
+    repeat: [3, 3],
   },
   {
     id: "concrete_worn",
@@ -55,6 +56,6 @@ export const WALL_MATERIALS = [
     baseColor: "/textures/walls/Concrete_worn/Poliigon_ConcreteWorn_8690_BaseColor.jpg",
     normal: "/textures/walls/Concrete_worn/Poliigon_ConcreteWorn_8690_Normal.png",
     roughness: "/textures/walls/Concrete_worn/Poliigon_ConcreteWorn_8690_Roughness.jpg",
-    repeat: [2, 2],
+    repeat: [3, 3],
   },
 ];

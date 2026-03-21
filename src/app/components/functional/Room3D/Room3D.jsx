@@ -79,11 +79,11 @@ const Wall = ({ start, end, height, thickness, openings = [], wallMaterialId, wa
   );
 };
 
-const Floor = ({ walls, floorMaterialId }) => {
-  const materialConfig = FLOOR_MATERIALS.find((material) => material.id === floorMaterialId) ?? FLOOR_MATERIALS[0];
+const FloorTexturedMaterial = ({ floorMaterialId }) => {
+  const materialConfig = FLOOR_MATERIALS.find((m) => m.id === floorMaterialId) ?? FLOOR_MATERIALS[0];
 
   const textures = useTexture({
-    diffuseMap: materialConfig.baseColor,
+    map: materialConfig.baseColor,
     normalMap: materialConfig.normal,
     roughnessMap: materialConfig.roughness,
   });
@@ -93,6 +93,10 @@ const Floor = ({ walls, floorMaterialId }) => {
     texture.repeat.set(...materialConfig.repeat);
   });
 
+  return <meshStandardMaterial {...textures} side={THREE.DoubleSide} />;
+};
+
+const Floor = ({ walls, floorMaterialId }) => {
   const geometry = useMemo(() => {
     if (!walls.length) return null;
 
@@ -109,7 +113,11 @@ const Floor = ({ walls, floorMaterialId }) => {
 
   return (
     <mesh geometry={geometry} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
-      <meshStandardMaterial {...textures} color="#e0d5c1" side={THREE.DoubleSide} />
+      {floorMaterialId ? (
+        <FloorTexturedMaterial floorMaterialId={floorMaterialId} />
+      ) : (
+        <meshStandardMaterial color="#e0d5c1" side={THREE.DoubleSide} />
+      )}
     </mesh>
   );
 };
@@ -117,7 +125,7 @@ const Floor = ({ walls, floorMaterialId }) => {
 const FADE_SPEED = 6;
 const OCCLUDED_OPACITY = 0.15;
 
-const Room3D = ({ walls = [], wallThickness = 0.1, height = 2.5, openings = [] }) => {
+const Room3D = ({ walls = [], wallThickness = 0.1, height = 2.5, openings = [], floorMaterialId, wallMaterialId, wallColor }) => {
   const wallGroupRef = useRef();
 
   const openingsByWall = useMemo(() => {
@@ -161,10 +169,12 @@ const Room3D = ({ walls = [], wallThickness = 0.1, height = 2.5, openings = [] }
             height={height}
             thickness={wallThickness}
             openings={openingsByWall[wall.id] ?? []}
+            wallMaterialId={wallMaterialId}
+            wallColor={wallColor}
           />
         ))}
       </group>
-      <Floor walls={walls} />
+      <Floor walls={walls} floorMaterialId={floorMaterialId} />
     </group>
   );
 };
