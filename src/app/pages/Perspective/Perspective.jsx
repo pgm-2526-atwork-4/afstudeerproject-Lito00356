@@ -93,6 +93,30 @@ const Perspective = () => {
     });
   };
 
+  const handleMaterialsSave = () => {
+    const currentObjects = project?.objects ?? {};
+    saveRoom.mutate({
+      id: project?.id,
+      user_id: user.id,
+      scene_name: project?.scene_name,
+      room_data: project?.room_data,
+      objects: { ...currentObjects, materials: { floorMaterialId, wallMaterialId, wallColor } },
+    });
+  };
+
+  const handleMaterialsCancel = () => {
+    const saved = project?.objects?.materials;
+    setFloorMaterialId(saved?.floorMaterialId ?? null);
+    setWallMaterialId(saved?.wallMaterialId ?? null);
+    setWallColor(saved?.wallColor ?? "#d4e3f0");
+  };
+
+  const savedMaterials = project?.objects?.materials;
+  const materialsAdjusted =
+    floorMaterialId !== (savedMaterials?.floorMaterialId ?? null) ||
+    wallMaterialId !== (savedMaterials?.wallMaterialId ?? null) ||
+    wallColor !== (savedMaterials?.wallColor ?? "#d4e3f0");
+
   const handleObjectDelete = (id) => {
     const isOpening = openings.some((item) => item.id === id);
     if (isOpening) {
@@ -337,6 +361,9 @@ const Perspective = () => {
           onWallMaterialChange={setWallMaterialId}
           wallColor={wallColor}
           onWallColorChange={setWallColor}
+          onConfirm={handleMaterialsSave}
+          onCancel={handleMaterialsCancel}
+          materialsAdjusted={materialsAdjusted}
         />
         <ObjectOptions
           isVisible={!!selectedObject}

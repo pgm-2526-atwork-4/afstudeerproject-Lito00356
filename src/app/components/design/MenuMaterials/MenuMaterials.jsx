@@ -1,5 +1,5 @@
 import "./MenuMaterials.css";
-import { Paintbrush, X } from "lucide-react";
+import { Check, Paintbrush, Undo2, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { FLOOR_MATERIALS, WALL_MATERIALS } from "@core/config/materialCatalogue";
 
@@ -10,6 +10,9 @@ const MenuMaterials = ({
   onWallMaterialChange,
   wallColor,
   onWallColorChange,
+  onConfirm,
+  onCancel,
+  materialsAdjusted,
 }) => {
   const [panelOpen, setPanelOpen] = useState(false);
   const menuRef = useRef(null);
@@ -41,6 +44,25 @@ const MenuMaterials = ({
 
         <div className="materials-menu__panel" aria-hidden={!panelOpen}>
           <span className="materials-menu__label">Materials</span>
+          {panelOpen && materialsAdjusted && (
+            <div className="materials-menu__actions">
+              <small className="materials-menu__actions materials-menu__actions-confirm">Confirm</small>
+              <button
+                className="materials-menu__action-btn materials-menu__action-btn--confirm"
+                onClick={onConfirm}
+                title="Save materials"
+              >
+                <Check size={14} />
+              </button>
+              <button
+                className="materials-menu__action-btn materials-menu__action-btn--cancel"
+                onClick={onCancel}
+                title="Revert changes"
+              >
+                <Undo2 size={14} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
