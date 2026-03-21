@@ -120,6 +120,7 @@ const Collection = () => {
         onClose={() => skip(skipChecked)}
         skipChecked={skipChecked}
         onSkipChange={setSkipChecked}
+        targetSelector={onboardingSteps[currentStep]?.targetSelector}
       />
 
       <div className="collection__container">
@@ -164,6 +165,7 @@ const Collection = () => {
                     <button
                       className="collection-project__btn collection-project__btn--load"
                       onClick={() => setSelectedProject(project)}
+                      data-onboarding="load-project"
                     >
                       <Upload size={16} />
                       Load
@@ -172,6 +174,7 @@ const Collection = () => {
                       className={`collection-project__btn collection-project__btn--view${!hasImages ? " collection-project__btn--disabled" : ""}`}
                       onClick={() => hasImages && setGalleryProjectId(project.id)}
                       disabled={!hasImages}
+                      data-onboarding="view-renders"
                     >
                       <Eye size={16} />
                       {hasImages ? "View Renders" : "No images"}
@@ -182,6 +185,7 @@ const Collection = () => {
                         setIsDeleteModalOpen(true);
                         setSelectedProject(project);
                       }}
+                      data-onboarding="delete-project"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -206,6 +210,7 @@ const Collection = () => {
           <button
             className="collection-project__btn collection-project__btn--load"
             onClick={() => setIsCreateModalOpen(true)}
+            data-onboarding="create-room"
           >
             <Plus size={16} />
             Create new project

@@ -3,7 +3,7 @@ import React from "react";
 
 const CameraViewChanger = ({ isTopView, onEnable, onDisable }) => {
   return (
-    <button className={`topview-btn ${isTopView ? "topview-btn--active" : ""}`} onClick={isTopView ? onDisable : onEnable}>
+    <button className={`topview-btn ${isTopView ? "topview-btn--active" : ""}`} onClick={isTopView ? onDisable : onEnable} data-onboarding="camera-view">
       <div className="topview-btn__cube">
         <div className="topview-btn__face topview-btn__face--front">3D</div>
         <div className="topview-btn__face topview-btn__face--back" />

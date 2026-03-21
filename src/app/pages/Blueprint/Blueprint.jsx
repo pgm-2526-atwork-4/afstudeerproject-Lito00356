@@ -407,6 +407,7 @@ const Blueprint = () => {
         onSkipDone={() => skip(true)}
         skipChecked={skipChecked}
         onSkipChange={setSkipChecked}
+        targetSelector={onboardingSteps[currentStep]?.targetSelector}
       />
       <div className="canvas-container">
         <canvas
@@ -449,6 +450,7 @@ const Blueprint = () => {
         disabled={!isRoomClosed}
         onClick={() => handleConvertTo3D()}
         title="Convert blueprint to 3D model"
+        data-onboarding="convert-to-3d"
       >
         Convert to 3D
       </button>

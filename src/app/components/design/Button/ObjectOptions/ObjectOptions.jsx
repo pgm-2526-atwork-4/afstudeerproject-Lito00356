@@ -4,7 +4,7 @@ import React from "react";
 
 const ObjectOptions = ({ isVisible, onDelete, onResetRotation, onDeselect }) => {
   return (
-    <div className={`object-options${isVisible ? " object-options--visible" : ""}`}>
+    <div className={`object-options${isVisible ? " object-options--visible" : ""}`} data-onboarding="object-options">
       <div className="object-options__item">
         <small>Deselect</small>
         <button className="object-options__btn" onClick={onDeselect}>

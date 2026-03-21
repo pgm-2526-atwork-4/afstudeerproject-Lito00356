@@ -14,7 +14,7 @@ const TitleBadge = ({ title }) => {
   };
 
   return (
-    <div className="title-badge-container">
+    <div className="title-badge-container" data-onboarding="title-badge">
       <strong className={`title-badge ${isCurrentPageActive ? "title-badge--active" : ""}`}>{title}</strong>
 
       {!pathname.includes("blueprint") && (

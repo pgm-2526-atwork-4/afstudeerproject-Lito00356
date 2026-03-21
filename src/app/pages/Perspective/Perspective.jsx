@@ -160,10 +160,34 @@ const Perspective = () => {
     await updateProjectImages(user.id, project.id, base64, project.images ?? []);
   };
 
-  // Onboarding
-  const onboardingSteps = ONBOARDING_STEPS.perspective;
+  // Onboarding — multi-flow system
   const [skipChecked, setSkipChecked] = useState(false);
-  const { isVisible, currentStep, nextStep, prevStep, skip, close, reopen } = useOnboarding("perspective");
+
+  const perspectiveOb = useOnboarding("perspective");
+  const movingOb = useOnboarding("MovingObjects");
+  const lightingOb = useOnboarding("Lighting");
+  const savingOb = useOnboarding("Saving");
+
+  const hasModels = furniture.length > 0 || openings.length > 0;
+  const hasLighting = lightingMode !== "none";
+
+  const getActiveOnboarding = () => {
+    if (perspectiveOb.isVisible) return { steps: ONBOARDING_STEPS.perspective, ob: perspectiveOb };
+    if (hasModels && !!selectedObject && movingOb.isVisible) return { steps: ONBOARDING_STEPS.MovingObjects, ob: movingOb };
+    if (hasLighting && lightingOb.isVisible) return { steps: ONBOARDING_STEPS.Lighting, ob: lightingOb };
+    if (perspectiveOb.isCompleted && movingOb.isCompleted && lightingOb.isCompleted && savingOb.isVisible)
+      return { steps: ONBOARDING_STEPS.Saving, ob: savingOb };
+    return null;
+  };
+
+  const active = getActiveOnboarding();
+
+  const handleTutorialReopen = () => {
+    perspectiveOb.reopen();
+    movingOb.reopen();
+    lightingOb.reopen();
+    savingOb.reopen();
+  };
 
   if (isPending) return <PageStatus.Loading />;
   if (error) return <PageStatus.Error message={error.message} />;
@@ -186,7 +210,6 @@ const Perspective = () => {
           }}
         >
           <Suspense fallback={null}>
-            <Perf position="top-left" />
             {lightingMode === "none" && (
               <>
                 <directionalLight />
@@ -324,22 +347,25 @@ const Perspective = () => {
       </KeyboardControls>
 
       <div className="ui-overlay">
-        <OnboardingModal
-          isVisible={isVisible}
-          title={onboardingSteps[currentStep]?.title}
-          description={onboardingSteps[currentStep]?.description}
-          currentStep={currentStep}
-          totalSteps={onboardingSteps.length}
-          onNext={() => nextStep(onboardingSteps.length)}
-          onPrev={prevStep}
-          onClose={close}
-          onSkipDone={() => skip(true)}
-          skipChecked={skipChecked}
-          onSkipChange={setSkipChecked}
-        />
+        {active && (
+          <OnboardingModal
+            isVisible
+            title={active.steps[active.ob.currentStep]?.title}
+            description={active.steps[active.ob.currentStep]?.description}
+            currentStep={active.ob.currentStep}
+            totalSteps={active.steps.length}
+            onNext={() => active.ob.nextStep(active.steps.length)}
+            onPrev={active.ob.prevStep}
+            onClose={active.ob.close}
+            onSkipDone={() => active.ob.skip(true)}
+            skipChecked={skipChecked}
+            onSkipChange={setSkipChecked}
+            targetSelector={active.steps[active.ob.currentStep]?.targetSelector}
+          />
+        )}
         <div className="top-actions">
           <MenuProfile handleScreenshot={handleScreenshot} />
-          <TutorialBtn onReset={reopen} />
+          <TutorialBtn onReset={handleTutorialReopen} />
         </div>
         <CameraViewChanger isTopView={isTopView} onEnable={() => setIsTopView(true)} onDisable={() => setIsTopView(false)} />
         <MenuSave onSave={handleSave} />

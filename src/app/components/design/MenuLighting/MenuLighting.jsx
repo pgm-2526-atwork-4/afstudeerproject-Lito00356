@@ -90,7 +90,7 @@ const MenuLighting = ({
   }, [panelOpen]);
 
   return (
-    <div ref={menuRef} className={`lighting-menu${panelOpen ? " lighting-menu--open" : ""}`}>
+    <div ref={menuRef} className={`lighting-menu${panelOpen ? " lighting-menu--open" : ""}`} data-onboarding="menu-lighting">
       <div className="lighting-menu__bar">
         <button
           className="lighting-menu__toggle"

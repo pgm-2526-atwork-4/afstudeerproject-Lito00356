@@ -19,7 +19,7 @@ const MenuProfile = ({ colorClass, handleScreenshot }) => {
   };
 
   return (
-    <div className={`menu-profile ${colorClass ?? ""} ${open ? "menu-profile--open" : ""}`}>
+    <div className={`menu-profile ${colorClass ?? ""} ${open ? "menu-profile--open" : ""}`} data-onboarding="menu-profile">
       <div className="menu-profile__header">
         <button className="menu-profile__trigger" onClick={() => setOpen(true)} aria-label="Profiel menu openen">
           {ExtractFirstLetter(user)}

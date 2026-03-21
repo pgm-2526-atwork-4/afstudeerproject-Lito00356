@@ -19,6 +19,12 @@ export const useOnboarding = (page) => {
 
   const isVisible = !onboarding?.skipped && !progress.completed && !isPending && !isClosed;
 
+  const isCompleted = !!progress.completed;
+
+  const isPageCompleted = (pageName) => {
+    return !!onboarding?.progress?.[pageName]?.completed;
+  };
+
   const updateProgress = useMutation({
     mutationFn: (newProgress) => saveOnboarding(auth.user?.id, newProgress),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["onboarding"] }),
@@ -83,6 +89,8 @@ export const useOnboarding = (page) => {
 
   return {
     isVisible,
+    isCompleted,
+    isPageCompleted,
     currentStep,
     nextStep,
     prevStep,

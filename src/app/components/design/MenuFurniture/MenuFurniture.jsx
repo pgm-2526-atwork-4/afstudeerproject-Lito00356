@@ -35,7 +35,7 @@ const MenuFurniture = ({ handleAddFurniture, handleAddOpening }) => {
   }, [panelOpen]);
 
   return (
-    <div ref={menuRef} className={`furniture-menu${panelOpen ? " furniture-menu--open" : ""}`}>
+    <div ref={menuRef} className={`furniture-menu${panelOpen ? " furniture-menu--open" : ""}`} data-onboarding="menu-furniture">
       <div className="furniture-menu__bar">
         <button
           className="furniture-menu__toggle"

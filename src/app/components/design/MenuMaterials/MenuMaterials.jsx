@@ -31,7 +31,7 @@ const MenuMaterials = ({
   }, [panelOpen]);
 
   return (
-    <div ref={menuRef} className={`materials-menu${panelOpen ? " materials-menu--open" : ""}`}>
+    <div ref={menuRef} className={`materials-menu${panelOpen ? " materials-menu--open" : ""}`} data-onboarding="menu-materials">
       <div className="materials-menu__bar">
         <button
           className="materials-menu__toggle"
