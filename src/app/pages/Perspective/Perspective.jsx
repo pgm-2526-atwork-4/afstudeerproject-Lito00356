@@ -1,7 +1,7 @@
 import "@style/theme.css";
 import "./perspective.css";
 import { Canvas } from "@react-three/fiber";
-import React, { Suspense, useMemo, useRef, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Bounds, Environment, KeyboardControls, Loader, OrbitControls, Select, Sky } from "@react-three/drei";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
 import { useQuery } from "@tanstack/react-query";
@@ -54,6 +54,7 @@ const Perspective = () => {
   const [floorMaterialId, setFloorMaterialId] = useState(null);
   const [wallMaterialId, setWallMaterialId] = useState(null);
   const [wallColor, setWallColor] = useState("#d4e3f0");
+  const materialsInitialized = useRef(false);
 
   const {
     data: project,
@@ -66,6 +67,17 @@ const Perspective = () => {
 
   const walls = useMemo(() => buildWallsFromProject(project), [project]);
 
+  useEffect(() => {
+    if (materialsInitialized.current) return;
+    const saved = project?.objects?.materials;
+    if (!saved) return;
+    materialsInitialized.current = true;
+    // eslint-disable-next-line
+    setFloorMaterialId(saved.floorMaterialId ?? null);
+    setWallMaterialId(saved.wallMaterialId ?? null);
+    if (saved.wallColor) setWallColor(saved.wallColor);
+  }, [project]);
+
   const { selectedObject, outlineSelection, handleSelect, handleDeselect } = useSelection();
   const { furniture, addFurniture, handleTransformChange, handleColorChange, handleFurnitureDelete, handleResetRotation } =
     useFurnitureManager(projectId, project);
@@ -77,7 +89,7 @@ const Perspective = () => {
       user_id: user.id,
       scene_name: project?.scene_name,
       room_data: project?.room_data,
-      objects: { furniture, openings },
+      objects: { furniture, openings, materials: { floorMaterialId, wallMaterialId, wallColor } },
     });
   };
 
