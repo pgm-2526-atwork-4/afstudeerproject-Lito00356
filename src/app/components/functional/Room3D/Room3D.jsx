@@ -71,7 +71,7 @@ const Wall = ({ start, end, height, thickness, openings = [], wallMaterialId, wa
         ))}
       </Geometry>
       {wallMaterialId ? (
-        <WallTexturedMaterial wallMaterialId={wallMaterialId} />
+        <WallTexturedMaterial wallMaterialId={wallMaterialId} wallHeight={height} wallLength={wallLength} />
       ) : (
         <meshStandardMaterial color={wallColor} side={THREE.DoubleSide} transparent opacity={1} />
       )}
@@ -125,7 +125,15 @@ const Floor = ({ walls, floorMaterialId }) => {
 const FADE_SPEED = 6;
 const OCCLUDED_OPACITY = 0.15;
 
-const Room3D = ({ walls = [], wallThickness = 0.1, height = 2.5, openings = [], floorMaterialId, wallMaterialId, wallColor }) => {
+const Room3D = ({
+  walls = [],
+  wallThickness = 0.1,
+  height = 2.5,
+  openings = [],
+  floorMaterialId,
+  wallMaterialId,
+  wallColor,
+}) => {
   const wallGroupRef = useRef();
 
   const openingsByWall = useMemo(() => {

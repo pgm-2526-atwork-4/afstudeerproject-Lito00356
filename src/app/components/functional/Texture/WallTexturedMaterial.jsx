@@ -2,8 +2,9 @@ import { WALL_MATERIALS } from "@core/config/materialCatalogue";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
-export const WallTexturedMaterial = ({ wallMaterialId }) => {
+export const WallTexturedMaterial = ({ wallMaterialId, wallLength, wallHeight }) => {
   const config = WALL_MATERIALS.find((material) => material.id === wallMaterialId) ?? WALL_MATERIALS[0];
+  const tileSize = config.repeat;
 
   const textures = useTexture({
     map: config.baseColor,
@@ -13,7 +14,7 @@ export const WallTexturedMaterial = ({ wallMaterialId }) => {
 
   Object.values(textures).forEach((texture) => {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(...config.repeat);
+    texture.repeat.set(wallLength / tileSize[0], wallHeight / tileSize[1]);
   });
 
   return <meshStandardMaterial {...textures} side={THREE.DoubleSide} transparent opacity={1} />;

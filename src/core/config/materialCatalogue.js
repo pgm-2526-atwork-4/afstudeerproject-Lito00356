@@ -40,7 +40,7 @@ export const WALL_MATERIALS = [
     baseColor: "/textures/walls/Brick_wall/Poliigon_BrickWallReclaimed_8320_BaseColor.jpg",
     normal: "/textures/walls/Brick_wall/Poliigon_BrickWallReclaimed_8320_Normal.png",
     roughness: "/textures/walls/Brick_wall/Poliigon_BrickWallReclaimed_8320_Roughness.jpg",
-    repeat: [2, 2],
+    repeat: [3, 2],
   },
   {
     id: "concrete",
@@ -48,7 +48,7 @@ export const WALL_MATERIALS = [
     baseColor: "/textures/walls/Concrete/Poliigon_CeramicPotteryGlazed_10861_BaseColor.jpg",
     normal: "/textures/walls/Concrete/Poliigon_CeramicPotteryGlazed_10861_Normal.png",
     roughness: "/textures/walls/Concrete/Poliigon_CeramicPotteryGlazed_10861_Roughness.jpg",
-    repeat: [3, 3],
+    repeat: [3, 2],
   },
   {
     id: "concrete_worn",
@@ -56,6 +56,6 @@ export const WALL_MATERIALS = [
     baseColor: "/textures/walls/Concrete_worn/Poliigon_ConcreteWorn_8690_BaseColor.jpg",
     normal: "/textures/walls/Concrete_worn/Poliigon_ConcreteWorn_8690_Normal.png",
     roughness: "/textures/walls/Concrete_worn/Poliigon_ConcreteWorn_8690_Roughness.jpg",
-    repeat: [3, 3],
+    repeat: [3, 2],
   },
 ];
