@@ -6,15 +6,18 @@ import { Bucket } from "@core/modules/storage/type";
 import SendEmailModal from "@design/Modal/SendEmailModal/SendEmailModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProjectImages } from "@core/modules/projects/api.projects";
+import useToast from "@functional/Toast/useToast";
 
 const RenderGalleryModal = ({ isOpen, onClose, projectName, projectId, images = [] }) => {
   const queryClient = useQueryClient();
+  const { addToast } = useToast();
   const [selectedImages, setSelectedImages] = useState([]);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
   const { mutate: deleteImages, isPending } = useMutation({
     mutationFn: () => deleteProjectImages(projectId, selectedImages),
     onSuccess: () => {
+      addToast("Images deleted successfully!", "info");
       setSelectedImages([]);
       queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
