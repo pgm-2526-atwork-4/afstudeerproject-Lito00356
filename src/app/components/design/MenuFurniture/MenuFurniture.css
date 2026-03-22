@@ -1,9 +1,8 @@
 .furniture-menu {
   position: fixed;
-  top: 15rem;
+  top: 15.5rem;
   right: -320px;
-  transform: translateY(-50%);
-  z-index: 200;
+  z-index: 204;
   width: calc(320px + 2.75rem);
   display: flex;
   flex-direction: column;

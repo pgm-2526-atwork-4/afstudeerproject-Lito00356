@@ -1,8 +1,8 @@
 .save-menu {
   position: fixed;
-  top: 10rem;
+  top: 12rem;
   right: -7.8125rem;
-  z-index: 200;
+  z-index: 205;
   min-width: 10rem;
   transition: right 0.35s ease;
 }

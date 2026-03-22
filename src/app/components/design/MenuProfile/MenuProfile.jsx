@@ -6,20 +6,23 @@ import { ExtractFirstLetter } from "@core/modules/profiles/ExtractFirstLetter";
 import { X } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { logout } from "@core/modules/auth/api.auth";
+import useToast from "@functional/Toast/useToast";
 
-const MenuProfile = ({ colorClass, handleScreenshot }) => {
+const MenuProfile = ({ colorClass }) => {
   const { auth } = useAuth();
   const user = auth.user;
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   const handleLogout = async () => {
-    navigate("/login");
     await logout();
+    addToast("Logged out successfully!", "info");
+    navigate("/login");
   };
 
   return (
-    <div className={`menu-profile ${colorClass ?? ""} ${open ? "menu-profile--open" : ""}`}>
+    <div className={`menu-profile ${colorClass ?? ""} ${open ? "menu-profile--open" : ""}`} data-onboarding="menu-profile">
       <div className="menu-profile__header">
         <button className="menu-profile__trigger" onClick={() => setOpen(true)} aria-label="Profiel menu openen">
           {ExtractFirstLetter(user)}
@@ -36,9 +39,6 @@ const MenuProfile = ({ colorClass, handleScreenshot }) => {
         <Link className="menu-profile__dropdown-item" to="/collection" onClick={() => setOpen(false)}>
           Collection
         </Link>
-        <button className="menu-profile__dropdown-item" onClick={handleScreenshot}>
-          Render
-        </button>
         <button className="menu-profile__dropdown-item logout" onClick={handleLogout}>
           Logout
         </button>

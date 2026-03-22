@@ -49,10 +49,15 @@ const WallOpening = ({
   useEffect(() => {
     if (!model) return;
     model.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
+      if (!child.isMesh) return;
+      const mat = child.material;
+      const isGlass =
+        mat.transparent ||
+        mat.opacity < 1 ||
+        mat.name?.toLowerCase().includes("glass") ||
+        mat.name?.toLowerCase().includes("glas");
+      child.castShadow = !isGlass;
+      child.receiveShadow = true;
     });
   }, [model]);
 
@@ -88,6 +93,7 @@ const WallOpening = ({
 
         <mesh
           visible={false}
+          castShadow={false}
           onClick={(e) => {
             e.stopPropagation();
             if (isDragging.current) return;

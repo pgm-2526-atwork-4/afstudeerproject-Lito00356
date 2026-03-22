@@ -3,7 +3,7 @@ import { useLocalOpenings } from "./useLocalOpenings";
 import { getWallAngle, snapWindowToWall, hasWindowChanged } from "@core/utils/wallGeometry";
 import { getModelDimensions, OPENING_MODELS } from "@core/utils/openingModels";
 
-export const useOpenings = (projectId, project, walls) => {
+export const useCreateOpenings = (projectId, project, walls) => {
   const [openings, setOpenings] = useLocalOpenings(projectId);
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export const useOpenings = (projectId, project, walls) => {
 
     const yRot = model.rotationOffset?.[1] ?? 0;
     const isRotated90 = Math.abs(Math.abs(yRot) - Math.PI / 2) < 0.01;
-    const width = isRotated90 ? dimensions.depth : dimensions.width;
+    const width = (isRotated90 ? dimensions.depth : dimensions.width) * 0.95;
     const depth = isRotated90 ? dimensions.width : dimensions.depth;
 
     const centerY = model.grounded ? dimensions.height / 2 : 1.35;

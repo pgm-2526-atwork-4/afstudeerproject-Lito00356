@@ -1,0 +1,11 @@
+Model Information:
+* title:	Armchair Poppi
+* source:	https://sketchfab.com/3d-models/armchair-poppi-fc7e9117d1d04a67b1356bb19f333c11
+* author:	Ngngan (https://sketchfab.com/nguyenngocngan130219)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Armchair Poppi" (https://sketchfab.com/3d-models/armchair-poppi-fc7e9117d1d04a67b1356bb19f333c11) by Ngngan (https://sketchfab.com/nguyenngocngan130219) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

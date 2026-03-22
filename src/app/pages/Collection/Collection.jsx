@@ -6,8 +6,8 @@ import { Upload, Eye, Plus, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import ImageWithFallback from "@functional/Image/ImageWithFallback";
 import MenuProfile from "@design/MenuProfile/MenuProfile";
-import ConfirmModal from "@design/Modal/ConfirmModal";
-import RenderGalleryModal from "@design/Modal/RenderGalleryModal";
+import ConfirmModal from "@design/Modal/ConfirmModal/ConfirmModal";
+import RenderGalleryModal from "@design/Modal/RenderGalleryModal/RenderGalleryModal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createNewProject, deleteProject, getUserProjects } from "@core/modules/projects/api.projects";
 import { useNavigate } from "react-router";
@@ -18,17 +18,19 @@ import { useOnboarding } from "@core/hooks/useOnboarding";
 import PageStatus from "@design/PageStatus/PageStatus";
 import { getPublicImageUrl } from "@core/modules/storage/api.storage";
 import { Bucket } from "@core/modules/storage/type";
+import useToast from "@functional/Toast/useToast";
 
 const Collection = () => {
   const { auth } = useAuth();
   const user = auth?.user;
   const queryClient = useQueryClient();
+  const { addToast } = useToast();
   const navigate = useNavigate();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [galleryProject, setGalleryProject] = useState(null);
+  const [galleryProjectId, setGalleryProjectId] = useState(null);
 
   // Pagination state:
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,6 +51,8 @@ const Collection = () => {
     queryFn: () => getUserProjects(user?.id),
   });
 
+  const galleryProject = projects?.find((p) => p.id === galleryProjectId) ?? null;
+
   const formatDate = (dateString) => {
     if (!dateString) return "—";
     return format(new Date(dateString), "dd/MM/yyyy");
@@ -66,6 +70,7 @@ const Collection = () => {
     mutationFn: deleteProject,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      addToast("Project deleted successfully!", "info");
     },
   });
 
@@ -118,6 +123,7 @@ const Collection = () => {
         onClose={() => skip(skipChecked)}
         skipChecked={skipChecked}
         onSkipChange={setSkipChecked}
+        targetSelector={onboardingSteps[currentStep]?.targetSelector}
       />
 
       <div className="collection__container">
@@ -162,14 +168,16 @@ const Collection = () => {
                     <button
                       className="collection-project__btn collection-project__btn--load"
                       onClick={() => setSelectedProject(project)}
+                      data-onboarding="load-project"
                     >
                       <Upload size={16} />
                       Load
                     </button>
                     <button
                       className={`collection-project__btn collection-project__btn--view${!hasImages ? " collection-project__btn--disabled" : ""}`}
-                      onClick={() => hasImages && setGalleryProject(project)}
+                      onClick={() => hasImages && setGalleryProjectId(project.id)}
                       disabled={!hasImages}
+                      data-onboarding="view-renders"
                     >
                       <Eye size={16} />
                       {hasImages ? "View Renders" : "No images"}
@@ -180,6 +188,7 @@ const Collection = () => {
                         setIsDeleteModalOpen(true);
                         setSelectedProject(project);
                       }}
+                      data-onboarding="delete-project"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -204,6 +213,7 @@ const Collection = () => {
           <button
             className="collection-project__btn collection-project__btn--load"
             onClick={() => setIsCreateModalOpen(true)}
+            data-onboarding="create-room"
           >
             <Plus size={16} />
             Create new project
@@ -248,8 +258,9 @@ const Collection = () => {
       {/* Modal for viewing renders */}
       <RenderGalleryModal
         isOpen={!!galleryProject}
-        onClose={() => setGalleryProject(null)}
+        onClose={() => setGalleryProjectId(null)}
         projectName={galleryProject?.scene_name}
+        projectId={galleryProject?.id}
         images={galleryProject?.images ?? []}
       />
 

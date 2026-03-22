@@ -1,15 +1,12 @@
 .topview-btn {
   all: unset;
   cursor: pointer;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   perspective: 12rem;
-  position: absolute;
-  top: 1.2rem;
-  right: 32%;
   pointer-events: auto;
 }
 
@@ -26,7 +23,7 @@
   position: absolute;
   width: 2rem;
   height: 2rem;
-  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border: 1.5px solid rgba(0, 0, 0, 0.25);
   background: rgba(255, 255, 255, 0.08);
   backface-visibility: visible;
   display: flex;
@@ -80,13 +77,13 @@
 }
 
 .topview-btn--active .topview-btn__face--top {
-  background: lightblue;
-  border-color: rgba(255, 255, 255, 0.9);
-  color: black;
+  background: var(--main-color);
+  border-color: var(--main-color-light);
+  color: var(--text-black);
 }
 
 .topview-btn:not(.topview-btn--active) .topview-btn__face--front {
-  background: lightblue;
-  border-color: rgba(255, 255, 255, 0.9);
-  color: black;
+  background: var(--main-color);
+  border-color: var(--main-color-light);
+  color: var(--text-black);
 }

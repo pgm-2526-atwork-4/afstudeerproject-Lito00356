@@ -9,6 +9,7 @@ import * as yup from "yup";
 import { Link, useNavigate } from "react-router";
 import { Box } from "lucide-react";
 import ErrorMessage from "@design/Alert/ErrorMessage";
+import useToast from "@functional/Toast/useToast";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -17,6 +18,7 @@ const schema = yup.object().shape({
 
 const Register = () => {
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   const {
     control,
@@ -54,9 +56,12 @@ const Register = () => {
   });
 
   const handleRegister = (data) => {
-    createUser(data);
-
-    navigate("/collection");
+    createUser(data, {
+      onSuccess: () => {
+        addToast("Account created successfully!", "success");
+        navigate("/collection");
+      },
+    });
   };
 
   return (

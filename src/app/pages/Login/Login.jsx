@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router";
 import { Box } from "lucide-react";
 import ErrorMessage from "@design/Alert/ErrorMessage";
+import useToast from "@functional/Toast/useToast";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -17,10 +18,12 @@ const schema = yup.object().shape({
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   const { mutate, error, isPending } = useMutation({
     mutationFn: login,
     onSuccess: () => {
+      addToast("Logged in successfully!", "success");
       navigate("/collection");
     },
   });
