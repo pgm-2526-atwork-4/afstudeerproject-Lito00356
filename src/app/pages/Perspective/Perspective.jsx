@@ -45,16 +45,19 @@ const Perspective = () => {
   const { projectId } = useParams();
   const projectNumberId = Number(projectId);
   const saveRoom = useSaveRoom();
+
+  const canvasStateRef = useRef(null);
+  const materialsInitialized = useRef(false);
+  const controlsRef = useRef();
+
   const [isTopView, setIsTopView] = useState(false);
   const [lightingMode, setLightingMode] = useState("none");
   const [activeSkyPreset, setActiveSkyPreset] = useState(null);
   const [activeHdri, setActiveHdri] = useState(null);
-  const canvasStateRef = useRef(null);
   const [lightIntensity, setLightIntensity] = useState(1);
   const [floorMaterialId, setFloorMaterialId] = useState(null);
   const [wallMaterialId, setWallMaterialId] = useState(null);
   const [wallColor, setWallColor] = useState("#d4e3f0");
-  const materialsInitialized = useRef(false);
 
   const {
     data: project,
@@ -158,6 +161,17 @@ const Perspective = () => {
     if (!base64) return;
 
     await updateProjectImages(user.id, project.id, base64, project.images ?? []);
+  };
+
+  const handleCameraChange = () => {
+    const controls = controlsRef.current;
+    if (!controls) return;
+    if (controls.target.y < 0) {
+      controls.target.y = 0;
+    }
+    if (controls.object.position.y < 0.5) {
+      controls.object.position.y = 0.5;
+    }
   };
 
   // Onboarding — multi-flow system
@@ -335,11 +349,13 @@ const Perspective = () => {
 
             <CameraController isTopView={isTopView} />
             <OrbitControls
+              ref={controlsRef}
               target={[0, 0, 0]}
               maxPolarAngle={isTopView ? 0 : Math.PI / 2}
               minPolarAngle={isTopView ? 0 : 0}
               enableRotate={!isTopView}
               makeDefault
+              onChange={handleCameraChange}
             />
           </Suspense>
         </Canvas>
