@@ -6,16 +6,19 @@ import { ExtractFirstLetter } from "@core/modules/profiles/ExtractFirstLetter";
 import { X } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { logout } from "@core/modules/auth/api.auth";
+import useToast from "@functional/Toast/useToast";
 
 const MenuProfile = ({ colorClass, handleScreenshot }) => {
   const { auth } = useAuth();
   const user = auth.user;
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   const handleLogout = async () => {
-    navigate("/login");
     await logout();
+    addToast("Logged out successfully!", "info");
+    navigate("/login");
   };
 
   return (

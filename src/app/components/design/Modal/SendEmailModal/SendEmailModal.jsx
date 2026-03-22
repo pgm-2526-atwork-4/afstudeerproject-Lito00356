@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { sendEmail } from "@core/modules/mailing/api.mailing";
 import { X, Send, Paperclip } from "lucide-react";
+import useToast from "@functional/Toast/useToast";
 
 const schema = yup.object().shape({
   to: yup.string().email("Invalid email address").required("Recipient is required"),
@@ -16,6 +17,7 @@ const schema = yup.object().shape({
 
 const SendEmailModal = ({ isOpen, onClose, selectedImages = [] }) => {
   const dialogRef = useRef(null);
+  const { addToast } = useToast();
 
   const {
     control,
@@ -37,6 +39,7 @@ const SendEmailModal = ({ isOpen, onClose, selectedImages = [] }) => {
     onSuccess: () => {
       reset();
       onClose();
+      addToast("Email sent successfully!");
     },
   });
 

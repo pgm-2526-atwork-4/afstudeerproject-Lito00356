@@ -18,11 +18,13 @@ import { useOnboarding } from "@core/hooks/useOnboarding";
 import PageStatus from "@design/PageStatus/PageStatus";
 import { getPublicImageUrl } from "@core/modules/storage/api.storage";
 import { Bucket } from "@core/modules/storage/type";
+import useToast from "@functional/Toast/useToast";
 
 const Collection = () => {
   const { auth } = useAuth();
   const user = auth?.user;
   const queryClient = useQueryClient();
+  const { addToast } = useToast();
   const navigate = useNavigate();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -68,6 +70,7 @@ const Collection = () => {
     mutationFn: deleteProject,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      addToast("Project deleted successfully!", "info");
     },
   });
 

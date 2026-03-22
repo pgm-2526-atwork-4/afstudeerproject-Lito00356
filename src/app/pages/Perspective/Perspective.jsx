@@ -31,6 +31,7 @@ import CameraViewChanger from "@design/Button/CameraViewChanger/CameraViewChange
 import CameraController from "@functional/CameraController/CameraController";
 import MenuLighting from "@design/MenuLighting/MenuLighting";
 import MenuMaterials from "@design/MenuMaterials/MenuMaterials";
+import useToast from "@functional/Toast/useToast";
 import * as THREE from "three";
 
 const keyMap = [
@@ -44,6 +45,7 @@ const Perspective = () => {
   const { projectId } = useParams();
   const projectNumberId = Number(projectId);
   const saveRoom = useSaveRoom();
+  const { addToast } = useToast();
 
   const canvasStateRef = useRef(null);
   const materialsInitialized = useRef(false);
@@ -86,24 +88,30 @@ const Perspective = () => {
   const { openings, addOpening, handleOpeningTransform, handleOpeningDelete } = useCreateOpenings(projectId, project, walls);
 
   const handleSave = () => {
-    saveRoom.mutate({
-      id: project?.id,
-      user_id: user.id,
-      scene_name: project?.scene_name,
-      room_data: project?.room_data,
-      objects: { furniture, openings, materials: { floorMaterialId, wallMaterialId, wallColor } },
-    });
+    saveRoom.mutate(
+      {
+        id: project?.id,
+        user_id: user.id,
+        scene_name: project?.scene_name,
+        room_data: project?.room_data,
+        objects: { furniture, openings, materials: { floorMaterialId, wallMaterialId, wallColor } },
+      },
+      { onSuccess: () => addToast("Scene saved successfully!") },
+    );
   };
 
   const handleMaterialsSave = () => {
     const currentObjects = project?.objects ?? {};
-    saveRoom.mutate({
-      id: project?.id,
-      user_id: user.id,
-      scene_name: project?.scene_name,
-      room_data: project?.room_data,
-      objects: { ...currentObjects, materials: { floorMaterialId, wallMaterialId, wallColor } },
-    });
+    saveRoom.mutate(
+      {
+        id: project?.id,
+        user_id: user.id,
+        scene_name: project?.scene_name,
+        room_data: project?.room_data,
+        objects: { ...currentObjects, materials: { floorMaterialId, wallMaterialId, wallColor } },
+      },
+      { onSuccess: () => addToast("Materials saved successfully!") },
+    );
   };
 
   const handleMaterialsCancel = () => {
@@ -160,6 +168,7 @@ const Perspective = () => {
     if (!base64) return;
 
     await updateProjectImages(user.id, project.id, base64, project.images ?? []);
+    addToast("Snapshot saved successfully!");
   };
 
   const handleCameraChange = () => {
