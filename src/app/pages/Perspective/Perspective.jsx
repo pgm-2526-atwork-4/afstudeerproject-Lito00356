@@ -259,9 +259,16 @@ const Perspective = () => {
             )}
             {lightingMode === "sky" && (
               <>
-                <Sky skyPosition={skyPosition} turbidity={3} rayleigh={0.2} mieCoefficient={0.007} mieDirectionalG={0.5} />
+                <Sky
+                  skyPosition={skyPosition}
+                  turbidity={activeSkyPreset?.turbidity ?? 0.3}
+                  rayleigh={activeSkyPreset?.rayleigh ?? 0.2}
+                  mieCoefficient={activeSkyPreset?.mieCoefficient ?? 0.007}
+                  mieDirectionalG={activeSkyPreset?.mieDirectionalG ?? 0.5}
+                />
                 <directionalLight
                   position={skyPosition}
+                  color={activeSkyPreset?.sunColor ?? "#ffffff"}
                   castShadow
                   intensity={lightIntensity}
                   shadow-mapSize={[2048, 2048]}
@@ -274,7 +281,7 @@ const Perspective = () => {
                   shadow-bias={-0.002}
                   shadow-normalBias={0.02}
                 />
-                <ambientLight intensity={1} />
+                <ambientLight intensity={1} color={activeSkyPreset?.ambientLight ?? "#e8f0ff"} />
               </>
             )}
             {lightingMode === "hdri" && activeHdri && (
