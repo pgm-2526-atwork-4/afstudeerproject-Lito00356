@@ -32,6 +32,7 @@ import CameraController from "@functional/CameraController/CameraController";
 import MenuLighting from "@design/MenuLighting/MenuLighting";
 import MenuMaterials from "@design/MenuMaterials/MenuMaterials";
 import useToast from "@functional/Toast/useToast";
+import SnapshotOverlay from "@design/SnapshotOverlay/SnapshotOverlay";
 import * as THREE from "three";
 
 const keyMap = [
@@ -170,6 +171,21 @@ const Perspective = () => {
     await updateProjectImages(user.id, project.id, base64, project.images ?? []);
     addToast("Snapshot saved successfully!");
   };
+
+  const [snapshotCountdown, setSnapshotCountdown] = useState(null);
+
+  const startSnapshot = () => setSnapshotCountdown(3);
+
+  useEffect(() => {
+    if (snapshotCountdown === null) return;
+    if (snapshotCountdown === 0) {
+      handleScreenshot();
+      const timer = setTimeout(() => setSnapshotCountdown(null), 500);
+      return () => clearTimeout(timer);
+    }
+    const timer = setTimeout(() => setSnapshotCountdown((prev) => prev - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [snapshotCountdown]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCameraChange = () => {
     const controls = controlsRef.current;
@@ -390,7 +406,7 @@ const Perspective = () => {
           />
         )}
         <div className="top-actions">
-          <MenuProfile handleScreenshot={handleScreenshot} />
+          <MenuProfile handleScreenshot={startSnapshot} />
           <TutorialBtn onReset={handleTutorialReopen} />
         </div>
         <MenuSave onSave={handleSave} />
@@ -423,6 +439,7 @@ const Perspective = () => {
           onDeselect={handleDeselect}
         />
       </div>
+      <SnapshotOverlay countdown={snapshotCountdown} />
     </div>
   );
 };
