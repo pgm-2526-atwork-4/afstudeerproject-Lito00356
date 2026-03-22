@@ -9,7 +9,7 @@ export const ONBOARDING_STEPS = {
     {
       id: 2,
       title: "How to get started?",
-      description: "If you want to start designing, click 'create a room' to start blueprinting you room!",
+      description: "If you want to start designing, click 'create a room' to start blueprinting your room!",
       targetSelector: "[data-onboarding='create-room']",
     },
   ],
@@ -39,7 +39,7 @@ export const ONBOARDING_STEPS = {
     },
     {
       id: 5,
-      title: "What about sending them?.",
+      title: "What about sending them?",
       description: "If you want to send some pictures to friends and family, just select them and press 'Send email'",
     },
     {
@@ -75,11 +75,11 @@ export const ONBOARDING_STEPS = {
     {
       id: 6,
       title: "You made a mistake?",
-      description: "You can always reset you blueprint or drag one of the points to another location",
+      description: "You can always reset your blueprint or drag one of the points to another location",
     },
     {
       id: 7,
-      title: "You like your bluerpint?",
+      title: "You like your blueprint?",
       description:
         "If you like your blueprint, you can press 'Convert to 3D', this will take you to the next step, where you will see your room in 3D!",
       targetSelector: "[data-onboarding='convert-to-3d']",
@@ -90,19 +90,19 @@ export const ONBOARDING_STEPS = {
       id: 1,
       title: "You made it this far!",
       description:
-        "Welcome to the Perspective view. Here you will be able to see your from all angles and add objects where you like them to be.",
+        "Welcome to the Perspective view. Here you will be able to see your room from all angles and add objects where you like them to be.",
     },
     {
       id: 2,
       title: "Rotate the camera",
       description:
-        "If you want to look around the room and rotate the camere, press and hold the left mouse button and then move the mouse left and right. ",
+        "If you want to look around the room and rotate the camera, press and hold the left mouse button and then move the mouse left and right.",
     },
     {
       id: 3,
       title: "Move the camera",
       description:
-        "To move the camera, you can click and hold the right mouse button, and then move the mouse left and right ",
+        "To move the camera, you can click and hold the right mouse button, and then move the mouse left and right.",
     },
     {
       id: 4,
@@ -114,7 +114,7 @@ export const ONBOARDING_STEPS = {
       id: 5,
       title: "Look from above!",
       description:
-        "To make it easier, you can press the cube and it will bring you into a topview. From this view it is sometimes easier to mode models around. You can press it again to go back to the perspective view",
+        "To make it easier, you can press the cube and it will bring you into a top view. From this view it is sometimes easier to move models around. You can press it again to go back to the perspective view.",
       targetSelector: "[data-onboarding='camera-view']",
     },
     {
@@ -135,7 +135,7 @@ export const ONBOARDING_STEPS = {
       id: 8,
       title: "Add your first object",
       description:
-        "If you press the furniture icon, you can select category from the list. From that category you will be able to select an object. This wil apear in the scene.",
+        "If you press the furniture icon, you can select a category from the list. From that category you will be able to select an object. This will appear in the scene.",
       targetSelector: "[data-onboarding='menu-furniture']",
     },
     {
@@ -156,11 +156,11 @@ export const ONBOARDING_STEPS = {
       id: 1,
       title: "Move an object",
       description:
-        "So you have created an object and want to move it? You select the object by clicking on it. You will see colored arrows appear, you can move the object by clicking and dragging one of the arrows, or the litle square in between them.",
+        "So you have created an object and want to move it? You select the object by clicking on it. You will see colored arrows appear, you can move the object by clicking and dragging one of the arrows, or the little square in between them.",
     },
     {
       id: 2,
-      title: "Happy with you move?",
+      title: "Happy with your move?",
       description:
         "If you are happy with your transform of the object, you can press the checkmark above it. This will freeze it in the new position. Or press the red cross if you want to reset the position.",
     },
@@ -168,12 +168,13 @@ export const ONBOARDING_STEPS = {
       id: 3,
       title: "Rotation?",
       description:
-        "You can also rotate the object, by pressing 'R' on the keyboard. This wil spawn colored circles, to rotate the object, click and drag one of the circles.",
+        "You can also rotate the object, by pressing 'R' on the keyboard. This will spawn colored circles, to rotate the object, click and drag one of the circles.",
     },
     {
       id: 4,
       title: "Reset Rotation?",
-      description: "If you went a bit funky on the rotation, you can press reset rotation in the bottom left corner.",
+      description:
+        "If you went a bit too far on the rotation, you can press reset rotation in the bottom left corner, or just delete the object! Then you can deselect it here as well.",
       targetSelector: "[data-onboarding='object-options']",
     },
     {
@@ -196,14 +197,14 @@ export const ONBOARDING_STEPS = {
       id: 1,
       title: "Lights, camera and Snapshot!",
       description:
-        "If you want to make snapshots in from your room that you can send afterwards, you can press this the camera icon. Make sure you correctly position the camera first. This will trigger a snapshot effect and will save an image to your collection folder",
+        "If you want to make snapshots from your room that you can send afterwards, you can press the camera icon. Make sure you correctly position the camera first. This will trigger a snapshot effect and will save an image to your collection folder.",
       targetSelector: "[data-onboarding='menu-render']",
     },
     {
       id: 2,
       title: "Done",
       description:
-        "When you are all set and done, happy with your scene. You can save the scene by clicking the 'Floppy disk' icon. This will save the scene and you will be able to come back to this any time.",
+        "When you are all set and happy with your scene, you can save it by clicking the 'Floppy disk' icon. You will be able to come back to this at any time.",
       targetSelector: "[data-onboarding='menu-save']",
     },
     {
