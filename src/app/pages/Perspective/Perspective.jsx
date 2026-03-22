@@ -75,13 +75,21 @@ const Perspective = () => {
 
   useEffect(() => {
     if (materialsInitialized.current) return;
-    const saved = project?.objects?.materials;
+    const saved = project?.objects;
     if (!saved) return;
     materialsInitialized.current = true;
-    // eslint-disable-next-line
-    setFloorMaterialId(saved.floorMaterialId ?? null);
-    setWallMaterialId(saved.wallMaterialId ?? null);
-    if (saved.wallColor) setWallColor(saved.wallColor);
+
+    if (saved.materials) {
+      // eslint-disable-next-line
+      setFloorMaterialId(saved.materials.floorMaterialId ?? null);
+      setWallMaterialId(saved.materials.wallMaterialId ?? null);
+      if (saved.materials.wallColor) setWallColor(saved.materials.wallColor);
+    }
+    if (saved.lighting) {
+      setLightingMode(saved.lighting.lightingMode ?? "none");
+      setActiveSkyPreset(saved.lighting.activeSkyPreset ?? null);
+      setActiveHdri(saved.lighting.activeHdri ?? null);
+    }
   }, [project]);
 
   const { selectedObject, outlineSelection, handleSelect, handleDeselect } = useSelection();
@@ -96,7 +104,12 @@ const Perspective = () => {
         user_id: user.id,
         scene_name: project?.scene_name,
         room_data: project?.room_data,
-        objects: { furniture, openings, materials: { floorMaterialId, wallMaterialId, wallColor } },
+        objects: {
+          furniture,
+          openings,
+          materials: { floorMaterialId, wallMaterialId, wallColor },
+          lighting: { lightingMode, activeSkyPreset, activeHdri },
+        },
       },
       { onSuccess: () => addToast("Scene saved successfully!") },
     );
@@ -110,7 +123,11 @@ const Perspective = () => {
         user_id: user.id,
         scene_name: project?.scene_name,
         room_data: project?.room_data,
-        objects: { ...currentObjects, materials: { floorMaterialId, wallMaterialId, wallColor } },
+        objects: {
+          ...currentObjects,
+          materials: { floorMaterialId, wallMaterialId, wallColor },
+          lighting: { lightingMode, activeSkyPreset, activeHdri },
+        },
       },
       { onSuccess: () => addToast("Materials saved successfully!") },
     );
