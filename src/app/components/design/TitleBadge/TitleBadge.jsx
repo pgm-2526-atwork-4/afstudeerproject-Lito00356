@@ -2,7 +2,7 @@ import React from "react";
 import "./TitleBadge.css";
 import { useNavigate, useParams, useLocation } from "react-router";
 
-const TitleBadge = ({ title }) => {
+const TitleBadge = ({ title, children }) => {
   const navigate = useNavigate();
   const { projectId } = useParams();
   const { pathname } = useLocation();
@@ -25,6 +25,7 @@ const TitleBadge = ({ title }) => {
           Blueprint
         </button>
       )}
+      {children}
     </div>
   );
 };

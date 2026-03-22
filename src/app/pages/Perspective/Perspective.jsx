@@ -217,7 +217,9 @@ const Perspective = () => {
 
   return (
     <div className="canvas-page">
-      <TitleBadge title="perspective" />
+      <TitleBadge title="perspective">
+        <CameraViewChanger isTopView={isTopView} onEnable={() => setIsTopView(true)} onDisable={() => setIsTopView(false)} />
+      </TitleBadge>
 
       <KeyboardControls map={keyMap}>
         <Canvas
@@ -391,7 +393,6 @@ const Perspective = () => {
           <MenuProfile handleScreenshot={handleScreenshot} />
           <TutorialBtn onReset={handleTutorialReopen} />
         </div>
-        <CameraViewChanger isTopView={isTopView} onEnable={() => setIsTopView(true)} onDisable={() => setIsTopView(false)} />
         <MenuSave onSave={handleSave} />
         <MenuFurniture handleAddFurniture={addFurniture} handleAddOpening={addOpening} />
         <MenuLighting

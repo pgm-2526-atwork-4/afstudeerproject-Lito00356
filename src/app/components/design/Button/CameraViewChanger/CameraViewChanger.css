@@ -1,15 +1,12 @@
 .topview-btn {
   all: unset;
   cursor: pointer;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   perspective: 12rem;
-  position: absolute;
-  top: 1.2rem;
-  right: 32%;
   pointer-events: auto;
 }
 
