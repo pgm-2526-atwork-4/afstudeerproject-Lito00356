@@ -1,14 +1,3 @@
-/**
- * Furniture & opening catalogue — derived from public/models/ folder structure.
- *
- * To add a new model:
- *   1. Drop the model folder into the correct category under public/models/
- *   2. Add an entry below with { id, label, path } pointing to the .gltf file
- *
- * type "furniture" → placed freely in the scene
- * type "opening"   → snaps to a wall (door / window)
- */
-
 export const MODEL_CATEGORIES = [
   {
     id: "armchairs",
@@ -33,8 +22,8 @@ export const MODEL_CATEGORIES = [
     type: "furniture",
     items: [
       { id: "biprolap_leather", label: "Biprolap", path: "/models/couches/biprolap_leather/sofa.gltf" },
-      { id: "gimbar_sofa", label: "Gimbar", path: "/models/couches/gimbar_sofa/scene.gltf" },
-      { id: "milomar_textile", label: "Milomar", path: "/models/couches/milomar_textile/scene.gltf" },
+      { id: "gimbar", label: "Gimbar", path: "/models/couches/gimbar/scene.gltf" },
+      { id: "milomar", label: "Milomar", path: "/models/couches/milomar/scene.gltf" },
       { id: "regtar_sofa", label: "Regtar", path: "/models/couches/regtar_sofa/scene.gltf" },
     ],
   },
@@ -68,7 +57,7 @@ export const MODEL_CATEGORIES = [
     type: "opening",
     items: [
       { id: "standard_single", label: "Standard Window", openingKey: "standard_single" },
-      { id: "mat_window", label: "Mat Window", openingKey: "mat_window" },
+      { id: "window_big", label: "Big Window", openingKey: "window_big" },
       { id: "vertical_window", label: "Vertical Window", openingKey: "vertical_window" },
       { id: "window_squared", label: "Squared Window", openingKey: "window_squared" },
     ],
