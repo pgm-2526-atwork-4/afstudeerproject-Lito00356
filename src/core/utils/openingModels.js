@@ -8,20 +8,20 @@ export const OPENING_MODELS = {
     grounded: false,
     rotationOffset: [0, 0, 0],
   },
-  mat_window: {
-    path: "/models/windows/mat_window/scene.gltf",
-    label: "Mat Window",
+  window_big: {
+    path: "/models/windows/window_big/scene.gltf",
+    label: "Big Window",
     grounded: false,
     rotationOffset: [0, 0, 0],
   },
   vertical_window: {
-    path: "/models/windows/vertical_window/single_vertical_window.gltf",
+    path: "/models/windows/vertical_window/scene.gltf",
     label: "Vertical Window",
     grounded: false,
     rotationOffset: [0, 0, 0],
   },
   window_squared: {
-    path: "/models/windows/window_squared/squared_window.gltf",
+    path: "/models/windows/window_squared/scene.gltf",
     label: "Squared Window",
     grounded: false,
     rotationOffset: [0, 0, 0],
@@ -33,7 +33,7 @@ export const OPENING_MODELS = {
     rotationOffset: [0, Math.PI / 2, 0],
   },
   interior_door: {
-    path: "/models/doors/interior_door/door.gltf",
+    path: "/models/doors/interior_door/scene.gltf",
     label: "Interior Door",
     grounded: true,
     rotationOffset: [0, Math.PI / 2, 0],

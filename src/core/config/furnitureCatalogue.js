@@ -24,7 +24,7 @@ export const MODEL_CATEGORIES = [
       { id: "biprolap_leather", label: "Biprolap", path: "/models/couches/biprolap_leather/sofa.gltf" },
       { id: "gimbar", label: "Gimbar", path: "/models/couches/gimbar/scene.gltf" },
       { id: "milomar", label: "Milomar", path: "/models/couches/milomar/scene.gltf" },
-      { id: "regtar_sofa", label: "Regtar", path: "/models/couches/regtar_sofa/scene.gltf" },
+      { id: "regtar", label: "Regtar", path: "/models/couches/regtar/scene.gltf" },
     ],
   },
   {
