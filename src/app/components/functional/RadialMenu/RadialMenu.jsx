@@ -18,12 +18,12 @@ const MATERIALS = [
 // eslint-disable-next-line no-unused-vars
 const RadialMenu = ({ furnitureId, onColorChange, leftOffset = -1, rightOffset = 1, height = 1 }) => {
   const [colorOpen, setColorOpen] = useState(false);
-  const [materialOpen, setMaterialOpen] = useState(false);
+  // const [materialOpen, setMaterialOpen] = useState(false);
 
   const changeFurnitureColor = (color) => {
     onColorChange(furnitureId, color);
   };
-  const changeMaterial = (mat) => console.log("material:", mat);
+  // const changeMaterial = (mat) => console.log("material:", mat);
 
   return (
     <>
