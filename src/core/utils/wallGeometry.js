@@ -27,21 +27,11 @@ export const buildWallsFromProject = (project) => {
   const centerX = points.reduce((sum, p) => sum + p.x, 0) / points.length;
   const centerZ = points.reduce((sum, p) => sum + p.z, 0) / points.length;
 
-  const centered = walls.map((wall) => ({
+  return walls.map((wall) => ({
     id: wall.id,
     start: [wall.startPosition.x / 100 - centerX, 0, wall.startPosition.y / 100 - centerZ],
     end: [wall.endPosition.x / 100 - centerX, 0, wall.endPosition.y / 100 - centerZ],
   }));
-
-  const signedArea = centered.reduce((sum, wall) => {
-    return sum + (wall.start[0] * wall.end[2] - wall.end[0] * wall.start[2]);
-  }, 0);
-
-  if (signedArea > 0) {
-    return centered.map((wall) => ({ ...wall, start: wall.end, end: wall.start }));
-  }
-
-  return centered;
 };
 
 export const getWallAngle = (wall) => {

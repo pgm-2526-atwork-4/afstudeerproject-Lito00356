@@ -109,6 +109,11 @@
         }
       }
 
+      .onboarding-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
       .onboarding-btn {
         background: #fff;
         color: #111;
