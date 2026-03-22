@@ -27,7 +27,7 @@ const RadialMenu = ({ furnitureId, onColorChange, leftOffset = -1, rightOffset =
 
   return (
     <>
-      <Html position={[leftOffset, height, 0]} wrapperClass="radial-menu" distanceFactor={6}>
+      {/* <Html position={[leftOffset, height, 0]} wrapperClass="radial-menu" distanceFactor={6}>
         <div className={`radial-menu__group ${materialOpen ? "radial-menu__group--open" : ""}`}>
           <button
             className="radial-menu__toggle radial-menu__toggle--material"
@@ -52,7 +52,7 @@ const RadialMenu = ({ furnitureId, onColorChange, leftOffset = -1, rightOffset =
             </div>
           ))}
         </div>
-      </Html>
+      </Html> */}
 
       <Html position={[rightOffset, height, 0]} wrapperClass="radial-menu" distanceFactor={6}>
         <div className={`radial-menu__group ${colorOpen ? "radial-menu__group--open" : ""}`}>
