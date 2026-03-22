@@ -157,10 +157,10 @@ const Room3D = ({
       if (!wallMesh.isMesh || !wallMesh.material) return;
 
       _wallNormal.set(0, 0, 1).applyQuaternion(wallMesh.quaternion);
-      _cameraDir.copy(wallMesh.position).sub(camera.position).normalize();
+      camera.getWorldDirection(_cameraDir);
 
       const dot = _wallNormal.dot(_cameraDir);
-      const targetOpacity = dot < 0 ? OCCLUDED_OPACITY : 1;
+      const targetOpacity = dot > 0 ? OCCLUDED_OPACITY : 1;
 
       wallMesh.material.opacity = THREE.MathUtils.lerp(wallMesh.material.opacity, targetOpacity, FADE_SPEED * delta);
     });
