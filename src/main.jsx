@@ -13,7 +13,7 @@ import NavLayout from "@functional/layout/NavLayout.jsx";
 import Blueprint from "@pages/Blueprint/Blueprint.jsx";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ToastProvider } from "@core/hooks/useToast";
+import { ToastProvider } from "@functional/Toast/ToastProvider";
 
 const client = new QueryClient();
 

@@ -29,11 +29,9 @@ import { useFurnitureManager } from "@core/hooks/useFurnitureManager";
 import { useSelection } from "@core/hooks/useSelection";
 import CameraViewChanger from "@design/Button/CameraViewChanger/CameraViewChanger";
 import CameraController from "@functional/CameraController/CameraController";
-import { Perf } from "r3f-perf";
 import MenuLighting from "@design/MenuLighting/MenuLighting";
 import MenuMaterials from "@design/MenuMaterials/MenuMaterials";
 import * as THREE from "three";
-import { useToast } from "@core/hooks/useToast";
 
 const keyMap = [
   { name: "translate", keys: ["w"] },
@@ -59,8 +57,6 @@ const Perspective = () => {
   const [floorMaterialId, setFloorMaterialId] = useState(null);
   const [wallMaterialId, setWallMaterialId] = useState(null);
   const [wallColor, setWallColor] = useState("#d4e3f0");
-
-  const { addToast } = useToast();
 
   const {
     data: project,
