@@ -31,6 +31,7 @@ import CameraViewChanger from "@design/Button/CameraViewChanger/CameraViewChange
 import CameraController from "@functional/CameraController/CameraController";
 import MenuLighting from "@design/MenuLighting/MenuLighting";
 import MenuMaterials from "@design/MenuMaterials/MenuMaterials";
+import MenuRender from "@design/MenuRender/MenuRender";
 import useToast from "@functional/Toast/useToast";
 import SnapshotOverlay from "@design/SnapshotOverlay/SnapshotOverlay";
 import * as THREE from "three";
@@ -406,7 +407,7 @@ const Perspective = () => {
           />
         )}
         <div className="top-actions">
-          <MenuProfile handleScreenshot={startSnapshot} />
+          <MenuProfile />
           <TutorialBtn onReset={handleTutorialReopen} />
         </div>
         <MenuSave onSave={handleSave} />
@@ -432,6 +433,7 @@ const Perspective = () => {
           onCancel={handleMaterialsCancel}
           materialsAdjusted={materialsAdjusted}
         />
+        <MenuRender onRender={startSnapshot} />
         <ObjectOptions
           isVisible={!!selectedObject}
           onDelete={() => handleObjectDelete(selectedObject)}

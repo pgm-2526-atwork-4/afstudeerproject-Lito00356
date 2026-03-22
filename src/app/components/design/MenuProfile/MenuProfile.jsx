@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router";
 import { logout } from "@core/modules/auth/api.auth";
 import useToast from "@functional/Toast/useToast";
 
-const MenuProfile = ({ colorClass, handleScreenshot }) => {
+const MenuProfile = ({ colorClass }) => {
   const { auth } = useAuth();
   const user = auth.user;
   const [open, setOpen] = useState(false);
@@ -39,9 +39,6 @@ const MenuProfile = ({ colorClass, handleScreenshot }) => {
         <Link className="menu-profile__dropdown-item" to="/collection" onClick={() => setOpen(false)}>
           Collection
         </Link>
-        <button className="menu-profile__dropdown-item" onClick={handleScreenshot}>
-          Render
-        </button>
         <button className="menu-profile__dropdown-item logout" onClick={handleLogout}>
           Logout
         </button>

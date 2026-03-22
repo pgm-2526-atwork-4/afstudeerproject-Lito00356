@@ -1,24 +1,24 @@
-.save-menu {
+.render-menu {
   position: fixed;
-  top: 12rem;
-  right: -7.8125rem;
-  z-index: 205;
-  min-width: 10rem;
+  top: 26rem;
+  right: -9.5rem;
+  z-index: 201;
+  min-width: 12rem;
   transition: right 0.35s ease;
 }
 
-.save-menu--open {
+.render-menu--open {
   right: 0;
 }
 
-.save-menu__bar {
+.render-menu__bar {
   display: flex;
   flex-direction: row;
   align-items: stretch;
   width: 100%;
 }
 
-.save-menu__toggle {
+.render-menu__toggle {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,7 +37,7 @@
   }
 }
 
-.save-menu__btn {
+.render-menu__btn {
   flex: 1;
   padding: 0 var(--spacing-lg);
   background: var(--background);

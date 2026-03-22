@@ -197,7 +197,7 @@ export const ONBOARDING_STEPS = {
       title: "Lights, camera and Snapshot!",
       description:
         "If you want to make snapshots in from your room that you can send afterwards, you can press this the camera icon. Make sure you correctly position the camera first. This will trigger a snapshot effect and will save an image to your collection folder",
-      targetSelector: "[data-onboarding='menu-profile']",
+      targetSelector: "[data-onboarding='menu-render']",
     },
     {
       id: 2,
